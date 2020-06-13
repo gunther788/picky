@@ -5,9 +5,7 @@ from __future__ import absolute_import
 from flask import json
 from six import BytesIO
 
-from swagger_server.models.inline_response2002 import InlineResponse2002  # noqa: E501
 from swagger_server.models.service import Service  # noqa: E501
-from swagger_server.models.service1 import Service1  # noqa: E501
 from swagger_server.test import BaseTestCase
 
 
@@ -72,7 +70,7 @@ class TestServicesController(BaseTestCase):
 
         Update a service in the services list
         """
-        service = Service1()
+        service = Service()
         response = self.client.open(
             '/gunther788/picky/1.0.0/services/{name}'.format(name='name_example'),
             method='PUT',

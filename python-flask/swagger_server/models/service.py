@@ -15,35 +15,40 @@ class Service(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name: str=None, host: str=None, short: str=None, state: str='OK'):  # noqa: E501
+    def __init__(self, name: str=None, host: str=None, service: str=None, timestamp: str=None, state: str='OK'):  # noqa: E501
         """Service - a model defined in Swagger
 
         :param name: The name of this Service.  # noqa: E501
         :type name: str
         :param host: The host of this Service.  # noqa: E501
         :type host: str
-        :param short: The short of this Service.  # noqa: E501
-        :type short: str
+        :param service: The service of this Service.  # noqa: E501
+        :type service: str
+        :param timestamp: The timestamp of this Service.  # noqa: E501
+        :type timestamp: str
         :param state: The state of this Service.  # noqa: E501
         :type state: str
         """
         self.swagger_types = {
             'name': str,
             'host': str,
-            'short': str,
+            'service': str,
+            'timestamp': str,
             'state': str
         }
 
         self.attribute_map = {
             'name': 'name',
             'host': 'host',
-            'short': 'short',
+            'service': 'service',
+            'timestamp': 'timestamp',
             'state': 'state'
         }
 
         self._name = name
         self._host = host
-        self._short = short
+        self._service = service
+        self._timestamp = timestamp
         self._state = state
 
     @classmethod
@@ -61,7 +66,7 @@ class Service(Model):
     def name(self) -> str:
         """Gets the name of this Service.
 
-        Name of service to create  # noqa: E501
+        Name of service, host!service format  # noqa: E501
 
         :return: The name of this Service.
         :rtype: str
@@ -72,7 +77,7 @@ class Service(Model):
     def name(self, name: str):
         """Sets the name of this Service.
 
-        Name of service to create  # noqa: E501
+        Name of service, host!service format  # noqa: E501
 
         :param name: The name of this Service.
         :type name: str
@@ -104,27 +109,50 @@ class Service(Model):
         self._host = host
 
     @property
-    def short(self) -> str:
-        """Gets the short of this Service.
+    def service(self) -> str:
+        """Gets the service of this Service.
 
         Short name of the service  # noqa: E501
 
-        :return: The short of this Service.
+        :return: The service of this Service.
         :rtype: str
         """
-        return self._short
+        return self._service
 
-    @short.setter
-    def short(self, short: str):
-        """Sets the short of this Service.
+    @service.setter
+    def service(self, service: str):
+        """Sets the service of this Service.
 
         Short name of the service  # noqa: E501
 
-        :param short: The short of this Service.
-        :type short: str
+        :param service: The service of this Service.
+        :type service: str
         """
 
-        self._short = short
+        self._service = service
+
+    @property
+    def timestamp(self) -> str:
+        """Gets the timestamp of this Service.
+
+        Last update  # noqa: E501
+
+        :return: The timestamp of this Service.
+        :rtype: str
+        """
+        return self._timestamp
+
+    @timestamp.setter
+    def timestamp(self, timestamp: str):
+        """Sets the timestamp of this Service.
+
+        Last update  # noqa: E501
+
+        :param timestamp: The timestamp of this Service.
+        :type timestamp: str
+        """
+
+        self._timestamp = timestamp
 
     @property
     def state(self) -> str:

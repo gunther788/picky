@@ -15,7 +15,7 @@ class Host(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name: str=None, channels: List[str]=None, state: str='UP'):  # noqa: E501
+    def __init__(self, name: str=None, channels: List[str]=None, state: str='UP', timestamp: str=None):  # noqa: E501
         """Host - a model defined in Swagger
 
         :param name: The name of this Host.  # noqa: E501
@@ -24,22 +24,27 @@ class Host(Model):
         :type channels: List[str]
         :param state: The state of this Host.  # noqa: E501
         :type state: str
+        :param timestamp: The timestamp of this Host.  # noqa: E501
+        :type timestamp: str
         """
         self.swagger_types = {
             'name': str,
             'channels': List[str],
-            'state': str
+            'state': str,
+            'timestamp': str
         }
 
         self.attribute_map = {
             'name': 'name',
             'channels': 'channels',
-            'state': 'state'
+            'state': 'state',
+            'timestamp': 'timestamp'
         }
 
         self._name = name
         self._channels = channels
         self._state = state
+        self._timestamp = timestamp
 
     @classmethod
     def from_dict(cls, dikt) -> 'Host':
@@ -124,3 +129,26 @@ class Host(Model):
             )
 
         self._state = state
+
+    @property
+    def timestamp(self) -> str:
+        """Gets the timestamp of this Host.
+
+        Last update  # noqa: E501
+
+        :return: The timestamp of this Host.
+        :rtype: str
+        """
+        return self._timestamp
+
+    @timestamp.setter
+    def timestamp(self, timestamp: str):
+        """Sets the timestamp of this Host.
+
+        Last update  # noqa: E501
+
+        :param timestamp: The timestamp of this Host.
+        :type timestamp: str
+        """
+
+        self._timestamp = timestamp

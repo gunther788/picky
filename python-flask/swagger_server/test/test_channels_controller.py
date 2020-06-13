@@ -6,8 +6,6 @@ from flask import json
 from six import BytesIO
 
 from swagger_server.models.channel import Channel  # noqa: E501
-from swagger_server.models.channel1 import Channel1  # noqa: E501
-from swagger_server.models.inline_response200 import InlineResponse200  # noqa: E501
 from swagger_server.test import BaseTestCase
 
 
@@ -72,7 +70,7 @@ class TestChannelsController(BaseTestCase):
 
         Update a channel in the channels list
         """
-        channel = Channel1()
+        channel = Channel()
         response = self.client.open(
             '/gunther788/picky/1.0.0/channels/{name}'.format(name='name_example'),
             method='PUT',

@@ -6,8 +6,6 @@ from flask import json
 from six import BytesIO
 
 from swagger_server.models.host import Host  # noqa: E501
-from swagger_server.models.host1 import Host1  # noqa: E501
-from swagger_server.models.inline_response2001 import InlineResponse2001  # noqa: E501
 from swagger_server.test import BaseTestCase
 
 
@@ -84,7 +82,7 @@ class TestHostsController(BaseTestCase):
 
         Update a host in the hosts list
         """
-        host = Host1()
+        host = Host()
         response = self.client.open(
             '/gunther788/picky/1.0.0/hosts/{name}'.format(name='name_example'),
             method='PUT',

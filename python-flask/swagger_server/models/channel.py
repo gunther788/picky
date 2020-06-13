@@ -15,21 +15,26 @@ class Channel(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name: str=None):  # noqa: E501
+    def __init__(self, name: str=None, timestamp: str=None):  # noqa: E501
         """Channel - a model defined in Swagger
 
         :param name: The name of this Channel.  # noqa: E501
         :type name: str
+        :param timestamp: The timestamp of this Channel.  # noqa: E501
+        :type timestamp: str
         """
         self.swagger_types = {
-            'name': str
+            'name': str,
+            'timestamp': str
         }
 
         self.attribute_map = {
-            'name': 'name'
+            'name': 'name',
+            'timestamp': 'timestamp'
         }
 
         self._name = name
+        self._timestamp = timestamp
 
     @classmethod
     def from_dict(cls, dikt) -> 'Channel':
@@ -46,7 +51,7 @@ class Channel(Model):
     def name(self) -> str:
         """Gets the name of this Channel.
 
-        Name of channel to create  # noqa: E501
+        Name of channel  # noqa: E501
 
         :return: The name of this Channel.
         :rtype: str
@@ -57,10 +62,33 @@ class Channel(Model):
     def name(self, name: str):
         """Sets the name of this Channel.
 
-        Name of channel to create  # noqa: E501
+        Name of channel  # noqa: E501
 
         :param name: The name of this Channel.
         :type name: str
         """
 
         self._name = name
+
+    @property
+    def timestamp(self) -> str:
+        """Gets the timestamp of this Channel.
+
+        Last update  # noqa: E501
+
+        :return: The timestamp of this Channel.
+        :rtype: str
+        """
+        return self._timestamp
+
+    @timestamp.setter
+    def timestamp(self, timestamp: str):
+        """Sets the timestamp of this Channel.
+
+        Last update  # noqa: E501
+
+        :param timestamp: The timestamp of this Channel.
+        :type timestamp: str
+        """
+
+        self._timestamp = timestamp

@@ -2,8 +2,6 @@ import connexion
 import six
 
 from swagger_server.models.host import Host  # noqa: E501
-from swagger_server.models.host1 import Host1  # noqa: E501
-from swagger_server.models.inline_response2001 import InlineResponse2001  # noqa: E501
 from swagger_server import util
 
 
@@ -58,7 +56,7 @@ def hosts_read_all(length=None, offset=None):  # noqa: E501
     :param offset: Offset from beginning of list where to start gathering hosts
     :type offset: int
 
-    :rtype: List[InlineResponse2001]
+    :rtype: List[Host]
     """
     return 'do some magic!'
 
@@ -89,5 +87,5 @@ def hosts_update(name, host=None):  # noqa: E501
     :rtype: None
     """
     if connexion.request.is_json:
-        host = Host1.from_dict(connexion.request.get_json())  # noqa: E501
+        host = Host.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'

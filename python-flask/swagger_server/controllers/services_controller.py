@@ -1,9 +1,7 @@
 import connexion
 import six
 
-from swagger_server.models.inline_response2002 import InlineResponse2002  # noqa: E501
 from swagger_server.models.service import Service  # noqa: E501
-from swagger_server.models.service1 import Service1  # noqa: E501
 from swagger_server import util
 
 
@@ -45,7 +43,7 @@ def services_read_all(length=None, offset=None):  # noqa: E501
     :param offset: Offset from beginning of list where to start gathering services
     :type offset: int
 
-    :rtype: List[InlineResponse2002]
+    :rtype: List[Service]
     """
     return 'do some magic!'
 
@@ -76,5 +74,5 @@ def services_update(name, service=None):  # noqa: E501
     :rtype: None
     """
     if connexion.request.is_json:
-        service = Service1.from_dict(connexion.request.get_json())  # noqa: E501
+        service = Service.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'

@@ -37,7 +37,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/inline_response_200"
+              $ref: "#/definitions/channel"
       x-swagger-router-controller: "swagger_server.controllers.channels_controller"
     post:
       tags:
@@ -95,7 +95,7 @@ paths:
         name: "channel"
         required: false
         schema:
-          $ref: "#/definitions/channel_1"
+          $ref: "#/definitions/channel"
       responses:
         "200":
           description: "Successfully updated channel in channels list"
@@ -139,7 +139,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/inline_response_200_1"
+              $ref: "#/definitions/host"
       x-swagger-router-controller: "swagger_server.controllers.hosts_controller"
     post:
       tags:
@@ -201,7 +201,7 @@ paths:
         name: "host"
         required: false
         schema:
-          $ref: "#/definitions/host_1"
+          $ref: "#/definitions/host"
       responses:
         "200":
           description: "Successfully updated host in hosts list"
@@ -260,7 +260,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/inline_response_200_2"
+              $ref: "#/definitions/service"
       x-swagger-router-controller: "swagger_server.controllers.services_controller"
     post:
       tags:
@@ -324,7 +324,7 @@ paths:
         name: "service"
         required: false
         schema:
-          $ref: "#/definitions/service_1"
+          $ref: "#/definitions/service"
       responses:
         "200":
           description: "Successfully updated service in services list"
@@ -345,67 +345,17 @@ paths:
           description: "Successfully deleted a service from services list"
       x-swagger-router-controller: "swagger_server.controllers.services_controller"
 definitions:
-  host_1:
-    type: "object"
-    properties:
-      name:
-        type: "string"
-      channels:
-        type: "array"
-        items:
-          type: "string"
-      state:
-        type: "string"
-        default: "UP"
-        enum:
-        - "UP"
-        - "DOWN"
-  channel_1:
-    type: "object"
-    properties:
-      name:
-        type: "string"
-  service:
-    type: "object"
-    properties:
-      name:
-        type: "string"
-        description: "Name of service to create"
-      host:
-        type: "string"
-        description: "Host this service runs on"
-      short:
-        type: "string"
-        description: "Short name of the service"
-      state:
-        type: "string"
-        default: "OK"
-        enum:
-        - "OK"
-        - "WARNING"
-        - "CRITICAL"
-        - "UNKNOWN"
   channel:
     type: "object"
     properties:
       name:
         type: "string"
-        description: "Name of channel to create"
-  inline_response_200_1:
-    type: "object"
-    properties:
-      name:
-        type: "string"
-      channels:
-        type: "array"
-      state:
-        type: "string"
+        description: "Name of channel"
       timestamp:
         type: "string"
+        description: "Last update"
     example:
-      channels: ""
       name: "name"
-      state: "state"
       timestamp: "timestamp"
   host:
     type: "object"
@@ -424,44 +374,31 @@ definitions:
         enum:
         - "UP"
         - "DOWN"
-  inline_response_200:
-    type: "object"
-    properties:
-      name:
-        type: "string"
       timestamp:
         type: "string"
+        description: "Last update"
     example:
+      channels:
+      - "channels"
+      - "channels"
       name: "name"
+      state: "UP"
       timestamp: "timestamp"
-  inline_response_200_2:
+  service:
     type: "object"
     properties:
       name:
         type: "string"
-      short:
-        type: "string"
+        description: "Name of service, host!service format"
       host:
         type: "string"
-      state:
+        description: "Host this service runs on"
+      service:
         type: "string"
+        description: "Short name of the service"
       timestamp:
         type: "string"
-    example:
-      name: "name"
-      host: "host"
-      short: "short"
-      state: "state"
-      timestamp: "timestamp"
-  service_1:
-    type: "object"
-    properties:
-      name:
-        type: "string"
-      host:
-        type: "string"
-      short:
-        type: "string"
+        description: "Last update"
       state:
         type: "string"
         default: "OK"
@@ -470,3 +407,9 @@ definitions:
         - "WARNING"
         - "CRITICAL"
         - "UNKNOWN"
+    example:
+      service: "service"
+      name: "name"
+      host: "host"
+      state: "OK"
+      timestamp: "timestamp"
