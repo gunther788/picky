@@ -6,6 +6,7 @@ from flask import json
 from six import BytesIO
 
 from swagger_server.models.host import Host  # noqa: E501
+from swagger_server.models.inline_response2001 import InlineResponse2001  # noqa: E501
 from swagger_server.test import BaseTestCase
 
 
@@ -17,11 +18,11 @@ class TestHostsController(BaseTestCase):
 
         Create a host and add it to the hosts list
         """
-        host = Host()
+        body = Host()
         response = self.client.open(
             '/gunther788/picky/1.0.0/hosts',
             method='POST',
-            data=json.dumps(host),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -33,8 +34,7 @@ class TestHostsController(BaseTestCase):
         """
         response = self.client.open(
             '/gunther788/picky/1.0.0/hosts/{name}'.format(name='name_example'),
-            method='DELETE',
-            content_type='application/json')
+            method='DELETE')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -45,8 +45,7 @@ class TestHostsController(BaseTestCase):
         """
         response = self.client.open(
             '/gunther788/picky/1.0.0/hosts/{name}'.format(name='name_example'),
-            method='PATCH',
-            content_type='application/json')
+            method='PATCH')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -60,7 +59,6 @@ class TestHostsController(BaseTestCase):
         response = self.client.open(
             '/gunther788/picky/1.0.0/hosts',
             method='GET',
-            content_type='application/json',
             query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -72,8 +70,7 @@ class TestHostsController(BaseTestCase):
         """
         response = self.client.open(
             '/gunther788/picky/1.0.0/hosts/{name}'.format(name='name_example'),
-            method='GET',
-            content_type='application/json')
+            method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -82,11 +79,11 @@ class TestHostsController(BaseTestCase):
 
         Update a host in the hosts list
         """
-        host = Host()
+        body = Host()
         response = self.client.open(
             '/gunther788/picky/1.0.0/hosts/{name}'.format(name='name_example'),
             method='PUT',
-            data=json.dumps(host),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

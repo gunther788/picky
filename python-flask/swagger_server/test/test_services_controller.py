@@ -5,6 +5,7 @@ from __future__ import absolute_import
 from flask import json
 from six import BytesIO
 
+from swagger_server.models.inline_response2002 import InlineResponse2002  # noqa: E501
 from swagger_server.models.service import Service  # noqa: E501
 from swagger_server.test import BaseTestCase
 
@@ -17,11 +18,11 @@ class TestServicesController(BaseTestCase):
 
         Create a service and add it to the services list
         """
-        service = Service()
+        body = Service()
         response = self.client.open(
             '/gunther788/picky/1.0.0/services',
             method='POST',
-            data=json.dumps(service),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -33,8 +34,7 @@ class TestServicesController(BaseTestCase):
         """
         response = self.client.open(
             '/gunther788/picky/1.0.0/services/{name}'.format(name='name_example'),
-            method='DELETE',
-            content_type='application/json')
+            method='DELETE')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -48,7 +48,6 @@ class TestServicesController(BaseTestCase):
         response = self.client.open(
             '/gunther788/picky/1.0.0/services',
             method='GET',
-            content_type='application/json',
             query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -60,8 +59,7 @@ class TestServicesController(BaseTestCase):
         """
         response = self.client.open(
             '/gunther788/picky/1.0.0/services/{name}'.format(name='name_example'),
-            method='GET',
-            content_type='application/json')
+            method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -70,11 +68,11 @@ class TestServicesController(BaseTestCase):
 
         Update a service in the services list
         """
-        service = Service()
+        body = Service()
         response = self.client.open(
             '/gunther788/picky/1.0.0/services/{name}'.format(name='name_example'),
             method='PUT',
-            data=json.dumps(service),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

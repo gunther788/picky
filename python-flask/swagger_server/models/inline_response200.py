@@ -14,7 +14,6 @@ class InlineResponse200(Model):
 
     Do not edit the class manually.
     """
-
     def __init__(self, name: str=None, timestamp: str=None):  # noqa: E501
         """InlineResponse200 - a model defined in Swagger
 
@@ -32,7 +31,6 @@ class InlineResponse200(Model):
             'name': 'name',
             'timestamp': 'timestamp'
         }
-
         self._name = name
         self._timestamp = timestamp
 

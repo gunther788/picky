@@ -14,7 +14,6 @@ class Service(Model):
 
     Do not edit the class manually.
     """
-
     def __init__(self, name: str=None, host: str=None, service: str=None, timestamp: str=None, state: str='OK'):  # noqa: E501
         """Service - a model defined in Swagger
 
@@ -44,7 +43,6 @@ class Service(Model):
             'timestamp': 'timestamp',
             'state': 'state'
         }
-
         self._name = name
         self._host = host
         self._service = service

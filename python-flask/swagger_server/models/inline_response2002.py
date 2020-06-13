@@ -14,16 +14,15 @@ class InlineResponse2002(Model):
 
     Do not edit the class manually.
     """
-
-    def __init__(self, name: str=None, short: str=None, host: str=None, state: str=None, timestamp: str=None):  # noqa: E501
+    def __init__(self, name: str=None, host: str=None, short: str=None, state: str=None, timestamp: str=None):  # noqa: E501
         """InlineResponse2002 - a model defined in Swagger
 
         :param name: The name of this InlineResponse2002.  # noqa: E501
         :type name: str
-        :param short: The short of this InlineResponse2002.  # noqa: E501
-        :type short: str
         :param host: The host of this InlineResponse2002.  # noqa: E501
         :type host: str
+        :param short: The short of this InlineResponse2002.  # noqa: E501
+        :type short: str
         :param state: The state of this InlineResponse2002.  # noqa: E501
         :type state: str
         :param timestamp: The timestamp of this InlineResponse2002.  # noqa: E501
@@ -31,23 +30,22 @@ class InlineResponse2002(Model):
         """
         self.swagger_types = {
             'name': str,
-            'short': str,
             'host': str,
+            'short': str,
             'state': str,
             'timestamp': str
         }
 
         self.attribute_map = {
             'name': 'name',
-            'short': 'short',
             'host': 'host',
+            'short': 'short',
             'state': 'state',
             'timestamp': 'timestamp'
         }
-
         self._name = name
-        self._short = short
         self._host = host
+        self._short = short
         self._state = state
         self._timestamp = timestamp
 
@@ -84,27 +82,6 @@ class InlineResponse2002(Model):
         self._name = name
 
     @property
-    def short(self) -> str:
-        """Gets the short of this InlineResponse2002.
-
-
-        :return: The short of this InlineResponse2002.
-        :rtype: str
-        """
-        return self._short
-
-    @short.setter
-    def short(self, short: str):
-        """Sets the short of this InlineResponse2002.
-
-
-        :param short: The short of this InlineResponse2002.
-        :type short: str
-        """
-
-        self._short = short
-
-    @property
     def host(self) -> str:
         """Gets the host of this InlineResponse2002.
 
@@ -124,6 +101,27 @@ class InlineResponse2002(Model):
         """
 
         self._host = host
+
+    @property
+    def short(self) -> str:
+        """Gets the short of this InlineResponse2002.
+
+
+        :return: The short of this InlineResponse2002.
+        :rtype: str
+        """
+        return self._short
+
+    @short.setter
+    def short(self, short: str):
+        """Sets the short of this InlineResponse2002.
+
+
+        :param short: The short of this InlineResponse2002.
+        :type short: str
+        """
+
+        self._short = short
 
     @property
     def state(self) -> str:

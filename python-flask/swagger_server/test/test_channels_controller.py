@@ -6,6 +6,7 @@ from flask import json
 from six import BytesIO
 
 from swagger_server.models.channel import Channel  # noqa: E501
+from swagger_server.models.inline_response200 import InlineResponse200  # noqa: E501
 from swagger_server.test import BaseTestCase
 
 
@@ -17,11 +18,11 @@ class TestChannelsController(BaseTestCase):
 
         Create a channel and add it to the channels list
         """
-        channel = Channel()
+        body = Channel()
         response = self.client.open(
             '/gunther788/picky/1.0.0/channels',
             method='POST',
-            data=json.dumps(channel),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -33,8 +34,7 @@ class TestChannelsController(BaseTestCase):
         """
         response = self.client.open(
             '/gunther788/picky/1.0.0/channels/{name}'.format(name='name_example'),
-            method='DELETE',
-            content_type='application/json')
+            method='DELETE')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -48,7 +48,6 @@ class TestChannelsController(BaseTestCase):
         response = self.client.open(
             '/gunther788/picky/1.0.0/channels',
             method='GET',
-            content_type='application/json',
             query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -60,8 +59,7 @@ class TestChannelsController(BaseTestCase):
         """
         response = self.client.open(
             '/gunther788/picky/1.0.0/channels/{name}'.format(name='name_example'),
-            method='GET',
-            content_type='application/json')
+            method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -70,11 +68,11 @@ class TestChannelsController(BaseTestCase):
 
         Update a channel in the channels list
         """
-        channel = Channel()
+        body = Channel()
         response = self.client.open(
             '/gunther788/picky/1.0.0/channels/{name}'.format(name='name_example'),
             method='PUT',
-            data=json.dumps(channel),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

@@ -14,7 +14,6 @@ class Host(Model):
 
     Do not edit the class manually.
     """
-
     def __init__(self, name: str=None, channels: List[str]=None, state: str='UP', timestamp: str=None):  # noqa: E501
         """Host - a model defined in Swagger
 
@@ -40,7 +39,6 @@ class Host(Model):
             'state': 'state',
             'timestamp': 'timestamp'
         }
-
         self._name = name
         self._channels = channels
         self._state = state

@@ -6,6 +6,7 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from swagger_server.models.base_model_ import Model
+from swagger_server.models.object import Object  # noqa: F401,E501
 from swagger_server import util
 
 
@@ -14,14 +15,13 @@ class InlineResponse2001(Model):
 
     Do not edit the class manually.
     """
-
-    def __init__(self, name: str=None, channels: List[ERRORUNKNOWN]=None, state: str=None, timestamp: str=None):  # noqa: E501
+    def __init__(self, name: str=None, channels: List[Object]=None, state: str=None, timestamp: str=None):  # noqa: E501
         """InlineResponse2001 - a model defined in Swagger
 
         :param name: The name of this InlineResponse2001.  # noqa: E501
         :type name: str
         :param channels: The channels of this InlineResponse2001.  # noqa: E501
-        :type channels: List[ERRORUNKNOWN]
+        :type channels: List[Object]
         :param state: The state of this InlineResponse2001.  # noqa: E501
         :type state: str
         :param timestamp: The timestamp of this InlineResponse2001.  # noqa: E501
@@ -29,7 +29,7 @@ class InlineResponse2001(Model):
         """
         self.swagger_types = {
             'name': str,
-            'channels': List[ERRORUNKNOWN],
+            'channels': List[Object],
             'state': str,
             'timestamp': str
         }
@@ -40,7 +40,6 @@ class InlineResponse2001(Model):
             'state': 'state',
             'timestamp': 'timestamp'
         }
-
         self._name = name
         self._channels = channels
         self._state = state
@@ -79,22 +78,22 @@ class InlineResponse2001(Model):
         self._name = name
 
     @property
-    def channels(self) -> List[ERRORUNKNOWN]:
+    def channels(self) -> List[Object]:
         """Gets the channels of this InlineResponse2001.
 
 
         :return: The channels of this InlineResponse2001.
-        :rtype: List[ERRORUNKNOWN]
+        :rtype: List[Object]
         """
         return self._channels
 
     @channels.setter
-    def channels(self, channels: List[ERRORUNKNOWN]):
+    def channels(self, channels: List[Object]):
         """Sets the channels of this InlineResponse2001.
 
 
         :param channels: The channels of this InlineResponse2001.
-        :type channels: List[ERRORUNKNOWN]
+        :type channels: List[Object]
         """
 
         self._channels = channels
