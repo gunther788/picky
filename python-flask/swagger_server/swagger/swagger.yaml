@@ -1,0 +1,472 @@
+---
+swagger: "2.0"
+info:
+  description: "A Bridge between Icinga2's Notifications and Keybase"
+  version: "1.0.0"
+  title: "Icinga2 Keybase Connector"
+host: "virtserver.swaggerhub.com"
+basePath: "/gunther788/picky/1.0.0"
+schemes:
+- "https"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /channels:
+    get:
+      tags:
+      - "Channels"
+      summary: "Read the entire channels list"
+      description: "Read the channels lists"
+      operationId: "channels_read_all"
+      parameters:
+      - name: "length"
+        in: "query"
+        description: "Number of channels to get from channels"
+        required: false
+        type: "integer"
+      - name: "offset"
+        in: "query"
+        description: "Offset from beginning of list where to start gathering channels"
+        required: false
+        type: "integer"
+      responses:
+        "200":
+          description: "Successfully read channel list operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/inline_response_200"
+      x-swagger-router-controller: "swagger_server.controllers.channels_controller"
+    post:
+      tags:
+      - "Channels"
+      summary: "Create a channel and add it to the channels list"
+      description: "Create a new channel in the channels list"
+      operationId: "channels_create"
+      parameters:
+      - in: "body"
+        name: "channel"
+        description: "Channel to create"
+        required: true
+        schema:
+          $ref: "#/definitions/channel"
+      responses:
+        "201":
+          description: "Successfully created a channel in list"
+      x-swagger-router-controller: "swagger_server.controllers.channels_controller"
+  /channels/{name}:
+    get:
+      tags:
+      - "Channels"
+      summary: "Read one channel from the channels list"
+      description: "Read one channel from the channels list"
+      operationId: "channels_read_one"
+      parameters:
+      - name: "name"
+        in: "path"
+        description: "Name of the channel to get from the list"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Successfully read channel from channels list operation"
+          schema:
+            properties:
+              name:
+                type: "string"
+              timestamp:
+                type: "string"
+      x-swagger-router-controller: "swagger_server.controllers.channels_controller"
+    put:
+      tags:
+      - "Channels"
+      summary: "Update a channel in the channels list"
+      description: "Update a channel in the channels list"
+      operationId: "channels_update"
+      parameters:
+      - name: "name"
+        in: "path"
+        description: "Name of the channel to update in the list"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "channel"
+        required: false
+        schema:
+          $ref: "#/definitions/channel_1"
+      responses:
+        "200":
+          description: "Successfully updated channel in channels list"
+      x-swagger-router-controller: "swagger_server.controllers.channels_controller"
+    delete:
+      tags:
+      - "Channels"
+      summary: "Delete a channel from the channels list"
+      description: "Delete a channel"
+      operationId: "channels_delete"
+      parameters:
+      - name: "name"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Successfully deleted a channel from channels list"
+      x-swagger-router-controller: "swagger_server.controllers.channels_controller"
+  /hosts:
+    get:
+      tags:
+      - "Hosts"
+      summary: "Read the entire hosts list"
+      description: "Read the hosts list"
+      operationId: "hosts_read_all"
+      parameters:
+      - name: "length"
+        in: "query"
+        description: "Number of hosts to get from hosts"
+        required: false
+        type: "integer"
+      - name: "offset"
+        in: "query"
+        description: "Offset from beginning of list where to start gathering hosts"
+        required: false
+        type: "integer"
+      responses:
+        "200":
+          description: "Successfully read hosts list operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/inline_response_200_1"
+      x-swagger-router-controller: "swagger_server.controllers.hosts_controller"
+    post:
+      tags:
+      - "Hosts"
+      summary: "Create a host and add it to the hosts list"
+      description: "Create a new host in the hosts list"
+      operationId: "hosts_create"
+      parameters:
+      - in: "body"
+        name: "host"
+        description: "Host to create"
+        required: true
+        schema:
+          $ref: "#/definitions/host"
+      responses:
+        "201":
+          description: "Successfully created host in list"
+      x-swagger-router-controller: "swagger_server.controllers.hosts_controller"
+  /hosts/{name}:
+    get:
+      tags:
+      - "Hosts"
+      summary: "Read one host from the hosts list"
+      description: "Read one host from the hosts list"
+      operationId: "hosts_read_one"
+      parameters:
+      - name: "name"
+        in: "path"
+        description: "Name of the host to get from the list"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Successfully read host from hosts list operation"
+          schema:
+            properties:
+              name:
+                type: "string"
+              channels:
+                type: "array"
+              state:
+                type: "string"
+              timestamp:
+                type: "string"
+      x-swagger-router-controller: "swagger_server.controllers.hosts_controller"
+    put:
+      tags:
+      - "Hosts"
+      summary: "Update a host in the hosts list"
+      description: "Update a host in the hosts list"
+      operationId: "hosts_update"
+      parameters:
+      - name: "name"
+        in: "path"
+        description: "Name of the host to update in the list"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "host"
+        required: false
+        schema:
+          $ref: "#/definitions/host_1"
+      responses:
+        "200":
+          description: "Successfully updated host in hosts list"
+      x-swagger-router-controller: "swagger_server.controllers.hosts_controller"
+    delete:
+      tags:
+      - "Hosts"
+      summary: "Delete a host from the hosts list"
+      description: "Delete a host"
+      operationId: "hosts_delete"
+      parameters:
+      - name: "name"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Successfully deleted a host from hosts list"
+      x-swagger-router-controller: "swagger_server.controllers.hosts_controller"
+    patch:
+      tags:
+      - "Hosts"
+      summary: "Rebuild the services list of a host"
+      description: "Rebuild the services list of a host"
+      operationId: "hosts_patch"
+      parameters:
+      - name: "name"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Successfully updated a host in hosts list"
+      x-swagger-router-controller: "swagger_server.controllers.hosts_controller"
+  /services:
+    get:
+      tags:
+      - "Services"
+      summary: "Read the entire services list"
+      description: "Read the services list"
+      operationId: "services_read_all"
+      parameters:
+      - name: "length"
+        in: "query"
+        description: "Number of services to get from services"
+        required: false
+        type: "integer"
+      - name: "offset"
+        in: "query"
+        description: "Offset from beginning of list where to start gathering services"
+        required: false
+        type: "integer"
+      responses:
+        "200":
+          description: "Successfully read services list operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/inline_response_200_2"
+      x-swagger-router-controller: "swagger_server.controllers.services_controller"
+    post:
+      tags:
+      - "Services"
+      summary: "Create a service and add it to the services list"
+      description: "Create a new service in the services list"
+      operationId: "services_create"
+      parameters:
+      - in: "body"
+        name: "service"
+        description: "Service to create"
+        required: true
+        schema:
+          $ref: "#/definitions/service"
+      responses:
+        "201":
+          description: "Successfully created service in list"
+      x-swagger-router-controller: "swagger_server.controllers.services_controller"
+  /services/{name}:
+    get:
+      tags:
+      - "Services"
+      summary: "Read one service from the services list"
+      description: "Read one service from the services list"
+      operationId: "services_read_one"
+      parameters:
+      - name: "name"
+        in: "path"
+        description: "Name of the service to get from the list"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Successfully read service from services list operation"
+          schema:
+            properties:
+              name:
+                type: "string"
+              host:
+                type: "string"
+              short:
+                type: "string"
+              state:
+                type: "string"
+              timestamp:
+                type: "string"
+      x-swagger-router-controller: "swagger_server.controllers.services_controller"
+    put:
+      tags:
+      - "Services"
+      summary: "Update a service in the services list"
+      description: "Update a service in the services list"
+      operationId: "services_update"
+      parameters:
+      - name: "name"
+        in: "path"
+        description: "Name of the service to update in the list"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "service"
+        required: false
+        schema:
+          $ref: "#/definitions/service_1"
+      responses:
+        "200":
+          description: "Successfully updated service in services list"
+      x-swagger-router-controller: "swagger_server.controllers.services_controller"
+    delete:
+      tags:
+      - "Services"
+      summary: "Delete a service from the services list"
+      description: "Delete a service"
+      operationId: "services_delete"
+      parameters:
+      - name: "name"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Successfully deleted a service from services list"
+      x-swagger-router-controller: "swagger_server.controllers.services_controller"
+definitions:
+  host_1:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      channels:
+        type: "array"
+        items:
+          type: "string"
+      state:
+        type: "string"
+        default: "UP"
+        enum:
+        - "UP"
+        - "DOWN"
+  channel_1:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+  service:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        description: "Name of service to create"
+      host:
+        type: "string"
+        description: "Host this service runs on"
+      short:
+        type: "string"
+        description: "Short name of the service"
+      state:
+        type: "string"
+        default: "OK"
+        enum:
+        - "OK"
+        - "WARNING"
+        - "CRITICAL"
+        - "UNKNOWN"
+  channel:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        description: "Name of channel to create"
+  inline_response_200_1:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      channels:
+        type: "array"
+      state:
+        type: "string"
+      timestamp:
+        type: "string"
+    example:
+      channels: ""
+      name: "name"
+      state: "state"
+      timestamp: "timestamp"
+  host:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        description: "Name of host to create"
+      channels:
+        type: "array"
+        description: "Channels of host to message"
+        items:
+          type: "string"
+      state:
+        type: "string"
+        default: "UP"
+        enum:
+        - "UP"
+        - "DOWN"
+  inline_response_200:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      timestamp:
+        type: "string"
+    example:
+      name: "name"
+      timestamp: "timestamp"
+  inline_response_200_2:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      short:
+        type: "string"
+      host:
+        type: "string"
+      state:
+        type: "string"
+      timestamp:
+        type: "string"
+    example:
+      name: "name"
+      host: "host"
+      short: "short"
+      state: "state"
+      timestamp: "timestamp"
+  service_1:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      host:
+        type: "string"
+      short:
+        type: "string"
+      state:
+        type: "string"
+        default: "OK"
+        enum:
+        - "OK"
+        - "WARNING"
+        - "CRITICAL"
+        - "UNKNOWN"
