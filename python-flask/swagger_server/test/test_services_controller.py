@@ -19,7 +19,7 @@ class TestServicesController(BaseTestCase):
         """
         body = Service()
         response = self.client.open(
-            '/gunther788/picky/1.0.0/services',
+            '/services',
             method='POST',
             data=json.dumps(body),
             content_type='application/json')
@@ -32,7 +32,7 @@ class TestServicesController(BaseTestCase):
         Delete a service from the services list
         """
         response = self.client.open(
-            '/gunther788/picky/1.0.0/services/{name}'.format(name='name_example'),
+            '/services/{name}'.format(name='name_example'),
             method='DELETE')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -45,7 +45,7 @@ class TestServicesController(BaseTestCase):
         query_string = [('length', 56),
                         ('offset', 56)]
         response = self.client.open(
-            '/gunther788/picky/1.0.0/services',
+            '/services',
             method='GET',
             query_string=query_string)
         self.assert200(response,
@@ -57,7 +57,7 @@ class TestServicesController(BaseTestCase):
         Read one service from the services list
         """
         response = self.client.open(
-            '/gunther788/picky/1.0.0/services/{name}'.format(name='name_example'),
+            '/services/{name}'.format(name='name_example'),
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -69,7 +69,7 @@ class TestServicesController(BaseTestCase):
         """
         body = Service()
         response = self.client.open(
-            '/gunther788/picky/1.0.0/services/{name}'.format(name='name_example'),
+            '/services/{name}'.format(name='name_example'),
             method='PUT',
             data=json.dumps(body),
             content_type='application/json')

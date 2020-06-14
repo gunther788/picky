@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: Icinga2 Keybase Connector
+  title: 'picky: Python ICinga2 to KeYbase'
   description: A Bridge between Icinga2's Notifications and Keybase
   version: 1.0.0-oas3
 servers:
