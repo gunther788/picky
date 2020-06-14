@@ -82,7 +82,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200'
+                $ref: '#/components/schemas/channel'
       x-swagger-router-controller: swagger_server.controllers.channels_controller
       x-openapi-router-controller: swagger_server.controllers.channels_controller
     put:
@@ -205,7 +205,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_1'
+                $ref: '#/components/schemas/host'
       x-swagger-router-controller: swagger_server.controllers.hosts_controller
       x-openapi-router-controller: swagger_server.controllers.hosts_controller
     put:
@@ -347,7 +347,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_2'
+                $ref: '#/components/schemas/service'
       x-swagger-router-controller: swagger_server.controllers.services_controller
       x-openapi-router-controller: swagger_server.controllers.services_controller
     put:
@@ -464,49 +464,3 @@ components:
         host: hostname.example.com
         state: OK
         timestamp: timestamp
-    inline_response_200:
-      properties:
-        name:
-          type: string
-        timestamp:
-          type: string
-      example:
-        name: name
-        timestamp: timestamp
-    inline_response_200_1:
-      properties:
-        name:
-          type: string
-        channels:
-          type: array
-          items: {}
-        state:
-          type: string
-        timestamp:
-          type: string
-      example:
-        channels:
-        - ""
-        - ""
-        name: name
-        state: state
-        timestamp: timestamp
-    inline_response_200_2:
-      properties:
-        name:
-          type: string
-        host:
-          type: string
-        short:
-          type: string
-        state:
-          type: string
-        timestamp:
-          type: string
-      example:
-        name: name
-        host: host
-        short: short
-        state: state
-        timestamp: timestamp
-
