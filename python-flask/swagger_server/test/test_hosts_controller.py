@@ -19,7 +19,7 @@ class TestHostsController(BaseTestCase):
         """
         body = Host()
         response = self.client.open(
-            '/gunther788/picky/1.0.0/hosts',
+            '/hosts',
             method='POST',
             data=json.dumps(body),
             content_type='application/json')
@@ -32,7 +32,7 @@ class TestHostsController(BaseTestCase):
         Delete a host from the hosts list
         """
         response = self.client.open(
-            '/gunther788/picky/1.0.0/hosts/{name}'.format(name='name_example'),
+            '/hosts/{name}'.format(name='name_example'),
             method='DELETE')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -43,7 +43,7 @@ class TestHostsController(BaseTestCase):
         Rebuild the services list of a host
         """
         response = self.client.open(
-            '/gunther788/picky/1.0.0/hosts/{name}'.format(name='name_example'),
+            '/hosts/{name}'.format(name='name_example'),
             method='PATCH')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -56,7 +56,7 @@ class TestHostsController(BaseTestCase):
         query_string = [('length', 56),
                         ('offset', 56)]
         response = self.client.open(
-            '/gunther788/picky/1.0.0/hosts',
+            '/hosts',
             method='GET',
             query_string=query_string)
         self.assert200(response,
@@ -68,7 +68,7 @@ class TestHostsController(BaseTestCase):
         Read one host from the hosts list
         """
         response = self.client.open(
-            '/gunther788/picky/1.0.0/hosts/{name}'.format(name='name_example'),
+            '/hosts/{name}'.format(name='name_example'),
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -80,7 +80,7 @@ class TestHostsController(BaseTestCase):
         """
         body = Host()
         response = self.client.open(
-            '/gunther788/picky/1.0.0/hosts/{name}'.format(name='name_example'),
+            '/hosts/{name}'.format(name='name_example'),
             method='PUT',
             data=json.dumps(body),
             content_type='application/json')
