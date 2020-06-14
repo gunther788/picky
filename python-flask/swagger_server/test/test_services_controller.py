@@ -5,7 +5,6 @@ from __future__ import absolute_import
 from flask import json
 from six import BytesIO
 
-from swagger_server.models.inline_response2002 import InlineResponse2002  # noqa: E501
 from swagger_server.models.service import Service  # noqa: E501
 from swagger_server.test import BaseTestCase
 

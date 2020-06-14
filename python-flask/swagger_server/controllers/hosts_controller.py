@@ -2,7 +2,6 @@ import connexion
 import six
 
 from swagger_server.models.host import Host  # noqa: E501
-from swagger_server.models.inline_response2001 import InlineResponse2001  # noqa: E501
 from swagger_server import util
 
 
@@ -70,7 +69,7 @@ def hosts_read_one(name):  # noqa: E501
     :param name: Name of the host to get from the list
     :type name: str
 
-    :rtype: InlineResponse2001
+    :rtype: Host
     """
     return 'do some magic!'
 

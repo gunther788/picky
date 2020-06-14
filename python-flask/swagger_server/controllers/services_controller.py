@@ -1,7 +1,6 @@
 import connexion
 import six
 
-from swagger_server.models.inline_response2002 import InlineResponse2002  # noqa: E501
 from swagger_server.models.service import Service  # noqa: E501
 from swagger_server import util
 
@@ -57,7 +56,7 @@ def services_read_one(name):  # noqa: E501
     :param name: Name of the service to get from the list
     :type name: str
 
-    :rtype: InlineResponse2002
+    :rtype: Service
     """
     return 'do some magic!'
 

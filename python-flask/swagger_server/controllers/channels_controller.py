@@ -2,7 +2,6 @@ import connexion
 import six
 
 from swagger_server.models.channel import Channel  # noqa: E501
-from swagger_server.models.inline_response200 import InlineResponse200  # noqa: E501
 from swagger_server import util
 
 
@@ -57,7 +56,7 @@ def channels_read_one(name):  # noqa: E501
     :param name: Name of the channel to get from the list
     :type name: str
 
-    :rtype: InlineResponse200
+    :rtype: Channel
     """
     return 'do some magic!'
 
