@@ -3,6 +3,12 @@ import six
 
 from swagger_server.models.host import Host  # noqa: E501
 from swagger_server import util
+from swagger_server import data
+from flask import make_response, abort
+
+from swagger_server.data import send_message
+import logging
+import asyncio
 
 
 def hosts_create(body):  # noqa: E501
@@ -17,7 +23,23 @@ def hosts_create(body):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Host.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+
+    name = body.name
+    if name not in data.HOSTS and name is not None:
+        msg_id = asyncio.run(send_message("containers", 0, f"message to containers for {name}"))
+        logging.info(f"new message has id {msg_id}")
+
+        data.HOSTS[name] = body
+        return make_response(
+            "{name} successfully created".format(name=name), 201
+        )
+
+    # Otherwise, they exist, that's an error
+    else:
+        abort(
+            406,
+            "Host with name {name} already exists".format(name=name),
+        )
 
 
 def hosts_delete(name):  # noqa: E501
@@ -25,12 +47,23 @@ def hosts_delete(name):  # noqa: E501
 
     Delete a host # noqa: E501
 
-    :param name: 
+    :param name:
     :type name: str
 
     :rtype: None
     """
-    return 'do some magic!'
+    # Does the host to delete exist?
+    if name in data.HOSTS:
+        del data.HOSTS[name]
+        return make_response(
+            "{name} successfully deleted".format(name=name), 200
+        )
+
+    # Otherwise, nope, host to delete not found
+    else:
+        abort(
+            404, "Host with name {name} not found".format(name=name)
+        )
 
 
 def hosts_patch(name):  # noqa: E501
@@ -38,7 +71,7 @@ def hosts_patch(name):  # noqa: E501
 
     Rebuild the services list of a host # noqa: E501
 
-    :param name: 
+    :param name:
     :type name: str
 
     :rtype: None
@@ -58,7 +91,7 @@ def hosts_read_all(length=None, offset=None):  # noqa: E501
 
     :rtype: List[Host]
     """
-    return 'do some magic!'
+    return [data.HOSTS[key] for key in sorted(data.HOSTS.keys())]
 
 
 def hosts_read_one(name):  # noqa: E501
@@ -81,7 +114,7 @@ def hosts_update(name, body=None):  # noqa: E501
 
     :param name: Name of the host to update in the list
     :type name: str
-    :param body: 
+    :param body:
     :type body: dict | bytes
 
     :rtype: None

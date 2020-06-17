@@ -1,4 +1,4 @@
-FROM python:3.6-alpine
+FROM keybaseio/client:stable-python
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
@@ -12,6 +12,7 @@ COPY . /usr/src/app
 
 EXPOSE 8080
 
-ENTRYPOINT ["python3"]
-
-CMD ["-m", "swagger_server"]
+# uses tini's entrypoint
+# CMD ["python3", "customclient.py"]
+# CMD ["python3", "sample.py"]
+CMD ["python3", "-m", "swagger_server"]
