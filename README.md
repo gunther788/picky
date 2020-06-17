@@ -1,4 +1,4 @@
-# picky: Python ICinga2 to KeYbase
+# PICKY: Python ICinga2 to KeYbase
 
 A Bridge between Icinga2's Notifications and Keybase
 
