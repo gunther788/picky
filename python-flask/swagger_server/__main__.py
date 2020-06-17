@@ -3,7 +3,6 @@
 import connexion
 
 from swagger_server import encoder
-from swagger_server import data
 
 
 def main():

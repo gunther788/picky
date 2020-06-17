@@ -6,9 +6,36 @@ from swagger_server import util
 from swagger_server import data
 from flask import make_response, abort
 
-from swagger_server.data import send_message
+from swagger_server.data import send_message, HOSTS, CHANNELS
 import logging
 import asyncio
+
+
+def hosts_notify(name):
+    """Take a host from HOSTS and iterate over its messages dict
+    and notify each known channel.
+    """
+    logging.info(f"hosts_notify({name})")
+    if name is not None and name in HOSTS:
+        host = HOSTS[name]
+        logging.info(f"hosts_notify({name}) has {host.messages}")
+
+        for channel in CHANNELS:
+            logging.info(f"hosts_notify checking {channel}")
+
+            if channel in host.messages:
+                logging.info(f"hosts_notify {channel} matches {host.messages}")
+
+                msg_id = host.messages[channel]
+                if msg_id > 0:
+                    asyncio.run(send_message(channel, msg_id, f"{host}"))
+                    logging.info(f"new message had id {msg_id}")
+
+                else:
+                    msg_id = asyncio.run(send_message(channel, 0, f"{host}"))
+                    HOSTS[name].messages[channel] = msg_id
+                    logging.info(f"new message has id {msg_id}")
+
 
 
 def hosts_create(body):  # noqa: E501
@@ -24,12 +51,11 @@ def hosts_create(body):  # noqa: E501
     if connexion.request.is_json:
         body = Host.from_dict(connexion.request.get_json())  # noqa: E501
 
+    logging.info(f"hosts_create({body})")
     name = body.name
-    if name not in data.HOSTS and name is not None:
-        msg_id = asyncio.run(send_message("containers", 0, f"message to containers for {name}"))
-        logging.info(f"new message has id {msg_id}")
-
-        data.HOSTS[name] = body
+    if name not in HOSTS and name is not None:
+        HOSTS[name] = body
+        hosts_notify(name)
         return make_response(
             "{name} successfully created".format(name=name), 201
         )
@@ -53,8 +79,8 @@ def hosts_delete(name):  # noqa: E501
     :rtype: None
     """
     # Does the host to delete exist?
-    if name in data.HOSTS:
-        del data.HOSTS[name]
+    if name in HOSTS:
+        del HOSTS[name]
         return make_response(
             "{name} successfully deleted".format(name=name), 200
         )
@@ -91,7 +117,7 @@ def hosts_read_all(length=None, offset=None):  # noqa: E501
 
     :rtype: List[Host]
     """
-    return [data.HOSTS[key] for key in sorted(data.HOSTS.keys())]
+    return [HOSTS[key] for key in sorted(HOSTS.keys())]
 
 
 def hosts_read_one(name):  # noqa: E501
