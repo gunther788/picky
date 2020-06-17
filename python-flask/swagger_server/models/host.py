@@ -6,6 +6,7 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from swagger_server.models.base_model_ import Model
+from swagger_server.models.host_messages import HostMessages  # noqa: F401,E501
 from swagger_server import util
 
 
@@ -14,13 +15,13 @@ class Host(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, name: str=None, channels: List[str]=None, state: str='UP', timestamp: str=None):  # noqa: E501
+    def __init__(self, name: str=None, messages: HostMessages=None, state: str='UP', timestamp: str=None):  # noqa: E501
         """Host - a model defined in Swagger
 
         :param name: The name of this Host.  # noqa: E501
         :type name: str
-        :param channels: The channels of this Host.  # noqa: E501
-        :type channels: List[str]
+        :param messages: The messages of this Host.  # noqa: E501
+        :type messages: HostMessages
         :param state: The state of this Host.  # noqa: E501
         :type state: str
         :param timestamp: The timestamp of this Host.  # noqa: E501
@@ -28,19 +29,19 @@ class Host(Model):
         """
         self.swagger_types = {
             'name': str,
-            'channels': List[str],
+            'messages': HostMessages,
             'state': str,
             'timestamp': str
         }
 
         self.attribute_map = {
             'name': 'name',
-            'channels': 'channels',
+            'messages': 'messages',
             'state': 'state',
             'timestamp': 'timestamp'
         }
         self._name = name
-        self._channels = channels
+        self._messages = messages
         self._state = state
         self._timestamp = timestamp
 
@@ -79,27 +80,25 @@ class Host(Model):
         self._name = name
 
     @property
-    def channels(self) -> List[str]:
-        """Gets the channels of this Host.
+    def messages(self) -> HostMessages:
+        """Gets the messages of this Host.
 
-        Channels of host to message  # noqa: E501
 
-        :return: The channels of this Host.
-        :rtype: List[str]
+        :return: The messages of this Host.
+        :rtype: HostMessages
         """
-        return self._channels
+        return self._messages
 
-    @channels.setter
-    def channels(self, channels: List[str]):
-        """Sets the channels of this Host.
+    @messages.setter
+    def messages(self, messages: HostMessages):
+        """Sets the messages of this Host.
 
-        Channels of host to message  # noqa: E501
 
-        :param channels: The channels of this Host.
-        :type channels: List[str]
+        :param messages: The messages of this Host.
+        :type messages: HostMessages
         """
 
-        self._channels = channels
+        self._messages = messages
 
     @property
     def state(self) -> str:

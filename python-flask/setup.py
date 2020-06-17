@@ -17,10 +17,10 @@ REQUIRES = ["connexion"]
 setup(
     name=NAME,
     version=VERSION,
-    description="picky: Python ICinga2 to KeYbase",
+    description="Icinga2 Keybase Connector",
     author_email="",
     url="",
-    keywords=["Swagger", "picky", "Python ICinga2 to KeYbase"],
+    keywords=["Swagger", "Icinga2 Keybase Connector"],
     install_requires=REQUIRES,
     packages=find_packages(),
     package_data={'': ['swagger/swagger.yaml']},
