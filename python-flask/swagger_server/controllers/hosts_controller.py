@@ -30,13 +30,13 @@ def hosts_notify(name):
                 if msg_id > 0:
                     asyncio.run(send_message(channel, msg_id, f"{host}"))
                     logging.info(f"new message had id {msg_id}")
-                    
+
                 else:
                     msg_id = asyncio.run(send_message(channel, 0, f"{host}"))
                     HOSTS[name].messages[channel] = msg_id
                     logging.info(f"new message has id {msg_id}")
 
-                
+
 
 def hosts_create(body):  # noqa: E501
     """Create a host and add it to the hosts list

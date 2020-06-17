@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
   title: 'picky: Python ICinga2 to KeYbase'
-  description: 'A Bridge between Icinga2''s Notifications and Keybase'
-  version: 1.0.2-oas3-oas3
+  description: A Bridge between Icinga2's Notifications and Keybase
+  version: 1.0.3
 servers:
 - url: https://localhost/
 paths:
@@ -415,7 +415,9 @@ components:
           type: string
           description: Name of host to create
         messages:
-          $ref: '#/components/schemas/host_messages'
+          type: object
+          additionalProperties:
+            type: integer
         state:
           type: string
           default: UP
@@ -461,12 +463,3 @@ components:
         host: hostname.example.com
         state: OK
         timestamp: timestamp
-    host_messages:
-      type: object
-      properties:
-        channel:
-          type: string
-        id:
-          type: integer
-      description: Channels of host to message
-

@@ -31,7 +31,7 @@ async def send_message(topic, msg_id, message):
         return result.message_id
 
 
-asyncio.run(send_message("containers", 0, "--- restarting ---"))
+asyncio.run(send_message("", 0, "--- restarting ---"))
 
 def get_timestamp():
     return datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ"))
@@ -69,4 +69,5 @@ HOSTS = {
 CHANNELS = {
     "containers": get_timestamp(),
     "gold": get_timestamp(),
+    "silver": get_timestamp(),
 }

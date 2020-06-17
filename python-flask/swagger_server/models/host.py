@@ -6,7 +6,6 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from swagger_server.models.base_model_ import Model
-from swagger_server.models.host_messages import HostMessages  # noqa: F401,E501
 from swagger_server import util
 
 
@@ -15,13 +14,13 @@ class Host(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, name: str=None, messages: HostMessages=None, state: str='UP', timestamp: str=None):  # noqa: E501
+    def __init__(self, name: str=None, messages: Dict[str, int]=None, state: str='UP', timestamp: str=None):  # noqa: E501
         """Host - a model defined in Swagger
 
         :param name: The name of this Host.  # noqa: E501
         :type name: str
         :param messages: The messages of this Host.  # noqa: E501
-        :type messages: HostMessages
+        :type messages: Dict[str, int]
         :param state: The state of this Host.  # noqa: E501
         :type state: str
         :param timestamp: The timestamp of this Host.  # noqa: E501
@@ -29,7 +28,7 @@ class Host(Model):
         """
         self.swagger_types = {
             'name': str,
-            'messages': HostMessages,
+            'messages': Dict[str, int],
             'state': str,
             'timestamp': str
         }
@@ -80,22 +79,22 @@ class Host(Model):
         self._name = name
 
     @property
-    def messages(self) -> HostMessages:
+    def messages(self) -> Dict[str, int]:
         """Gets the messages of this Host.
 
 
         :return: The messages of this Host.
-        :rtype: HostMessages
+        :rtype: Dict[str, int]
         """
         return self._messages
 
     @messages.setter
-    def messages(self, messages: HostMessages):
+    def messages(self, messages: Dict[str, int]):
         """Sets the messages of this Host.
 
 
         :param messages: The messages of this Host.
-        :type messages: HostMessages
+        :type messages: Dict[str, int]
         """
 
         self._messages = messages
