@@ -40,20 +40,33 @@ def get_timestamp():
 HOSTS = {
     "ipa1.aidoru.ch": {
         "name": "ipa1.aidoru.ch",
-        "channels": [ "centos7", "ipa" ],
+        "messages": {
+            "centos7": 0,
+            "ipa": 0,
+        },
         "state": "DOWN",
         "timestamp": get_timestamp(),
     },
-    "copr.aidoru.ch": {
-        "name": "copr.aidoru.ch",
-        "channels": [ "centos8" ],
+    "plex.aidoru.ch": {
+        "name": "plex.aidoru.ch",
+        "messages": {
+            "containers": 0,
+        },
         "state": "UP",
         "timestamp": get_timestamp(),
     },
     "foreman.aidoru.ch": {
         "name": "foreman.aidoru.ch",
-        "channels": [ "centos7", "foreman" ],
+        "messages": {
+            "centos7": 0,
+            "foreman": 0,
+        },
         "state": "UP",
         "timestamp": get_timestamp(),
     },
+}
+
+CHANNELS = {
+    "containers": get_timestamp(),
+    "gold": get_timestamp(),
 }
