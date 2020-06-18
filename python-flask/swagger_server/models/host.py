@@ -150,6 +150,16 @@ class Host(Model):
 
         self._timestamp = timestamp
 
+
+    @property
+    def all_good(self) -> bool:
+        """Tests for all states UP / OK
+
+        :rtype: bool
+        """
+        return self.state == 'UP'
+
+
     @property
     def picky(self) -> str:
         """Returns a formatted one-liner

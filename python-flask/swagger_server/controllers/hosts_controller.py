@@ -26,21 +26,32 @@ def hosts_notify(name):
             if channel in host.messages:
                 logging.info(f"hosts_notify {channel} matches {host.messages}")
 
+                # let's see if there is a message we should update
                 msg_id = host.messages[channel]
                 if msg_id > 0:
+
                     try:
+                        # update the message in place
                         asyncio.run(send_message(channel, msg_id, host.picky))
                         logging.info(f"message had id {msg_id}")
+
                     except Exception as exc:
+                        # someone may have deleted the message by now, so let's start
+                        # a new one
                         msg_id = asyncio.run(send_message(channel, 0, host.picky))
                         HOSTS[name].messages[channel] = msg_id
                         logging.info(f"new message has id {msg_id} (recovered from {exc})")
 
                 else:
+                    # same as above, there's no message so we start a new one
                     msg_id = asyncio.run(send_message(channel, 0, host.picky))
                     HOSTS[name].messages[channel] = msg_id
                     logging.info(f"new message has id {msg_id}")
 
+                # we've recovered, so it's time to reset the state to 0 and start
+                # new messages should there be any more
+                if HOSTS[name].all_good:
+                    HOSTS[name].messages[channel] = 0
 
 
 def hosts_create(body):  # noqa: E501
