@@ -28,11 +28,11 @@ def hosts_notify(name):
 
                 msg_id = host.messages[channel]
                 if msg_id > 0:
-                    asyncio.run(send_message(channel, msg_id, f"{host}"))
+                    asyncio.run(send_message(channel, msg_id, host.picky))
                     logging.info(f"new message had id {msg_id}")
 
                 else:
-                    msg_id = asyncio.run(send_message(channel, 0, f"{host}"))
+                    msg_id = asyncio.run(send_message(channel, 0, host.picky))
                     HOSTS[name].messages[channel] = msg_id
                     logging.info(f"new message has id {msg_id}")
 

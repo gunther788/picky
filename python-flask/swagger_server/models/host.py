@@ -148,3 +148,23 @@ class Host(Model):
         """
 
         self._timestamp = timestamp
+
+    @property
+    def picky(self) -> str:
+        """Returns a beautifully formatted one-liner
+        that can be chatted in keybase
+
+        :rtype: str
+        """
+        msg = ""
+
+        states = {
+            'UP': '🟩',
+            'DOWN': '🟥',
+        }
+
+        if self.state in states:
+            msg = f"{states[self.state]} {msg}"
+
+        msg = f"{msg} {self}"
+        return msg
