@@ -13,6 +13,5 @@ COPY . /usr/src/app
 EXPOSE 8080
 
 # uses tini's entrypoint
-# CMD ["python3", "customclient.py"]
 # CMD ["python3", "sample.py"]
 CMD ["python3", "-m", "swagger_server"]

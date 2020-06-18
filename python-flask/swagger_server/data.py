@@ -8,6 +8,9 @@ from datetime import datetime
 import pykeybasebot.types.chat1 as chat1
 from pykeybasebot import Bot
 
+from swagger_server.models.host import Host
+from swagger_server.models.channel import Channel
+
 logging.basicConfig(level=logging.INFO)
 
 
@@ -31,14 +34,12 @@ async def send_message(topic, msg_id, message):
         return result.message_id
 
 
-asyncio.run(send_message("", 0, "--- restarting ---"))
-
 def get_timestamp():
     return datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ"))
 
 
 HOSTS = {
-    "ipa1.aidoru.ch": {
+    "ipa1.aidoru.ch": Host.from_dict({
         "name": "ipa1.aidoru.ch",
         "messages": {
             "centos7": 0,
@@ -46,16 +47,16 @@ HOSTS = {
         },
         "state": "DOWN",
         "timestamp": get_timestamp(),
-    },
-    "plex.aidoru.ch": {
+    }),
+    "plex.aidoru.ch": Host.from_dict({
         "name": "plex.aidoru.ch",
         "messages": {
             "containers": 0,
         },
         "state": "UP",
         "timestamp": get_timestamp(),
-    },
-    "foreman.aidoru.ch": {
+    }),
+    "foreman.aidoru.ch": Host.from_dict({
         "name": "foreman.aidoru.ch",
         "messages": {
             "centos7": 0,
@@ -63,11 +64,21 @@ HOSTS = {
         },
         "state": "UP",
         "timestamp": get_timestamp(),
-    },
+    }),
 }
 
+
 CHANNELS = {
-    "containers": get_timestamp(),
-    "gold": get_timestamp(),
-    "silver": get_timestamp(),
+    "containers": Channel.from_dict({
+        "name": "containers",
+        "timestamp": get_timestamp(),
+    }),
+    "gold": Channel.from_dict({
+        "name": "gold",
+        "timestamp": get_timestamp(),
+    }),
+    "silver": Channel.from_dict({
+        "name": "silver",
+        "timestamp": get_timestamp(),
+    })
 }

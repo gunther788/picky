@@ -28,8 +28,13 @@ def hosts_notify(name):
 
                 msg_id = host.messages[channel]
                 if msg_id > 0:
-                    asyncio.run(send_message(channel, msg_id, host.picky))
-                    logging.info(f"new message had id {msg_id}")
+                    try:
+                        asyncio.run(send_message(channel, msg_id, host.picky))
+                        logging.info(f"message had id {msg_id}")
+                    except Exception as exc:
+                        msg_id = asyncio.run(send_message(channel, 0, host.picky))
+                        HOSTS[name].messages[channel] = msg_id
+                        logging.info(f"new message has id {msg_id} (recovered from {exc})")
 
                 else:
                     msg_id = asyncio.run(send_message(channel, 0, host.picky))
@@ -130,7 +135,15 @@ def hosts_read_one(name):  # noqa: E501
 
     :rtype: Host
     """
-    return 'do some magic!'
+    # Does the host to delete exist?
+    if name in HOSTS:
+        return HOSTS[name]
+
+    # Otherwise, nope, host to delete not found
+    else:
+        abort(
+            404, "Host with name {name} not found".format(name=name)
+        )
 
 
 def hosts_update(name, body=None):  # noqa: E501
@@ -147,4 +160,14 @@ def hosts_update(name, body=None):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Host.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+
+    if name not in HOSTS and name is not None:
+        return hosts_create(body)
+
+    if body.state:
+        HOSTS[name].state = body.state
+
+    hosts_notify(name)
+    return make_response(
+        "{name} successfully updated".format(name=name), 201
+    )
