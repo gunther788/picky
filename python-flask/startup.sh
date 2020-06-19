@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # load environment
-export $(grep -v '^#' /data/picky.cfg | xargs)
+export $(grep -v '^#' /data/picky.ini | tr -d ' ' | grep "=" | xargs)
 sleep 5
 
 # ping test

@@ -1,3 +1,6 @@
+from flask import Flask
+app = Flask(__name__)
+
 import connexion
 import six
 
@@ -6,52 +9,8 @@ from swagger_server import util
 from swagger_server import data
 from flask import make_response, abort
 
-from swagger_server.data import send_message, HOSTS, CHANNELS
-import logging
-import asyncio
-
-
-def hosts_notify(name):
-    """Take a host from HOSTS and iterate over its messages dict
-    and notify each known channel.
-    """
-    logging.info(f"hosts_notify({name})")
-    if name is not None and name in HOSTS:
-        host = HOSTS[name]
-        logging.info(f"hosts_notify({name}) has {host.messages}")
-
-        for channel in CHANNELS:
-            logging.info(f"hosts_notify checking {channel}")
-
-            if channel in host.messages:
-                logging.info(f"hosts_notify {channel} matches {host.messages}")
-
-                # let's see if there is a message we should update
-                msg_id = host.messages[channel]
-                if msg_id > 0:
-
-                    try:
-                        # update the message in place
-                        asyncio.run(send_message(channel, msg_id, host.picky))
-                        logging.info(f"message had id {msg_id}")
-
-                    except Exception as exc:
-                        # someone may have deleted the message by now, so let's start
-                        # a new one
-                        msg_id = asyncio.run(send_message(channel, 0, host.picky))
-                        HOSTS[name].messages[channel] = msg_id
-                        logging.info(f"new message has id {msg_id} (recovered from {exc})")
-
-                else:
-                    # same as above, there's no message so we start a new one
-                    msg_id = asyncio.run(send_message(channel, 0, host.picky))
-                    HOSTS[name].messages[channel] = msg_id
-                    logging.info(f"new message has id {msg_id}")
-
-                # we've recovered, so it's time to reset the state to 0 and start
-                # new messages should there be any more
-                if HOSTS[name].all_good:
-                    HOSTS[name].messages[channel] = 0
+from swagger_server.data import HOSTS, CHANNELS
+from swagger_server.sender import hosts_notify
 
 
 def hosts_create(body):  # noqa: E501
@@ -67,7 +26,7 @@ def hosts_create(body):  # noqa: E501
     if connexion.request.is_json:
         body = Host.from_dict(connexion.request.get_json())  # noqa: E501
 
-    logging.info(f"hosts_create({body})")
+    app.logger.info(f"hosts_create({body})")
     name = body.name
     if name not in HOSTS and name is not None:
         HOSTS[name] = body
