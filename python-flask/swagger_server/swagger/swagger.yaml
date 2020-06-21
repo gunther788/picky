@@ -424,6 +424,10 @@ components:
           enum:
           - UP
           - DOWN
+        output:
+          type: string
+          default: ""
+          description: Output of host check command
         timestamp:
           type: string
           description: Last update
@@ -457,6 +461,10 @@ components:
           - WARNING
           - CRITICAL
           - UNKNOWN
+        output:
+          type: string
+          default: ""
+          description: Output of service check command
       example:
         service: https
         name: hostname.example.com!https

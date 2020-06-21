@@ -3,6 +3,7 @@ app = Flask(__name__)
 
 from datetime import datetime
 import configparser
+import yaml
 
 from swagger_server.models.channel import Channel
 from swagger_server.models.host import Host
@@ -15,6 +16,7 @@ app.logger.info("read '/data/picky.ini'")
 def get_timestamp():
     return datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ"))
 
+
 HOSTS = {
     "ipa1.aidoru.ch": Host.from_dict({
         "name": "ipa1.aidoru.ch",
@@ -23,6 +25,7 @@ HOSTS = {
             "ipa": 0,
         },
         "state": "DOWN",
+        "output": "CRITICAL - Host Unreachable",
         "timestamp": get_timestamp(),
     }),
     "plex.aidoru.ch": Host.from_dict({
@@ -31,6 +34,7 @@ HOSTS = {
             "containers": 0,
         },
         "state": "UP",
+        "output": "all good",
         "timestamp": get_timestamp(),
     }),
     "foreman.aidoru.ch": Host.from_dict({
@@ -40,6 +44,7 @@ HOSTS = {
             "foreman": 0,
         },
         "state": "UP",
+        "output": "all good",
         "timestamp": get_timestamp(),
     }),
 }
@@ -59,3 +64,7 @@ CHANNELS = {
         "timestamp": get_timestamp(),
     })
 }
+
+
+with open('/data/cache.yml', 'w') as file:
+    yaml.dump({'CHANNELS': CHANNELS}, file, explicit_start=True)

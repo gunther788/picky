@@ -14,7 +14,7 @@ class Service(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, name: str=None, host: str=None, service: str=None, timestamp: str=None, state: str='OK'):  # noqa: E501
+    def __init__(self, name: str=None, host: str=None, service: str=None, timestamp: str=None, state: str='OK', output: str=''):  # noqa: E501
         """Service - a model defined in Swagger
 
         :param name: The name of this Service.  # noqa: E501
@@ -27,13 +27,16 @@ class Service(Model):
         :type timestamp: str
         :param state: The state of this Service.  # noqa: E501
         :type state: str
+        :param output: The output of this Service.  # noqa: E501
+        :type output: str
         """
         self.swagger_types = {
             'name': str,
             'host': str,
             'service': str,
             'timestamp': str,
-            'state': str
+            'state': str,
+            'output': str
         }
 
         self.attribute_map = {
@@ -41,13 +44,15 @@ class Service(Model):
             'host': 'host',
             'service': 'service',
             'timestamp': 'timestamp',
-            'state': 'state'
+            'state': 'state',
+            'output': 'output'
         }
         self._name = name
         self._host = host
         self._service = service
         self._timestamp = timestamp
         self._state = state
+        self._output = output
 
     @classmethod
     def from_dict(cls, dikt) -> 'Service':
@@ -178,3 +183,23 @@ class Service(Model):
             )
 
         self._state = state
+
+    @property
+    def output(self) -> str:
+        """Gets the output of this Service.
+
+
+        :return: The output of this Service.
+        :rtype: str
+        """
+        return self._output
+
+    @output.setter
+    def output(self, output: str):
+        """Sets the output of this Service.
+
+
+        :param output: The output of this Service.
+        :type output: str
+        """
+        self._output = output

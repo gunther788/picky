@@ -15,7 +15,7 @@ class Host(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, name: str=None, messages: Dict[str, int]=None, state: str='UP', timestamp: str=None):  # noqa: E501
+    def __init__(self, name: str=None, messages: Dict[str, int]=None, state: str='UP', output: str='', timestamp: str=None):  # noqa: E501
         """Host - a model defined in Swagger
 
         :param name: The name of this Host.  # noqa: E501
@@ -31,6 +31,7 @@ class Host(Model):
             'name': str,
             'messages': Dict[str, int],
             'state': str,
+            'output': str,
             'timestamp': str
         }
 
@@ -38,11 +39,13 @@ class Host(Model):
             'name': 'name',
             'messages': 'messages',
             'state': 'state',
+            'output': 'output',
             'timestamp': 'timestamp'
         }
         self._name = name
         self._messages = messages
         self._state = state
+        self._output = output
         self._timestamp = timestamp
 
     @classmethod
@@ -128,6 +131,26 @@ class Host(Model):
         self._state = state
 
     @property
+    def output(self) -> str:
+        """Gets the output of this Host.
+
+
+        :return: The output of this Host.
+        :rtype: str
+        """
+        return self._output
+
+    @output.setter
+    def output(self, output: str):
+        """Sets the output of this Host.
+
+
+        :param state: The output of this Host.
+        :type output: str
+        """
+        self._output = output
+
+    @property
     def timestamp(self) -> str:
         """Gets the timestamp of this Host.
 
@@ -178,4 +201,7 @@ class Host(Model):
             msg = f"{states[self.state]} {msg}"
 
         msg = f"{msg} {self.timestamp} {self.name} #" + " #".join(self.messages.keys())
+        if self.state == 'DOWN' and self.output != "":
+            msg = msg + "\n\`" + (self.output)[:80] + "\`"
+
         return msg
