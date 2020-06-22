@@ -5,6 +5,7 @@ import connexion
 from swagger_server import encoder
 from swagger_server.data import CONFIG
 
+
 def main():
     app = connexion.App(__name__, specification_dir='./swagger/')
     app.app.config.update(CONFIG['flask'])

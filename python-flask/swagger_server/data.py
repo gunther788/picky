@@ -9,13 +9,29 @@ from swagger_server.models.channel import Channel
 from swagger_server.models.host import Host
 from swagger_server.models.service import Service
 
+
 CONFIG = configparser.SafeConfigParser()
 CONFIG.read("/data/picky.ini")
-app.logger.info("read '/data/picky.ini'")
+app.logger.info("read /data/picky.ini")
+
 
 def get_timestamp():
     return datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ"))
 
+
+channelfile = '/data/channels.yml'
+
+def save_channels():
+    with open(channelfile, 'w') as file:
+        yaml.dump(CHANNELS, file, explicit_start=True)
+        app.logger.info(f"wrote {channelfile}")
+
+def load_channels():
+    with open(channelfile, 'r') as file:
+        return yaml.full_load(file)
+        app.logger.info(f"read {channelfile}, got {CHANNELS}")
+
+CHANNELS = load_channels()
 
 HOSTS = {
     "ipa1.aidoru.ch": Host.from_dict({
@@ -48,23 +64,3 @@ HOSTS = {
         "timestamp": get_timestamp(),
     }),
 }
-
-
-CHANNELS = {
-    "containers": Channel.from_dict({
-        "name": "containers",
-        "timestamp": get_timestamp(),
-    }),
-    "gold": Channel.from_dict({
-        "name": "gold",
-        "timestamp": get_timestamp(),
-    }),
-    "silver": Channel.from_dict({
-        "name": "silver",
-        "timestamp": get_timestamp(),
-    })
-}
-
-
-with open('/data/cache.yml', 'w') as file:
-    yaml.dump({'CHANNELS': CHANNELS}, file, explicit_start=True)

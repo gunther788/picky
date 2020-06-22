@@ -79,6 +79,3 @@ def hosts_notify(name):
                 # new messages should there be any more
                 if HOSTS[name].all_good:
                     HOSTS[name].messages[channel] = 0
-
-    with open('/data/cache.yml', 'w') as file:
-        yaml.dump({'CHANNELS': CHANNELS}, file, explicit_start=True)

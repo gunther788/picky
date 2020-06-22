@@ -10,7 +10,7 @@ from swagger_server import util
 from swagger_server import data
 from flask import make_response, abort
 
-from swagger_server.data import CHANNELS
+from swagger_server.data import CHANNELS, save_channels
 from swagger_server.sender import channels_notify
 
 
@@ -30,6 +30,7 @@ def channels_create(body):  # noqa: E501
     name = body.name
     if name not in CHANNELS and name is not None:
         CHANNELS[name] = body
+        save_channels()
         channels_notify(name)
         return make_response(
             "{name} successfully created".format(name=name), 201
@@ -56,6 +57,7 @@ def channels_delete(name):  # noqa: E501
     # Does the host to delete exist?
     if name in CHANNELS:
         del CHANNELS[name]
+        save_channels()
         return make_response(
             "{name} successfully deleted".format(name=name), 200
         )
@@ -79,6 +81,7 @@ def channels_read_all(length=None, offset=None):  # noqa: E501
 
     :rtype: List[Channel]
     """
+    app.logger.info(f"channels_read_all({CHANNELS})")
     return [CHANNELS[key] for key in sorted(CHANNELS.keys())]
 
 
@@ -120,3 +123,5 @@ def channels_update(name, body=None):  # noqa: E501
 
     if body.timestamp:
         CHANNELS[name].timestamp = body.timestamp
+
+    save_channels()
