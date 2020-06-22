@@ -50,7 +50,7 @@ class Service(Model):
         self._name = name
         self._host = host
         self._service = service
-        self._timestamp = timestamp
+        self._timestamp = timestamp or datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ"))
         self._state = state
         self._output = output
 

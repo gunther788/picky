@@ -30,6 +30,14 @@ async def send_message(topic, msg_id, message):
         return result.message_id
 
 
+def channels_notify(name):
+    """Take a channel from CHANNELS and make sure it is up and running.
+    """
+    app.logger.info(f"channels_notify('{name}')")
+    if name is not None and name in CHANNELS:
+        asyncio.run(send_message(name, 0, "Welcome to the Machine!"))
+
+
 def hosts_notify(name):
     """Take a host from HOSTS and iterate over its messages dict
     and notify each known channel.
@@ -51,19 +59,19 @@ def hosts_notify(name):
 
                     try:
                         # update the message in place
-                        asyncio.run(send_message(channel, msg_id, host.picky))
+                        asyncio.run(send_message(channel, msg_id, host.picky.replace('\n', ' ')))
                         app.logger.info(f"message had id {msg_id}")
 
                     except Exception as exc:
                         # someone may have deleted the message by now, so let's start
                         # a new one
-                        msg_id = asyncio.run(send_message(channel, 0, host.picky))
+                        msg_id = asyncio.run(send_message(channel, 0, host.picky.replace('\n', ' ')))
                         HOSTS[name].messages[channel] = msg_id
                         app.logger.info(f"new message has id {msg_id} (recovered from {exc})")
 
                 else:
                     # same as above, there's no message so we start a new one
-                    msg_id = asyncio.run(send_message(channel, 0, host.picky))
+                    msg_id = asyncio.run(send_message(channel, 0, host.picky.replace('\n', ' ')))
                     HOSTS[name].messages[channel] = msg_id
                     app.logger.info(f"new message has id {msg_id}")
 

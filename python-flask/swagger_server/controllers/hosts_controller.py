@@ -134,13 +134,23 @@ def hosts_update(name, body=None):  # noqa: E501
     if name not in HOSTS and name is not None:
         return hosts_create(body)
 
+    if body.messages:
+        for channel in HOSTS[name].messages:
+            if channel in body.messages:
+                body.messages[channel] = HOSTS[name].messages[channel]
+        HOSTS[name].messages = body.messages
+
     if body.state:
         HOSTS[name].state = body.state
 
     if body.output:
-        HOSTS[name].output = body.output
+        HOSTS[name].output = body.output.replace('\n', ' ')[:100]
+
+    if body.timestamp:
+        HOSTS[name].timestamp = body.timestamp
 
     hosts_notify(name)
+
     return make_response(
         "{name} successfully updated".format(name=name), 201
     )

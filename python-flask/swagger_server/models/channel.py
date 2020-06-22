@@ -32,7 +32,7 @@ class Channel(Model):
             'timestamp': 'timestamp'
         }
         self._name = name
-        self._timestamp = timestamp
+        self._timestamp = timestamp or datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ"))
 
     @classmethod
     def from_dict(cls, dikt) -> 'Channel':
