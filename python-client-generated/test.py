@@ -6,6 +6,7 @@ from pprint import pprint
 
 configuration = swagger_client.Configuration()
 configuration.debug = True
+configuration.host = "http://localhost:8080"
 
 # create an instance of the API class
 api_client = swagger_client.ApiClient(configuration=configuration)
@@ -14,7 +15,7 @@ api_instance = swagger_client.HostsApi(api_client=api_client)
 name = 'two.example.com' # str | Name of the host to update in the list
 body = swagger_client.Host() # Host |  (optional)
 body.name = 'two.example.com'
-body.messages = dict({"containers": 0})
+body.messages = dict({"ipaservers": 0, "gold": 0})
 body.state = 'UP'
 body.timestamp = "sometime"
 
