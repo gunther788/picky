@@ -14,7 +14,7 @@ class Service(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, name: str=None, host: str=None, service: str=None, timestamp: str=None, state: str='OK', output: str=''):  # noqa: E501
+    def __init__(self, name: str=None, host: str=None, service: str=None, state: str='OK', output: str='', timestamp: str=None):  # noqa: E501
         """Service - a model defined in Swagger
 
         :param name: The name of this Service.  # noqa: E501
@@ -23,36 +23,36 @@ class Service(Model):
         :type host: str
         :param service: The service of this Service.  # noqa: E501
         :type service: str
-        :param timestamp: The timestamp of this Service.  # noqa: E501
-        :type timestamp: str
         :param state: The state of this Service.  # noqa: E501
         :type state: str
         :param output: The output of this Service.  # noqa: E501
         :type output: str
+        :param timestamp: The timestamp of this Service.  # noqa: E501
+        :type timestamp: str
         """
         self.swagger_types = {
             'name': str,
             'host': str,
             'service': str,
-            'timestamp': str,
             'state': str,
-            'output': str
+            'output': str,
+            'timestamp': str
         }
 
         self.attribute_map = {
             'name': 'name',
             'host': 'host',
             'service': 'service',
-            'timestamp': 'timestamp',
             'state': 'state',
-            'output': 'output'
+            'output': 'output',
+            'timestamp': 'timestamp'
         }
         self._name = name
         self._host = host
         self._service = service
-        self._timestamp = timestamp or datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ"))
         self._state = state
         self._output = output
+        self._timestamp = timestamp or datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ"))
 
     @classmethod
     def from_dict(cls, dikt) -> 'Service':
@@ -135,29 +135,6 @@ class Service(Model):
         self._service = service
 
     @property
-    def timestamp(self) -> str:
-        """Gets the timestamp of this Service.
-
-        Last update  # noqa: E501
-
-        :return: The timestamp of this Service.
-        :rtype: str
-        """
-        return self._timestamp
-
-    @timestamp.setter
-    def timestamp(self, timestamp: str):
-        """Sets the timestamp of this Service.
-
-        Last update  # noqa: E501
-
-        :param timestamp: The timestamp of this Service.
-        :type timestamp: str
-        """
-
-        self._timestamp = timestamp
-
-    @property
     def state(self) -> str:
         """Gets the state of this Service.
 
@@ -188,6 +165,7 @@ class Service(Model):
     def output(self) -> str:
         """Gets the output of this Service.
 
+        Output of service check command  # noqa: E501
 
         :return: The output of this Service.
         :rtype: str
@@ -198,8 +176,33 @@ class Service(Model):
     def output(self, output: str):
         """Sets the output of this Service.
 
+        Output of service check command  # noqa: E501
 
         :param output: The output of this Service.
         :type output: str
         """
+
         self._output = output
+
+    @property
+    def timestamp(self) -> str:
+        """Gets the timestamp of this Service.
+
+        Last update  # noqa: E501
+
+        :return: The timestamp of this Service.
+        :rtype: str
+        """
+        return self._timestamp
+
+    @timestamp.setter
+    def timestamp(self, timestamp: str=None):
+        """Sets the timestamp of this Service.
+
+        Last update  # noqa: E501
+
+        :param timestamp: The timestamp of this Service.
+        :type timestamp: str
+        """
+
+        self._timestamp = timestamp or datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ"))

@@ -14,21 +14,26 @@ class Host(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, name: str=None, messages: Dict[str, int]=None, state: str='UP', output: str='', timestamp: str=None):  # noqa: E501
+    def __init__(self, name: str=None, channel: str=None, msg_id: int=0, state: str='UP', output: str='', timestamp: str=None):  # noqa: E501
         """Host - a model defined in Swagger
 
         :param name: The name of this Host.  # noqa: E501
         :type name: str
-        :param messages: The messages of this Host.  # noqa: E501
-        :type messages: Dict[str, int]
+        :param channel: The channel of this Host.  # noqa: E501
+        :type channel: str
+        :param msg_id: The msg_id of this Host.  # noqa: E501
+        :type msg_id: int
         :param state: The state of this Host.  # noqa: E501
         :type state: str
+        :param output: The output of this Host.  # noqa: E501
+        :type output: str
         :param timestamp: The timestamp of this Host.  # noqa: E501
         :type timestamp: str
         """
         self.swagger_types = {
             'name': str,
-            'messages': Dict[str, int],
+            'channel': str,
+            'msg_id': int,
             'state': str,
             'output': str,
             'timestamp': str
@@ -36,13 +41,15 @@ class Host(Model):
 
         self.attribute_map = {
             'name': 'name',
-            'messages': 'messages',
+            'channel': 'channel',
+            'msg_id': 'msg_id',
             'state': 'state',
             'output': 'output',
             'timestamp': 'timestamp'
         }
         self._name = name
-        self._messages = messages
+        self._channel = channel
+        self._msg_id = msg_id
         self._state = state
         self._output = output
         self._timestamp = timestamp or datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ"))
@@ -82,25 +89,50 @@ class Host(Model):
         self._name = name
 
     @property
-    def messages(self) -> Dict[str, int]:
-        """Gets the messages of this Host.
+    def channel(self) -> str:
+        """Gets the channel of this Host.
 
+        Name of the channel to notify  # noqa: E501
 
-        :return: The messages of this Host.
-        :rtype: Dict[str, int]
+        :return: The channel of this Host.
+        :rtype: str
         """
-        return self._messages
+        return self._channel
 
-    @messages.setter
-    def messages(self, messages: Dict[str, int]):
-        """Sets the messages of this Host.
+    @channel.setter
+    def channel(self, channel: str):
+        """Sets the channel of this Host.
 
+        Name of the channel to notify  # noqa: E501
 
-        :param messages: The messages of this Host.
-        :type messages: Dict[str, int]
+        :param channel: The channel of this Host.
+        :type channel: str
         """
 
-        self._messages = messages
+        self._channel = channel
+
+    @property
+    def msg_id(self) -> int:
+        """Gets the msg_id of this Host.
+
+        Message ID in the channel  # noqa: E501
+
+        :return: The msg_id of this Host.
+        :rtype: int
+        """
+        return self._msg_id
+
+    @msg_id.setter
+    def msg_id(self, msg_id: int):
+        """Sets the msg_id of this Host.
+
+        Message ID in the channel  # noqa: E501
+
+        :param msg_id: The msg_id of this Host.
+        :type msg_id: int
+        """
+
+        self._msg_id = msg_id
 
     @property
     def state(self) -> str:
@@ -133,6 +165,7 @@ class Host(Model):
     def output(self) -> str:
         """Gets the output of this Host.
 
+        Output of host check command  # noqa: E501
 
         :return: The output of this Host.
         :rtype: str
@@ -143,10 +176,12 @@ class Host(Model):
     def output(self, output: str):
         """Sets the output of this Host.
 
+        Output of host check command  # noqa: E501
 
-        :param state: The output of this Host.
+        :param output: The output of this Host.
         :type output: str
         """
+
         self._output = output
 
     @property
@@ -161,7 +196,7 @@ class Host(Model):
         return self._timestamp
 
     @timestamp.setter
-    def timestamp(self, timestamp: str):
+    def timestamp(self, timestamp: str=None):
         """Sets the timestamp of this Host.
 
         Last update  # noqa: E501
@@ -170,8 +205,7 @@ class Host(Model):
         :type timestamp: str
         """
 
-        self._timestamp = timestamp
-
+        self._timestamp = timestamp or datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ"))
 
     @property
     def all_good(self) -> bool:

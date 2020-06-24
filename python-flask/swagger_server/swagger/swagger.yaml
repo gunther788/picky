@@ -2,133 +2,10 @@ openapi: 3.0.0
 info:
   title: 'PICKY: Python ICinga2 to KeYbase'
   description: A Bridge between Icinga2's Notifications and Keybase
-  version: 1.0.3
+  version: 1.1.0
 servers:
 - url: https://localhost/
 paths:
-  /channels:
-    get:
-      tags:
-      - Channels
-      summary: Read the entire channels list
-      description: Read the channels lists
-      operationId: channels_read_all
-      parameters:
-      - name: length
-        in: query
-        description: Number of channels to get from channels
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: integer
-      - name: offset
-        in: query
-        description: Offset from beginning of list where to start gathering channels
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: integer
-      responses:
-        "200":
-          description: Successfully read channel list operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/channel'
-                x-content-type: application/json
-      x-swagger-router-controller: swagger_server.controllers.channels_controller
-      x-openapi-router-controller: swagger_server.controllers.channels_controller
-    post:
-      tags:
-      - Channels
-      summary: Create a channel and add it to the channels list
-      description: Create a new channel in the channels list
-      operationId: channels_create
-      requestBody:
-        description: Channel to create
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/channel'
-        required: true
-      responses:
-        "201":
-          description: Successfully created a channel in list
-      x-swagger-router-controller: swagger_server.controllers.channels_controller
-      x-openapi-router-controller: swagger_server.controllers.channels_controller
-  /channels/{name}:
-    get:
-      tags:
-      - Channels
-      summary: Read one channel from the channels list
-      description: Read one channel from the channels list
-      operationId: channels_read_one
-      parameters:
-      - name: name
-        in: path
-        description: Name of the channel to get from the list
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: Successfully read channel from channels list operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/channel'
-      x-swagger-router-controller: swagger_server.controllers.channels_controller
-      x-openapi-router-controller: swagger_server.controllers.channels_controller
-    put:
-      tags:
-      - Channels
-      summary: Update a channel in the channels list
-      description: Update a channel in the channels list
-      operationId: channels_update
-      parameters:
-      - name: name
-        in: path
-        description: Name of the channel to update in the list
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/channel'
-      responses:
-        "200":
-          description: Successfully updated channel in channels list
-      x-swagger-router-controller: swagger_server.controllers.channels_controller
-      x-openapi-router-controller: swagger_server.controllers.channels_controller
-    delete:
-      tags:
-      - Channels
-      summary: Delete a channel from the channels list
-      description: Delete a channel
-      operationId: channels_delete
-      parameters:
-      - name: name
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: Successfully deleted a channel from channels list
-      x-swagger-router-controller: swagger_server.controllers.channels_controller
-      x-openapi-router-controller: swagger_server.controllers.channels_controller
   /hosts:
     get:
       tags:
@@ -396,28 +273,19 @@ paths:
       x-openapi-router-controller: swagger_server.controllers.services_controller
 components:
   schemas:
-    channel:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of channel
-        timestamp:
-          type: string
-          description: Last update
-      example:
-        name: webservers
-        timestamp: timestamp
     host:
       type: object
       properties:
         name:
           type: string
           description: Name of host to create
-        messages:
-          type: object
-          additionalProperties:
-            type: integer
+        channel:
+          type: string
+          description: Name of the channel to notify
+        msg_id:
+          type: integer
+          description: Message ID in the channel
+          default: 0
         state:
           type: string
           default: UP
@@ -426,17 +294,17 @@ components:
           - DOWN
         output:
           type: string
-          default: ""
           description: Output of host check command
+          default: ""
         timestamp:
           type: string
           description: Last update
+          default: now
       example:
-        messages:
-          webservers: 0
-          production: 0
         name: hostname.example.com
-        state: UP
+        channel: webservers
+        msg_id: 0
+        state: DOWN
         timestamp: timestamp
     service:
       type: object
@@ -450,9 +318,6 @@ components:
         service:
           type: string
           description: Short name of the service
-        timestamp:
-          type: string
-          description: Last update
         state:
           type: string
           default: OK
@@ -463,11 +328,17 @@ components:
           - UNKNOWN
         output:
           type: string
-          default: ""
           description: Output of service check command
+          default: ""
+        timestamp:
+          type: string
+          description: Last update
+          default: now
       example:
-        service: https
         name: hostname.example.com!https
         host: hostname.example.com
+        service: https
         state: OK
-        timestamp: timestamp
+        output: some output of the service check
+        timestamp: now
+
