@@ -34,7 +34,7 @@ def hosts_create(body):  # noqa: E501
         return make_response(f"{body.name} in {body.channel} successfully created", 201)
 
     else:
-        abort(f"Host with name {body.name} and channel {body.channel} already exists", 406)
+        return make_response(f"Host with name {body.name} and channel {body.channel} already exists", 406)
 
 
 def hosts_delete(key):  # noqa: E501
@@ -57,7 +57,7 @@ def hosts_delete(key):  # noqa: E501
 
     # Otherwise, nope, host to delete not found
     else:
-        abort("Entry {key} not found", 404)
+        return make_response(f"Entry {key} not found", 404)
 
 
 def hosts_patch(key):  # noqa: E501
@@ -104,7 +104,7 @@ def hosts_read_one(key):  # noqa: E501
 
     # Otherwise, nope, host to delete not found
     else:
-        abort("Host with key {key} not found", 404)
+        return make_response(f"Host with key {key} not found", 404)
 
 
 def hosts_update(key, body=None):  # noqa: E501
@@ -127,11 +127,11 @@ def hosts_update(key, body=None):  # noqa: E501
 
     host = HOSTS[key]
 
-    if body.messages:
-        for channel in host.messages:
-            if channel in body.messages:
-                body.messages[channel] = host.messages[channel]
-        host.messages = body.messages
+    if body.channel:
+        body.channel = host.channel
+
+    if body.msg_id:
+        body.msg_id = host.msg_id
 
     if body.state:
         host.state = body.state

@@ -233,8 +233,8 @@ class Host(Model):
         if self.state in states:
             msg = f"{states[self.state]} {msg}"
 
-        msg = f"{msg} {self.timestamp} {self.name} #" + " #".join(self.messages.keys())
-        if self.state == 'DOWN' and self.output != "":
+        msg = f"{msg} {self.timestamp} {self.name}"
+        if self.state == 'DOWN' and self.output is not None and self.output != "":
             msg = msg + f"\n`{self.output}`"
 
         return msg

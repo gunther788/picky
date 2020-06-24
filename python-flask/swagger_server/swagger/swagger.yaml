@@ -60,7 +60,7 @@ paths:
           description: Successfully created host in list
       x-swagger-router-controller: swagger_server.controllers.hosts_controller
       x-openapi-router-controller: swagger_server.controllers.hosts_controller
-  /hosts/{name}:
+  /hosts/{key}:
     get:
       tags:
       - Hosts
@@ -68,9 +68,9 @@ paths:
       description: Read one host from the hosts list
       operationId: hosts_read_one
       parameters:
-      - name: name
+      - name: key
         in: path
-        description: Name of the host to get from the list
+        description: Channel!Name of the host to get from the list
         required: true
         style: simple
         explode: false
@@ -92,9 +92,9 @@ paths:
       description: Update a host in the hosts list
       operationId: hosts_update
       parameters:
-      - name: name
+      - name: key
         in: path
-        description: Name of the host to update in the list
+        description: Channel!Name of the host to update in the list
         required: true
         style: simple
         explode: false
@@ -117,8 +117,9 @@ paths:
       description: Delete a host
       operationId: hosts_delete
       parameters:
-      - name: name
+      - name: key
         in: path
+        description: Channel!Name of the host to delete from the list
         required: true
         style: simple
         explode: false
@@ -136,8 +137,9 @@ paths:
       description: Rebuild the services list of a host
       operationId: hosts_patch
       parameters:
-      - name: name
+      - name: key
         in: path
+        description: Channel!Name of the host to update in the list
         required: true
         style: simple
         explode: false
@@ -202,7 +204,7 @@ paths:
           description: Successfully created service in list
       x-swagger-router-controller: swagger_server.controllers.services_controller
       x-openapi-router-controller: swagger_server.controllers.services_controller
-  /services/{name}:
+  /services/{key}:
     get:
       tags:
       - Services
@@ -210,9 +212,9 @@ paths:
       description: Read one service from the services list
       operationId: services_read_one
       parameters:
-      - name: name
+      - name: key
         in: path
-        description: Name of the service to get from the list
+        description: Host!Service key of the service to get from the list
         required: true
         style: simple
         explode: false
@@ -234,9 +236,9 @@ paths:
       description: Update a service in the services list
       operationId: services_update
       parameters:
-      - name: name
+      - name: key
         in: path
-        description: Name of the service to update in the list
+        description: Host!Service key of the service to update in the list
         required: true
         style: simple
         explode: false
@@ -259,8 +261,9 @@ paths:
       description: Delete a service
       operationId: services_delete
       parameters:
-      - name: name
+      - name: key
         in: path
+        description: Host!Service key of the service to delete from the list
         required: true
         style: simple
         explode: false
@@ -295,7 +298,7 @@ components:
         output:
           type: string
           description: Output of host check command
-          default: ""
+          default: None
         timestamp:
           type: string
           description: Last update
@@ -305,17 +308,15 @@ components:
         channel: webservers
         msg_id: 0
         state: DOWN
+        output: some output of the host check
         timestamp: timestamp
     service:
       type: object
       properties:
-        name:
-          type: string
-          description: Name of service, host!service format
         host:
           type: string
           description: Host this service runs on
-        service:
+        name:
           type: string
           description: Short name of the service
         state:
@@ -333,11 +334,10 @@ components:
         timestamp:
           type: string
           description: Last update
-          default: now
+          default: ""
       example:
-        name: hostname.example.com!https
         host: hostname.example.com
-        service: https
+        name: https
         state: OK
         output: some output of the service check
         timestamp: now
