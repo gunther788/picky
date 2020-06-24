@@ -1,3 +1,6 @@
+from flask import Flask
+app = Flask(__name__)
+
 import connexion
 import six
 
@@ -6,36 +9,8 @@ from swagger_server import util
 from swagger_server import data
 from flask import make_response, abort
 
-from swagger_server.data import send_message, HOSTS, CHANNELS
-import logging
-import asyncio
-
-
-def hosts_notify(name):
-    """Take a host from HOSTS and iterate over its messages dict
-    and notify each known channel.
-    """
-    logging.info(f"hosts_notify({name})")
-    if name is not None and name in HOSTS:
-        host = HOSTS[name]
-        logging.info(f"hosts_notify({name}) has {host.messages}")
-
-        for channel in CHANNELS:
-            logging.info(f"hosts_notify checking {channel}")
-
-            if channel in host.messages:
-                logging.info(f"hosts_notify {channel} matches {host.messages}")
-
-                msg_id = host.messages[channel]
-                if msg_id > 0:
-                    asyncio.run(send_message(channel, msg_id, f"{host}"))
-                    logging.info(f"new message had id {msg_id}")
-
-                else:
-                    msg_id = asyncio.run(send_message(channel, 0, f"{host}"))
-                    HOSTS[name].messages[channel] = msg_id
-                    logging.info(f"new message has id {msg_id}")
-
+from swagger_server.data import HOSTS
+from swagger_server.sender import hosts_notify
 
 
 def hosts_create(body):  # noqa: E501
@@ -51,54 +26,47 @@ def hosts_create(body):  # noqa: E501
     if connexion.request.is_json:
         body = Host.from_dict(connexion.request.get_json())  # noqa: E501
 
-    logging.info(f"hosts_create({body})")
-    name = body.name
-    if name not in HOSTS and name is not None:
-        HOSTS[name] = body
-        hosts_notify(name)
-        return make_response(
-            "{name} successfully created".format(name=name), 201
-        )
+    app.logger.info(f"hosts_create({body})")
+    key = f"{body.channel}!{body.name}"
+    if key not in HOSTS:
+        HOSTS[key] = body
+        hosts_notify(key)
+        return make_response(f"{body.name} in {body.channel} successfully created", 201)
 
-    # Otherwise, they exist, that's an error
     else:
-        abort(
-            406,
-            "Host with name {name} already exists".format(name=name),
-        )
+        return make_response(f"Host with name {body.name} and channel {body.channel} already exists", 406)
 
 
-def hosts_delete(name):  # noqa: E501
+def hosts_delete(key):  # noqa: E501
     """Delete a host from the hosts list
 
     Delete a host # noqa: E501
 
-    :param name:
-    :type name: str
+    :param key: Channel!Name of the host to delete from the list
+    :type key: str
 
     :rtype: None
     """
     # Does the host to delete exist?
-    if name in HOSTS:
-        del HOSTS[name]
-        return make_response(
-            "{name} successfully deleted".format(name=name), 200
-        )
+    if key in HOSTS:
+        host = HOSTS[key]
+        name = host.name
+        channel = host.channel
+        del HOSTS[key]
+        return make_response(f"{name} in {channel} successfully deleted", 200)
 
     # Otherwise, nope, host to delete not found
     else:
-        abort(
-            404, "Host with name {name} not found".format(name=name)
-        )
+        return make_response(f"Entry {key} not found", 404)
 
 
-def hosts_patch(name):  # noqa: E501
+def hosts_patch(key):  # noqa: E501
     """Rebuild the services list of a host
 
     Rebuild the services list of a host # noqa: E501
 
-    :param name:
-    :type name: str
+    :param key: Channel!Name of the host to update in the list
+    :type key: str
 
     :rtype: None
     """
@@ -120,26 +88,32 @@ def hosts_read_all(length=None, offset=None):  # noqa: E501
     return [HOSTS[key] for key in sorted(HOSTS.keys())]
 
 
-def hosts_read_one(name):  # noqa: E501
+def hosts_read_one(key):  # noqa: E501
     """Read one host from the hosts list
 
     Read one host from the hosts list # noqa: E501
 
-    :param name: Name of the host to get from the list
-    :type name: str
+    :param key: Channel!Name of the host to get from the list
+    :type key: str
 
     :rtype: Host
     """
-    return 'do some magic!'
+    # Does the host to delete exist?
+    if key in HOSTS:
+        return HOSTS[key]
+
+    # Otherwise, nope, host to delete not found
+    else:
+        return make_response(f"Host with key {key} not found", 404)
 
 
-def hosts_update(name, body=None):  # noqa: E501
+def hosts_update(key, body=None):  # noqa: E501
     """Update a host in the hosts list
 
     Update a host in the hosts list # noqa: E501
 
-    :param name: Name of the host to update in the list
-    :type name: str
+    :param key: Channel!Name of the host to update in the list
+    :type key: str
     :param body:
     :type body: dict | bytes
 
@@ -147,4 +121,27 @@ def hosts_update(name, body=None):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Host.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+
+    if key not in HOSTS and key is not None:
+        return hosts_create(body)
+
+    host = HOSTS[key]
+
+    if body.channel:
+        body.channel = host.channel
+
+    if body.msg_id:
+        body.msg_id = host.msg_id
+
+    if body.state:
+        host.state = body.state
+
+    if body.output:
+        host.output = body.output.replace('\n', ' ')[:100]
+
+    if body.timestamp:
+        host.timestamp = body.timestamp
+
+    hosts_notify(key)
+
+    return make_response(f"{key} successfully updated", 201)

@@ -1,4 +1,4 @@
-FROM keybaseio/client:stable-python
+FROM keybaseio/client:stable-python-slim
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
@@ -10,9 +10,12 @@ RUN pip3 install connexion[swagger-ui]
 
 COPY . /usr/src/app
 
+COPY ./defaults /data
+VOLUME /data
+
 EXPOSE 8080
 
+COPY entrypoint.sh /usr/bin/entrypoint.sh
+
 # uses tini's entrypoint
-# CMD ["python3", "customclient.py"]
-# CMD ["python3", "sample.py"]
-CMD ["python3", "-m", "swagger_server"]
+CMD ["sh", "-x", "startup.sh" ]

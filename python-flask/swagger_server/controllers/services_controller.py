@@ -20,13 +20,13 @@ def services_create(body):  # noqa: E501
     return 'do some magic!'
 
 
-def services_delete(name):  # noqa: E501
+def services_delete(key):  # noqa: E501
     """Delete a service from the services list
 
     Delete a service # noqa: E501
 
-    :param name: 
-    :type name: str
+    :param key: Host!Service key of the service to delete from the list
+    :type key: str
 
     :rtype: None
     """
@@ -48,26 +48,26 @@ def services_read_all(length=None, offset=None):  # noqa: E501
     return 'do some magic!'
 
 
-def services_read_one(name):  # noqa: E501
+def services_read_one(key):  # noqa: E501
     """Read one service from the services list
 
     Read one service from the services list # noqa: E501
 
-    :param name: Name of the service to get from the list
-    :type name: str
+    :param key: Host!Service key of the service to get from the list
+    :type key: str
 
     :rtype: Service
     """
     return 'do some magic!'
 
 
-def services_update(name, body=None):  # noqa: E501
+def services_update(key, body=None):  # noqa: E501
     """Update a service in the services list
 
     Update a service in the services list # noqa: E501
 
-    :param name: Name of the service to update in the list
-    :type name: str
+    :param key: Host!Service key of the service to update in the list
+    :type key: str
     :param body: 
     :type body: dict | bytes
 
