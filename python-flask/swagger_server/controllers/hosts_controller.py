@@ -25,7 +25,7 @@ def hosts_delete(name, channel):  # noqa: E501
 
     Delete a host # noqa: E501
 
-    :param name: Channel!Name of the host to delete from the list
+    :param name: Name of the host to delete from the list
     :type name: str
     :param channel: Channel being notified for this host
     :type channel: str

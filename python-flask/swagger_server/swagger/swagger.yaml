@@ -160,7 +160,7 @@ paths:
       parameters:
       - name: name
         in: path
-        description: Channel!Name of the host to delete from the list
+        description: Name of the host to delete from the list
         required: true
         style: simple
         explode: false
