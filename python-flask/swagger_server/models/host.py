@@ -14,7 +14,7 @@ class Host(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, name: str=None, channel: str=None, msg_id: int=0, state: str='UP', output: str='', timestamp: str=None):  # noqa: E501
+    def __init__(self, name: str=None, channel: str=None, msg_id: int=0, state: str='UP', output: str='', timestamp: str='now'):  # noqa: E501
         """Host - a model defined in Swagger
 
         :param name: The name of this Host.  # noqa: E501
@@ -52,7 +52,7 @@ class Host(Model):
         self._msg_id = msg_id
         self._state = state
         self._output = output
-        self._timestamp = timestamp or datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ"))
+        self._timestamp = timestamp
 
     @classmethod
     def from_dict(cls, dikt) -> 'Host':
@@ -196,7 +196,7 @@ class Host(Model):
         return self._timestamp
 
     @timestamp.setter
-    def timestamp(self, timestamp: str=None):
+    def timestamp(self, timestamp: str):
         """Sets the timestamp of this Host.
 
         Last update  # noqa: E501
@@ -205,36 +205,4 @@ class Host(Model):
         :type timestamp: str
         """
 
-        self._timestamp = timestamp or datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ"))
-
-    @property
-    def all_good(self) -> bool:
-        """Tests for all states UP / OK
-
-        :rtype: bool
-        """
-        return self.state == 'UP'
-
-
-    @property
-    def picky(self) -> str:
-        """Returns a formatted one-liner
-        that can be chatted in keybase
-
-        :rtype: str
-        """
-        msg = ""
-
-        states = {
-            'UP': '🟩',
-            'DOWN': '🟥',
-        }
-
-        if self.state in states:
-            msg = f"{states[self.state]} {msg}"
-
-        msg = f"{msg} {self.timestamp} {self.name}"
-        if self.state == 'DOWN' and self.output is not None and self.output != "":
-            msg = msg + f"\n`{self.output}`"
-
-        return msg
+        self._timestamp = timestamp
