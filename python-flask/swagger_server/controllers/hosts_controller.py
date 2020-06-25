@@ -14,9 +14,9 @@ from swagger_server.sender import hosts_notify
 
 
 def hosts_create(body):  # noqa: E501
-    """Create a host and add it to the hosts list
+    """Create a host and add it to the hosts-channel list
 
-    Create a new host in the hosts list # noqa: E501
+    Create a new host in the hosts-channel list # noqa: E501
 
     :param body: Host to create
     :type body: dict | bytes
@@ -27,7 +27,7 @@ def hosts_create(body):  # noqa: E501
         body = Host.from_dict(connexion.request.get_json())  # noqa: E501
 
     app.logger.info(f"hosts_create({body})")
-    key = f"{body.channel}!{body.name}"
+    key = f"{body.name}/{body.channel}"
     if key not in HOSTS:
         HOSTS[key] = body
         hosts_notify(key)
@@ -37,21 +37,23 @@ def hosts_create(body):  # noqa: E501
         return make_response(f"Host with name {body.name} and channel {body.channel} already exists", 406)
 
 
-def hosts_delete(key):  # noqa: E501
-    """Delete a host from the hosts list
+def hosts_delete(name, channel):  # noqa: E501
+    """Delete a host from the hosts-channel list
 
     Delete a host # noqa: E501
 
-    :param key: Channel!Name of the host to delete from the list
-    :type key: str
+    :param name: Name of the host to delete from the list
+    :type name: str
+    :param channel: Channel being notified for this host
+    :type channel: str
 
     :rtype: None
     """
+    app.logger.info(f"hosts_delete({name}, {channel})")
+    key = f"{name}/{channel}"
+
     # Does the host to delete exist?
     if key in HOSTS:
-        host = HOSTS[key]
-        name = host.name
-        channel = host.channel
         del HOSTS[key]
         return make_response(f"{name} in {channel} successfully deleted", 200)
 
@@ -60,23 +62,26 @@ def hosts_delete(key):  # noqa: E501
         return make_response(f"Entry {key} not found", 404)
 
 
-def hosts_patch(key):  # noqa: E501
-    """Rebuild the services list of a host
+def hosts_patch(name, channel):  # noqa: E501
+    """Rebuild the services list of a hosts-channel entry
 
-    Rebuild the services list of a host # noqa: E501
+    Rebuild the services list of a hosts-channel entry # noqa: E501
 
-    :param key: Channel!Name of the host to update in the list
-    :type key: str
+    :param name: Name of the host to update in the list
+    :type name: str
+    :param channel: Channel being notified for this host
+    :type channel: str
 
     :rtype: None
     """
+    app.logger.info(f"hosts_patch({name}, {channel})")
     return 'do some magic!'
 
 
 def hosts_read_all(length=None, offset=None):  # noqa: E501
-    """Read the entire hosts list
+    """Read the entire hosts-channel list
 
-    Read the hosts list # noqa: E501
+    Read the hosts-channel list # noqa: E501
 
     :param length: Number of hosts to get from hosts
     :type length: int
@@ -85,35 +90,55 @@ def hosts_read_all(length=None, offset=None):  # noqa: E501
 
     :rtype: List[Host]
     """
+    app.logger.info(f"hosts_read_all()")
     return [HOSTS[key] for key in sorted(HOSTS.keys())]
 
 
-def hosts_read_one(key):  # noqa: E501
-    """Read one host from the hosts list
+def hosts_read_one_host(name):  # noqa: E501
+    """Read one host from the hosts list across all channels
 
-    Read one host from the hosts list # noqa: E501
+    Read one host from the hosts list across all channels # noqa: E501
 
-    :param key: Channel!Name of the host to get from the list
-    :type key: str
+    :param name: Name of the host to get from the list
+    :type name: str
 
     :rtype: Host
     """
-    # Does the host to delete exist?
+    app.logger.info(f"hosts_read_one_host({name})")
+    return [HOSTS[key] for key in sorted(HOSTS.keys()) if key.startswith(name + '/')]
+
+
+def hosts_read_one_host_channel(name, channel):  # noqa: E501
+    """Read one entry from the hosts-channel list
+
+    Read one entry from the hosts-channel list # noqa: E501
+
+    :param name: Name of the host to get from the list
+    :type name: str
+    :param channel: Channel being notified for this host
+    :type channel: str
+
+    :rtype: Host
+    """
+    app.logger.info(f"hosts_read_one_host_channel({name}, {channel})")
+    key = f"{name}/{channel}"
+
     if key in HOSTS:
         return HOSTS[key]
 
-    # Otherwise, nope, host to delete not found
     else:
         return make_response(f"Host with key {key} not found", 404)
 
 
-def hosts_update(key, body=None):  # noqa: E501
-    """Update a host in the hosts list
+def hosts_update(name, channel, body=None):  # noqa: E501
+    """Update a host in the hosts-channel list
 
-    Update a host in the hosts list # noqa: E501
+    Update a host in the hosts-channel list # noqa: E501
 
-    :param key: Channel!Name of the host to update in the list
-    :type key: str
+    :param name: Name of the host to update in the list
+    :type name: str
+    :param channel: Channel being notified for this host
+    :type channel: str
     :param body:
     :type body: dict | bytes
 
@@ -121,6 +146,8 @@ def hosts_update(key, body=None):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Host.from_dict(connexion.request.get_json())  # noqa: E501
+
+    key = f"{name}/{channel}"
 
     if key not in HOSTS and key is not None:
         return hosts_create(body)
@@ -143,5 +170,4 @@ def hosts_update(key, body=None):  # noqa: E501
         host.timestamp = body.timestamp
 
     hosts_notify(key)
-
     return make_response(f"{key} successfully updated", 201)

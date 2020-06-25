@@ -215,7 +215,6 @@ class Host(Model):
         """
         return self.state == 'UP'
 
-
     @property
     def picky(self) -> str:
         """Returns a formatted one-liner

@@ -20,54 +20,58 @@ def services_create(body):  # noqa: E501
     return 'do some magic!'
 
 
-def services_delete(key):  # noqa: E501
+def services_delete(host, name):  # noqa: E501
     """Delete a service from the services list
 
     Delete a service # noqa: E501
 
-    :param key: Host!Service key of the service to delete from the list
-    :type key: str
+    :param host: Host of the service to delete from the list
+    :type host: str
+    :param name: Name of the service to delete the list
+    :type name: str
 
     :rtype: None
     """
     return 'do some magic!'
 
 
-def services_read_all(length=None, offset=None):  # noqa: E501
-    """Read the entire services list
+def services_read_all(host):  # noqa: E501
+    """Read all services from one host
 
-    Read the services list # noqa: E501
+    Read all services from one host # noqa: E501
 
-    :param length: Number of services to get from services
-    :type length: int
-    :param offset: Offset from beginning of list where to start gathering services
-    :type offset: int
-
-    :rtype: List[Service]
-    """
-    return 'do some magic!'
-
-
-def services_read_one(key):  # noqa: E501
-    """Read one service from the services list
-
-    Read one service from the services list # noqa: E501
-
-    :param key: Host!Service key of the service to get from the list
-    :type key: str
+    :param host: Host of the service to get from the list
+    :type host: str
 
     :rtype: Service
     """
     return 'do some magic!'
 
 
-def services_update(key, body=None):  # noqa: E501
+def services_read_one(host, name):  # noqa: E501
+    """Read one service from the services list
+
+    Read one service from the services list # noqa: E501
+
+    :param host: Host of the service to get from the list
+    :type host: str
+    :param name: Name of the service to get from the list
+    :type name: str
+
+    :rtype: Service
+    """
+    return 'do some magic!'
+
+
+def services_update(host, name, body=None):  # noqa: E501
     """Update a service in the services list
 
     Update a service in the services list # noqa: E501
 
-    :param key: Host!Service key of the service to update in the list
-    :type key: str
+    :param host: Host of the service to update in the list
+    :type host: str
+    :param name: Name of the service to update in the list
+    :type name: str
     :param body: 
     :type body: dict | bytes
 

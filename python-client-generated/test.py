@@ -16,9 +16,10 @@ body = swagger_client.Host() # Host |  (optional)
 body.name = 'two.example.com'
 body.channel = 'gold'
 body.state = 'DOWN'
+body.output = 'hm - no idea what happened...\nsecond line!'
 
 try:
     # Update a host in the hosts list
-    api_instance.hosts_update(f"{body.channel}!{body.name}", body=body)
+    api_instance.hosts_update(body.name, body.channel, body=body)
 except ApiException as e:
     print("Exception when calling HostsApi->hosts_update: %s\n" % e)

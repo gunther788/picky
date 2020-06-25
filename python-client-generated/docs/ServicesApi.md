@@ -5,10 +5,10 @@ All URIs are relative to *https://localhost/*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**services_create**](ServicesApi.md#services_create) | **POST** /services | Create a service and add it to the services list
-[**services_delete**](ServicesApi.md#services_delete) | **DELETE** /services/{key} | Delete a service from the services list
-[**services_read_all**](ServicesApi.md#services_read_all) | **GET** /services | Read the entire services list
-[**services_read_one**](ServicesApi.md#services_read_one) | **GET** /services/{key} | Read one service from the services list
-[**services_update**](ServicesApi.md#services_update) | **PUT** /services/{key} | Update a service in the services list
+[**services_delete**](ServicesApi.md#services_delete) | **DELETE** /services/{host}/{name} | Delete a service from the services list
+[**services_read_all**](ServicesApi.md#services_read_all) | **GET** /services/{host} | Read all services from one host
+[**services_read_one**](ServicesApi.md#services_read_one) | **GET** /services/{host}/{name} | Read one service from the services list
+[**services_update**](ServicesApi.md#services_update) | **PUT** /services/{host}/{name} | Update a service in the services list
 
 # **services_create**
 > services_create(body)
@@ -58,7 +58,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **services_delete**
-> services_delete(key)
+> services_delete(host, name)
 
 Delete a service from the services list
 
@@ -74,11 +74,12 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.ServicesApi()
-key = 'key_example' # str | Host!Service key of the service to delete from the list
+host = 'host_example' # str | Host of the service to delete from the list
+name = 'name_example' # str | Name of the service to delete the list
 
 try:
     # Delete a service from the services list
-    api_instance.services_delete(key)
+    api_instance.services_delete(host, name)
 except ApiException as e:
     print("Exception when calling ServicesApi->services_delete: %s\n" % e)
 ```
@@ -87,7 +88,8 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **key** | **str**| Host!Service key of the service to delete from the list | 
+ **host** | **str**| Host of the service to delete from the list | 
+ **name** | **str**| Name of the service to delete the list | 
 
 ### Return type
 
@@ -105,11 +107,11 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **services_read_all**
-> list[Service] services_read_all(length=length, offset=offset)
+> Service services_read_all(host)
 
-Read the entire services list
+Read all services from one host
 
-Read the services list
+Read all services from one host
 
 ### Example
 ```python
@@ -121,12 +123,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.ServicesApi()
-length = 56 # int | Number of services to get from services (optional)
-offset = 56 # int | Offset from beginning of list where to start gathering services (optional)
+host = 'host_example' # str | Host of the service to get from the list
 
 try:
-    # Read the entire services list
-    api_response = api_instance.services_read_all(length=length, offset=offset)
+    # Read all services from one host
+    api_response = api_instance.services_read_all(host)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling ServicesApi->services_read_all: %s\n" % e)
@@ -136,12 +137,11 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **length** | **int**| Number of services to get from services | [optional] 
- **offset** | **int**| Offset from beginning of list where to start gathering services | [optional] 
+ **host** | **str**| Host of the service to get from the list | 
 
 ### Return type
 
-[**list[Service]**](Service.md)
+[**Service**](Service.md)
 
 ### Authorization
 
@@ -155,7 +155,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **services_read_one**
-> Service services_read_one(key)
+> Service services_read_one(host, name)
 
 Read one service from the services list
 
@@ -171,11 +171,12 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.ServicesApi()
-key = 'key_example' # str | Host!Service key of the service to get from the list
+host = 'host_example' # str | Host of the service to get from the list
+name = 'name_example' # str | Name of the service to get from the list
 
 try:
     # Read one service from the services list
-    api_response = api_instance.services_read_one(key)
+    api_response = api_instance.services_read_one(host, name)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling ServicesApi->services_read_one: %s\n" % e)
@@ -185,7 +186,8 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **key** | **str**| Host!Service key of the service to get from the list | 
+ **host** | **str**| Host of the service to get from the list | 
+ **name** | **str**| Name of the service to get from the list | 
 
 ### Return type
 
@@ -203,7 +205,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **services_update**
-> services_update(key, body=body)
+> services_update(host, name, body=body)
 
 Update a service in the services list
 
@@ -219,12 +221,13 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.ServicesApi()
-key = 'key_example' # str | Host!Service key of the service to update in the list
+host = 'host_example' # str | Host of the service to update in the list
+name = 'name_example' # str | Name of the service to update in the list
 body = swagger_client.Service() # Service |  (optional)
 
 try:
     # Update a service in the services list
-    api_instance.services_update(key, body=body)
+    api_instance.services_update(host, name, body=body)
 except ApiException as e:
     print("Exception when calling ServicesApi->services_update: %s\n" % e)
 ```
@@ -233,7 +236,8 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **key** | **str**| Host!Service key of the service to update in the list | 
+ **host** | **str**| Host of the service to update in the list | 
+ **name** | **str**| Name of the service to update in the list | 
  **body** | [**Service**](Service.md)|  | [optional] 
 
 ### Return type
