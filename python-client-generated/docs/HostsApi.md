@@ -5,11 +5,11 @@ All URIs are relative to *https://localhost/*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**hosts_create**](HostsApi.md#hosts_create) | **POST** /hosts | Create a host and add it to the hosts list
-[**hosts_delete**](HostsApi.md#hosts_delete) | **DELETE** /hosts/{name} | Delete a host from the hosts list
-[**hosts_patch**](HostsApi.md#hosts_patch) | **PATCH** /hosts/{name} | Rebuild the services list of a host
+[**hosts_delete**](HostsApi.md#hosts_delete) | **DELETE** /hosts/{key} | Delete a host from the hosts list
+[**hosts_patch**](HostsApi.md#hosts_patch) | **PATCH** /hosts/{key} | Rebuild the services list of a host
 [**hosts_read_all**](HostsApi.md#hosts_read_all) | **GET** /hosts | Read the entire hosts list
-[**hosts_read_one**](HostsApi.md#hosts_read_one) | **GET** /hosts/{name} | Read one host from the hosts list
-[**hosts_update**](HostsApi.md#hosts_update) | **PUT** /hosts/{name} | Update a host in the hosts list
+[**hosts_read_one**](HostsApi.md#hosts_read_one) | **GET** /hosts/{key} | Read one host from the hosts list
+[**hosts_update**](HostsApi.md#hosts_update) | **PUT** /hosts/{key} | Update a host in the hosts list
 
 # **hosts_create**
 > hosts_create(body)
@@ -59,7 +59,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **hosts_delete**
-> hosts_delete(name)
+> hosts_delete(key)
 
 Delete a host from the hosts list
 
@@ -75,11 +75,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.HostsApi()
-name = 'name_example' # str | 
+key = 'key_example' # str | Channel!Name of the host to delete from the list
 
 try:
     # Delete a host from the hosts list
-    api_instance.hosts_delete(name)
+    api_instance.hosts_delete(key)
 except ApiException as e:
     print("Exception when calling HostsApi->hosts_delete: %s\n" % e)
 ```
@@ -88,7 +88,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **name** | **str**|  | 
+ **key** | **str**| Channel!Name of the host to delete from the list | 
 
 ### Return type
 
@@ -106,7 +106,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **hosts_patch**
-> hosts_patch(name)
+> hosts_patch(key)
 
 Rebuild the services list of a host
 
@@ -122,11 +122,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.HostsApi()
-name = 'name_example' # str | 
+key = 'key_example' # str | Channel!Name of the host to update in the list
 
 try:
     # Rebuild the services list of a host
-    api_instance.hosts_patch(name)
+    api_instance.hosts_patch(key)
 except ApiException as e:
     print("Exception when calling HostsApi->hosts_patch: %s\n" % e)
 ```
@@ -135,7 +135,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **name** | **str**|  | 
+ **key** | **str**| Channel!Name of the host to update in the list | 
 
 ### Return type
 
@@ -203,7 +203,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **hosts_read_one**
-> Host hosts_read_one(name)
+> Host hosts_read_one(key)
 
 Read one host from the hosts list
 
@@ -219,11 +219,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.HostsApi()
-name = 'name_example' # str | Name of the host to get from the list
+key = 'key_example' # str | Channel!Name of the host to get from the list
 
 try:
     # Read one host from the hosts list
-    api_response = api_instance.hosts_read_one(name)
+    api_response = api_instance.hosts_read_one(key)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling HostsApi->hosts_read_one: %s\n" % e)
@@ -233,7 +233,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **name** | **str**| Name of the host to get from the list | 
+ **key** | **str**| Channel!Name of the host to get from the list | 
 
 ### Return type
 
@@ -251,7 +251,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **hosts_update**
-> hosts_update(name, body=body)
+> hosts_update(key, body=body)
 
 Update a host in the hosts list
 
@@ -267,12 +267,12 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.HostsApi()
-name = 'name_example' # str | Name of the host to update in the list
+key = 'key_example' # str | Channel!Name of the host to update in the list
 body = swagger_client.Host() # Host |  (optional)
 
 try:
     # Update a host in the hosts list
-    api_instance.hosts_update(name, body=body)
+    api_instance.hosts_update(key, body=body)
 except ApiException as e:
     print("Exception when calling HostsApi->hosts_update: %s\n" % e)
 ```
@@ -281,7 +281,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **name** | **str**| Name of the host to update in the list | 
+ **key** | **str**| Channel!Name of the host to update in the list | 
  **body** | [**Host**](Host.md)|  | [optional] 
 
 ### Return type

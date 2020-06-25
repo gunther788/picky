@@ -127,45 +127,45 @@ class HostsApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def hosts_delete(self, name, **kwargs):  # noqa: E501
+    def hosts_delete(self, key, **kwargs):  # noqa: E501
         """Delete a host from the hosts list  # noqa: E501
 
         Delete a host  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.hosts_delete(name, async_req=True)
+        >>> thread = api.hosts_delete(key, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str name: (required)
+        :param str key: Channel!Name of the host to delete from the list (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.hosts_delete_with_http_info(name, **kwargs)  # noqa: E501
+            return self.hosts_delete_with_http_info(key, **kwargs)  # noqa: E501
         else:
-            (data) = self.hosts_delete_with_http_info(name, **kwargs)  # noqa: E501
+            (data) = self.hosts_delete_with_http_info(key, **kwargs)  # noqa: E501
             return data
 
-    def hosts_delete_with_http_info(self, name, **kwargs):  # noqa: E501
+    def hosts_delete_with_http_info(self, key, **kwargs):  # noqa: E501
         """Delete a host from the hosts list  # noqa: E501
 
         Delete a host  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.hosts_delete_with_http_info(name, async_req=True)
+        >>> thread = api.hosts_delete_with_http_info(key, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str name: (required)
+        :param str key: Channel!Name of the host to delete from the list (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['name']  # noqa: E501
+        all_params = ['key']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -180,16 +180,16 @@ class HostsApi(object):
                 )
             params[key] = val
         del params['kwargs']
-        # verify the required parameter 'name' is set
-        if ('name' not in params or
-                params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `hosts_delete`")  # noqa: E501
+        # verify the required parameter 'key' is set
+        if ('key' not in params or
+                params['key'] is None):
+            raise ValueError("Missing the required parameter `key` when calling `hosts_delete`")  # noqa: E501
 
         collection_formats = {}
 
         path_params = {}
-        if 'name' in params:
-            path_params['name'] = params['name']  # noqa: E501
+        if 'key' in params:
+            path_params['key'] = params['key']  # noqa: E501
 
         query_params = []
 
@@ -203,7 +203,7 @@ class HostsApi(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/hosts/{name}', 'DELETE',
+            '/hosts/{key}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -218,45 +218,45 @@ class HostsApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def hosts_patch(self, name, **kwargs):  # noqa: E501
+    def hosts_patch(self, key, **kwargs):  # noqa: E501
         """Rebuild the services list of a host  # noqa: E501
 
         Rebuild the services list of a host  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.hosts_patch(name, async_req=True)
+        >>> thread = api.hosts_patch(key, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str name: (required)
+        :param str key: Channel!Name of the host to update in the list (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.hosts_patch_with_http_info(name, **kwargs)  # noqa: E501
+            return self.hosts_patch_with_http_info(key, **kwargs)  # noqa: E501
         else:
-            (data) = self.hosts_patch_with_http_info(name, **kwargs)  # noqa: E501
+            (data) = self.hosts_patch_with_http_info(key, **kwargs)  # noqa: E501
             return data
 
-    def hosts_patch_with_http_info(self, name, **kwargs):  # noqa: E501
+    def hosts_patch_with_http_info(self, key, **kwargs):  # noqa: E501
         """Rebuild the services list of a host  # noqa: E501
 
         Rebuild the services list of a host  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.hosts_patch_with_http_info(name, async_req=True)
+        >>> thread = api.hosts_patch_with_http_info(key, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str name: (required)
+        :param str key: Channel!Name of the host to update in the list (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['name']  # noqa: E501
+        all_params = ['key']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -271,16 +271,16 @@ class HostsApi(object):
                 )
             params[key] = val
         del params['kwargs']
-        # verify the required parameter 'name' is set
-        if ('name' not in params or
-                params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `hosts_patch`")  # noqa: E501
+        # verify the required parameter 'key' is set
+        if ('key' not in params or
+                params['key'] is None):
+            raise ValueError("Missing the required parameter `key` when calling `hosts_patch`")  # noqa: E501
 
         collection_formats = {}
 
         path_params = {}
-        if 'name' in params:
-            path_params['name'] = params['name']  # noqa: E501
+        if 'key' in params:
+            path_params['key'] = params['key']  # noqa: E501
 
         query_params = []
 
@@ -294,7 +294,7 @@ class HostsApi(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/hosts/{name}', 'PATCH',
+            '/hosts/{key}', 'PATCH',
             path_params,
             query_params,
             header_params,
@@ -404,45 +404,45 @@ class HostsApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def hosts_read_one(self, name, **kwargs):  # noqa: E501
+    def hosts_read_one(self, key, **kwargs):  # noqa: E501
         """Read one host from the hosts list  # noqa: E501
 
         Read one host from the hosts list  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.hosts_read_one(name, async_req=True)
+        >>> thread = api.hosts_read_one(key, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str name: Name of the host to get from the list (required)
+        :param str key: Channel!Name of the host to get from the list (required)
         :return: Host
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.hosts_read_one_with_http_info(name, **kwargs)  # noqa: E501
+            return self.hosts_read_one_with_http_info(key, **kwargs)  # noqa: E501
         else:
-            (data) = self.hosts_read_one_with_http_info(name, **kwargs)  # noqa: E501
+            (data) = self.hosts_read_one_with_http_info(key, **kwargs)  # noqa: E501
             return data
 
-    def hosts_read_one_with_http_info(self, name, **kwargs):  # noqa: E501
+    def hosts_read_one_with_http_info(self, key, **kwargs):  # noqa: E501
         """Read one host from the hosts list  # noqa: E501
 
         Read one host from the hosts list  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.hosts_read_one_with_http_info(name, async_req=True)
+        >>> thread = api.hosts_read_one_with_http_info(key, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str name: Name of the host to get from the list (required)
+        :param str key: Channel!Name of the host to get from the list (required)
         :return: Host
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['name']  # noqa: E501
+        all_params = ['key']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -457,16 +457,16 @@ class HostsApi(object):
                 )
             params[key] = val
         del params['kwargs']
-        # verify the required parameter 'name' is set
-        if ('name' not in params or
-                params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `hosts_read_one`")  # noqa: E501
+        # verify the required parameter 'key' is set
+        if ('key' not in params or
+                params['key'] is None):
+            raise ValueError("Missing the required parameter `key` when calling `hosts_read_one`")  # noqa: E501
 
         collection_formats = {}
 
         path_params = {}
-        if 'name' in params:
-            path_params['name'] = params['name']  # noqa: E501
+        if 'key' in params:
+            path_params['key'] = params['key']  # noqa: E501
 
         query_params = []
 
@@ -484,7 +484,7 @@ class HostsApi(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/hosts/{name}', 'GET',
+            '/hosts/{key}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -499,17 +499,17 @@ class HostsApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def hosts_update(self, name, **kwargs):  # noqa: E501
+    def hosts_update(self, key, **kwargs):  # noqa: E501
         """Update a host in the hosts list  # noqa: E501
 
         Update a host in the hosts list  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.hosts_update(name, async_req=True)
+        >>> thread = api.hosts_update(key, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str name: Name of the host to update in the list (required)
+        :param str key: Channel!Name of the host to update in the list (required)
         :param Host body:
         :return: None
                  If the method is called asynchronously,
@@ -517,29 +517,29 @@ class HostsApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.hosts_update_with_http_info(name, **kwargs)  # noqa: E501
+            return self.hosts_update_with_http_info(key, **kwargs)  # noqa: E501
         else:
-            (data) = self.hosts_update_with_http_info(name, **kwargs)  # noqa: E501
+            (data) = self.hosts_update_with_http_info(key, **kwargs)  # noqa: E501
             return data
 
-    def hosts_update_with_http_info(self, name, **kwargs):  # noqa: E501
+    def hosts_update_with_http_info(self, key, **kwargs):  # noqa: E501
         """Update a host in the hosts list  # noqa: E501
 
         Update a host in the hosts list  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.hosts_update_with_http_info(name, async_req=True)
+        >>> thread = api.hosts_update_with_http_info(key, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str name: Name of the host to update in the list (required)
+        :param str key: Channel!Name of the host to update in the list (required)
         :param Host body:
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['name', 'body']  # noqa: E501
+        all_params = ['key', 'body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -554,16 +554,16 @@ class HostsApi(object):
                 )
             params[key] = val
         del params['kwargs']
-        # verify the required parameter 'name' is set
-        if ('name' not in params or
-                params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `hosts_update`")  # noqa: E501
+        # verify the required parameter 'key' is set
+        if ('key' not in params or
+                params['key'] is None):
+            raise ValueError("Missing the required parameter `key` when calling `hosts_update`")  # noqa: E501
 
         collection_formats = {}
 
         path_params = {}
-        if 'name' in params:
-            path_params['name'] = params['name']  # noqa: E501
+        if 'key' in params:
+            path_params['key'] = params['key']  # noqa: E501
 
         query_params = []
 
@@ -583,7 +583,7 @@ class HostsApi(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/hosts/{name}', 'PUT',
+            '/hosts/{key}', 'PUT',
             path_params,
             query_params,
             header_params,

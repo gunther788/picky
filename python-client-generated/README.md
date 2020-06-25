@@ -63,21 +63,21 @@ except ApiException as e:
 
 # create an instance of the API class
 api_instance = swagger_client.HostsApi(swagger_client.ApiClient(configuration))
-name = 'name_example' # str | 
+key = 'key_example' # str | Channel!Name of the host to delete from the list
 
 try:
     # Delete a host from the hosts list
-    api_instance.hosts_delete(name)
+    api_instance.hosts_delete(key)
 except ApiException as e:
     print("Exception when calling HostsApi->hosts_delete: %s\n" % e)
 
 # create an instance of the API class
 api_instance = swagger_client.HostsApi(swagger_client.ApiClient(configuration))
-name = 'name_example' # str | 
+key = 'key_example' # str | Channel!Name of the host to update in the list
 
 try:
     # Rebuild the services list of a host
-    api_instance.hosts_patch(name)
+    api_instance.hosts_patch(key)
 except ApiException as e:
     print("Exception when calling HostsApi->hosts_patch: %s\n" % e)
 
@@ -95,23 +95,23 @@ except ApiException as e:
 
 # create an instance of the API class
 api_instance = swagger_client.HostsApi(swagger_client.ApiClient(configuration))
-name = 'name_example' # str | Name of the host to get from the list
+key = 'key_example' # str | Channel!Name of the host to get from the list
 
 try:
     # Read one host from the hosts list
-    api_response = api_instance.hosts_read_one(name)
+    api_response = api_instance.hosts_read_one(key)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling HostsApi->hosts_read_one: %s\n" % e)
 
 # create an instance of the API class
 api_instance = swagger_client.HostsApi(swagger_client.ApiClient(configuration))
-name = 'name_example' # str | Name of the host to update in the list
+key = 'key_example' # str | Channel!Name of the host to update in the list
 body = swagger_client.Host() # Host |  (optional)
 
 try:
     # Update a host in the hosts list
-    api_instance.hosts_update(name, body=body)
+    api_instance.hosts_update(key, body=body)
 except ApiException as e:
     print("Exception when calling HostsApi->hosts_update: %s\n" % e)
 ```
@@ -123,16 +123,16 @@ All URIs are relative to *https://localhost/*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *HostsApi* | [**hosts_create**](docs/HostsApi.md#hosts_create) | **POST** /hosts | Create a host and add it to the hosts list
-*HostsApi* | [**hosts_delete**](docs/HostsApi.md#hosts_delete) | **DELETE** /hosts/{name} | Delete a host from the hosts list
-*HostsApi* | [**hosts_patch**](docs/HostsApi.md#hosts_patch) | **PATCH** /hosts/{name} | Rebuild the services list of a host
+*HostsApi* | [**hosts_delete**](docs/HostsApi.md#hosts_delete) | **DELETE** /hosts/{key} | Delete a host from the hosts list
+*HostsApi* | [**hosts_patch**](docs/HostsApi.md#hosts_patch) | **PATCH** /hosts/{key} | Rebuild the services list of a host
 *HostsApi* | [**hosts_read_all**](docs/HostsApi.md#hosts_read_all) | **GET** /hosts | Read the entire hosts list
-*HostsApi* | [**hosts_read_one**](docs/HostsApi.md#hosts_read_one) | **GET** /hosts/{name} | Read one host from the hosts list
-*HostsApi* | [**hosts_update**](docs/HostsApi.md#hosts_update) | **PUT** /hosts/{name} | Update a host in the hosts list
+*HostsApi* | [**hosts_read_one**](docs/HostsApi.md#hosts_read_one) | **GET** /hosts/{key} | Read one host from the hosts list
+*HostsApi* | [**hosts_update**](docs/HostsApi.md#hosts_update) | **PUT** /hosts/{key} | Update a host in the hosts list
 *ServicesApi* | [**services_create**](docs/ServicesApi.md#services_create) | **POST** /services | Create a service and add it to the services list
-*ServicesApi* | [**services_delete**](docs/ServicesApi.md#services_delete) | **DELETE** /services/{name} | Delete a service from the services list
+*ServicesApi* | [**services_delete**](docs/ServicesApi.md#services_delete) | **DELETE** /services/{key} | Delete a service from the services list
 *ServicesApi* | [**services_read_all**](docs/ServicesApi.md#services_read_all) | **GET** /services | Read the entire services list
-*ServicesApi* | [**services_read_one**](docs/ServicesApi.md#services_read_one) | **GET** /services/{name} | Read one service from the services list
-*ServicesApi* | [**services_update**](docs/ServicesApi.md#services_update) | **PUT** /services/{name} | Update a service in the services list
+*ServicesApi* | [**services_read_one**](docs/ServicesApi.md#services_read_one) | **GET** /services/{key} | Read one service from the services list
+*ServicesApi* | [**services_update**](docs/ServicesApi.md#services_update) | **PUT** /services/{key} | Update a service in the services list
 
 ## Documentation For Models
 

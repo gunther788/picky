@@ -12,15 +12,13 @@ configuration.host = "http://localhost:8080"
 api_client = swagger_client.ApiClient(configuration=configuration)
 api_instance = swagger_client.HostsApi(api_client=api_client)
 
-name = 'two.example.com' # str | Name of the host to update in the list
 body = swagger_client.Host() # Host |  (optional)
 body.name = 'two.example.com'
-body.messages = dict({"ipaservers": 0, "gold": 0})
-body.state = 'UP'
-body.timestamp = "sometime"
+body.channel = 'gold'
+body.state = 'DOWN'
 
 try:
     # Update a host in the hosts list
-    api_instance.hosts_update(name, body=body)
+    api_instance.hosts_update(f"{body.channel}!{body.name}", body=body)
 except ApiException as e:
     print("Exception when calling HostsApi->hosts_update: %s\n" % e)

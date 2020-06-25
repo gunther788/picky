@@ -44,18 +44,18 @@ def hosts_notify(key):
         try:
             # update the message in place
             asyncio.run(send_message(host.channel, host.msg_id, host.picky))
-            app.logger.info(f"message had id {msg_id}")
+            app.logger.info(f"message had id {host.msg_id}")
 
         except Exception as exc:
             # someone may have deleted the message by now, so let's start
             # a new one
             host.msg_id = asyncio.run(send_message(host.channel, 0, host.picky))
-            app.logger.info(f"new message has id {msg_id} (recovered from {exc})")
+            app.logger.info(f"new message has id {host.msg_id} (recovered from {exc})")
 
     else:
         # same as above, there's no message so we start a new one
         host.msg_id = asyncio.run(send_message(host.channel, 0, host.picky))
-        app.logger.info(f"new message has id {msg_id}")
+        app.logger.info(f"new message has id {host.msg_id}")
 
     # we've recovered, so it's time to reset the state to 0 and start
     # new messages should there be any more

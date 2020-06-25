@@ -29,67 +29,39 @@ class Service(object):
                             and the value is json key in definition.
     """
     swagger_types = {
-        'name': 'str',
         'host': 'str',
-        'service': 'str',
+        'name': 'str',
         'state': 'str',
         'output': 'str',
         'timestamp': 'str'
     }
 
     attribute_map = {
-        'name': 'name',
         'host': 'host',
-        'service': 'service',
+        'name': 'name',
         'state': 'state',
         'output': 'output',
         'timestamp': 'timestamp'
     }
 
-    def __init__(self, name=None, host=None, service=None, state='OK', output='', timestamp='now'):  # noqa: E501
+    def __init__(self, host=None, name=None, state='OK', output='', timestamp=''):  # noqa: E501
         """Service - a model defined in Swagger"""  # noqa: E501
-        self._name = None
         self._host = None
-        self._service = None
+        self._name = None
         self._state = None
         self._output = None
         self._timestamp = None
         self.discriminator = None
-        if name is not None:
-            self.name = name
         if host is not None:
             self.host = host
-        if service is not None:
-            self.service = service
+        if name is not None:
+            self.name = name
         if state is not None:
             self.state = state
         if output is not None:
             self.output = output
         if timestamp is not None:
             self.timestamp = timestamp
-
-    @property
-    def name(self):
-        """Gets the name of this Service.  # noqa: E501
-
-        Name of service, host!service format  # noqa: E501
-
-        :return: The name of this Service.  # noqa: E501
-        :rtype: str
-        """
-        return self._name
-
-    @name.setter
-    def name(self, name):
-        """Sets the name of this Service.
-
-        Name of service, host!service format  # noqa: E501
-
-        :param name: The name of this Service.  # noqa: E501
-        :type: str
-        """
-
-        self._name = name
 
     @property
     def host(self):
@@ -115,27 +87,27 @@ class Service(object):
         self._host = host
 
     @property
-    def service(self):
-        """Gets the service of this Service.  # noqa: E501
+    def name(self):
+        """Gets the name of this Service.  # noqa: E501
 
         Short name of the service  # noqa: E501
 
-        :return: The service of this Service.  # noqa: E501
+        :return: The name of this Service.  # noqa: E501
         :rtype: str
         """
-        return self._service
+        return self._name
 
-    @service.setter
-    def service(self, service):
-        """Sets the service of this Service.
+    @name.setter
+    def name(self, name):
+        """Sets the name of this Service.
 
         Short name of the service  # noqa: E501
 
-        :param service: The service of this Service.  # noqa: E501
+        :param name: The name of this Service.  # noqa: E501
         :type: str
         """
 
-        self._service = service
+        self._name = name
 
     @property
     def state(self):
