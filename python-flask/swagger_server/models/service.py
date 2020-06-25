@@ -14,7 +14,7 @@ class Service(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, host: str=None, name: str=None, state: str='OK', output: str='', timestamp: str=''):  # noqa: E501
+    def __init__(self, host: str=None, name: str=None, state: str='OK', output: str='', timestamp: str=None):  # noqa: E501
         """Service - a model defined in Swagger
 
         :param host: The host of this Service.  # noqa: E501
@@ -47,7 +47,7 @@ class Service(Model):
         self._name = name
         self._state = state
         self._output = output
-        self._timestamp = timestamp
+        self._timestamp = timestamp or datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ"))
 
     @classmethod
     def from_dict(cls, dikt) -> 'Service':
@@ -168,7 +168,7 @@ class Service(Model):
         return self._timestamp
 
     @timestamp.setter
-    def timestamp(self, timestamp: str):
+    def timestamp(self, timestamp: str=None):
         """Sets the timestamp of this Service.
 
         Last update  # noqa: E501
@@ -177,4 +177,4 @@ class Service(Model):
         :type timestamp: str
         """
 
-        self._timestamp = timestamp
+        self._timestamp = timestamp or datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ"))

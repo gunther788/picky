@@ -19,7 +19,7 @@ def get_timestamp():
 
 
 HOSTS = {
-    "gold!ipa1.aidoru.ch": Host.from_dict({
+    "ipa1.aidoru.ch/gold": Host.from_dict({
         "name": "ipa1.aidoru.ch",
         "channel": "gold",
         "msg_id": 0,
@@ -27,7 +27,7 @@ HOSTS = {
         "output": "CRITICAL - Host Unreachable",
         "timestamp": get_timestamp(),
     }),
-    "silver!plex.aidoru.ch": Host.from_dict({
+    "plex.aidoru.ch/silver": Host.from_dict({
         "name": "plex.aidoru.ch",
         "channel": "silver",
         "msg_id": 0,
@@ -35,7 +35,7 @@ HOSTS = {
         "output": "all good",
         "timestamp": get_timestamp(),
     }),
-    "silver!foreman.aidoru.ch": Host.from_dict({
+    "foreman.aidoru.ch/silver": Host.from_dict({
         "name": "foreman.aidoru.ch",
         "channel": "silver",
         "msg_id": 0,
