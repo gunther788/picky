@@ -739,7 +739,7 @@ index 87a9b67..0a0f182 100644
      app.add_api('swagger.yaml', arguments={'title': 'PICKY: Python ICinga2 to KeYbase'}, pythonic_params=True)
      app.run(port=8080)
 diff --git a/python-flask/swagger_server/controllers/hosts_controller.py b/python-flask/swagger_server/controllers/hosts_controller.py
-index dfad3fc..122648a 100644
+index 1181b0c..9309d1a 100644
 --- a/python-flask/swagger_server/controllers/hosts_controller.py
 +++ b/python-flask/swagger_server/controllers/hosts_controller.py
 @@ -1,8 +1,16 @@
