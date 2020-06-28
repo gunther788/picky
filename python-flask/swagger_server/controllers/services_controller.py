@@ -3,6 +3,7 @@ import six
 
 from swagger_server.models.service import Service  # noqa: E501
 from swagger_server import util
+from swagger_server import core
 
 
 def get_services(channel, host):  # noqa: E501
@@ -17,7 +18,7 @@ def get_services(channel, host):  # noqa: E501
 
     :rtype: List[Service]
     """
-    return 'do some magic!'
+    return core.get_services(channel, host)
 
 
 def put_service(channel, host, service, body=None):  # noqa: E501
@@ -31,11 +32,11 @@ def put_service(channel, host, service, body=None):  # noqa: E501
     :type host: str
     :param service: Name of the service
     :type service: str
-    :param body: 
+    :param body:
     :type body: dict | bytes
 
     :rtype: None
     """
     if connexion.request.is_json:
         body = Service.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    return core.put_service(channel, host, service, body)
