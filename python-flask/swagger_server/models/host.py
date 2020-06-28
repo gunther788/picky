@@ -353,3 +353,5 @@ class Host(Model):
         """
 
         self._url = url
+=======
+>>>>>>> API definition transferred by SwaggerHub
