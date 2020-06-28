@@ -3,6 +3,7 @@ import six
 
 from swagger_server.models.host import Host  # noqa: E501
 from swagger_server import util
+from swagger_server import core
 
 
 def get_hosts(channel):  # noqa: E501

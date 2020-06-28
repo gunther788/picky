@@ -5,6 +5,7 @@ from swagger_server.models.channel import Channel  # noqa: E501
 from swagger_server import util
 from swagger_server import core
 
+
 def get_channels():  # noqa: E501
     """Get all channels
 
