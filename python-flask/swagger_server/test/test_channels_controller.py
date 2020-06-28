@@ -5,32 +5,32 @@ from __future__ import absolute_import
 from flask import json
 from six import BytesIO
 
-from swagger_server.models.host import Host  # noqa: E501
+from swagger_server.models.channel import Channel  # noqa: E501
 from swagger_server.test import BaseTestCase
 
 
-class TestHostsController(BaseTestCase):
-    """HostsController integration test stubs"""
+class TestChannelsController(BaseTestCase):
+    """ChannelsController integration test stubs"""
 
-    def test_get_hosts(self):
-        """Test case for get_hosts
+    def test_get_channels(self):
+        """Test case for get_channels
 
-        Get all hosts in a channel
+        Get all channels
         """
         response = self.client.open(
-            '//{channel}'.format(channel='channel_example'),
+            '//',
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_put_host(self):
-        """Test case for put_host
+    def test_put_channel(self):
+        """Test case for put_channel
 
-        Host notification
+        Add a channel
         """
-        body = Host()
+        body = Channel()
         response = self.client.open(
-            '//{channel}/{host}'.format(channel='channel_example', host='host_example'),
+            '//{channel}'.format(channel='channel_example'),
             method='PUT',
             data=json.dumps(body),
             content_type='application/json')

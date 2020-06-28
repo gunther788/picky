@@ -14,11 +14,9 @@ class Service(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, host: str=None, name: str=None, state: str='OK', output: str='', timestamp: str=None):  # noqa: E501
+    def __init__(self, name: str=None, state: str='OK', output: str='', timestamp: str=None, sla: str='bronze', picky: str=None, url: str=None):  # noqa: E501
         """Service - a model defined in Swagger
 
-        :param host: The host of this Service.  # noqa: E501
-        :type host: str
         :param name: The name of this Service.  # noqa: E501
         :type name: str
         :param state: The state of this Service.  # noqa: E501
@@ -27,27 +25,39 @@ class Service(Model):
         :type output: str
         :param timestamp: The timestamp of this Service.  # noqa: E501
         :type timestamp: str
+        :param sla: The sla of this Service.  # noqa: E501
+        :type sla: str
+        :param picky: The picky of this Service.  # noqa: E501
+        :type picky: str
+        :param url: The url of this Service.  # noqa: E501
+        :type url: str
         """
         self.swagger_types = {
-            'host': str,
             'name': str,
             'state': str,
             'output': str,
-            'timestamp': str
+            'timestamp': str,
+            'sla': str,
+            'picky': str,
+            'url': str
         }
 
         self.attribute_map = {
-            'host': 'host',
             'name': 'name',
             'state': 'state',
             'output': 'output',
-            'timestamp': 'timestamp'
+            'timestamp': 'timestamp',
+            'sla': 'sla',
+            'picky': 'picky',
+            'url': 'url'
         }
-        self._host = host
         self._name = name
         self._state = state
         self._output = output
-        self._timestamp = timestamp or datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ"))
+        self._timestamp = timestamp
+        self._sla = sla
+        self._picky = picky
+        self._url = url
 
     @classmethod
     def from_dict(cls, dikt) -> 'Service':
@@ -59,29 +69,6 @@ class Service(Model):
         :rtype: Service
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def host(self) -> str:
-        """Gets the host of this Service.
-
-        Host this service runs on  # noqa: E501
-
-        :return: The host of this Service.
-        :rtype: str
-        """
-        return self._host
-
-    @host.setter
-    def host(self, host: str):
-        """Sets the host of this Service.
-
-        Host this service runs on  # noqa: E501
-
-        :param host: The host of this Service.
-        :type host: str
-        """
-
-        self._host = host
 
     @property
     def name(self) -> str:
@@ -168,7 +155,7 @@ class Service(Model):
         return self._timestamp
 
     @timestamp.setter
-    def timestamp(self, timestamp: str=None):
+    def timestamp(self, timestamp: str):
         """Sets the timestamp of this Service.
 
         Last update  # noqa: E501
@@ -177,4 +164,77 @@ class Service(Model):
         :type timestamp: str
         """
 
-        self._timestamp = timestamp or datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ"))
+        self._timestamp = timestamp
+
+    @property
+    def sla(self) -> str:
+        """Gets the sla of this Service.
+
+
+        :return: The sla of this Service.
+        :rtype: str
+        """
+        return self._sla
+
+    @sla.setter
+    def sla(self, sla: str):
+        """Sets the sla of this Service.
+
+
+        :param sla: The sla of this Service.
+        :type sla: str
+        """
+        allowed_values = ["gold", "silver", "bronze"]  # noqa: E501
+        if sla not in allowed_values:
+            raise ValueError(
+                "Invalid value for `sla` ({0}), must be one of {1}"
+                .format(sla, allowed_values)
+            )
+
+        self._sla = sla
+
+    @property
+    def picky(self) -> str:
+        """Gets the picky of this Service.
+
+        Stub neatly formatted for Keybase  # noqa: E501
+
+        :return: The picky of this Service.
+        :rtype: str
+        """
+        return self._picky
+
+    @picky.setter
+    def picky(self, picky: str):
+        """Sets the picky of this Service.
+
+        Stub neatly formatted for Keybase  # noqa: E501
+
+        :param picky: The picky of this Service.
+        :type picky: str
+        """
+
+        self._picky = picky
+
+    @property
+    def url(self) -> str:
+        """Gets the url of this Service.
+
+        Link to this object  # noqa: E501
+
+        :return: The url of this Service.
+        :rtype: str
+        """
+        return self._url
+
+    @url.setter
+    def url(self, url: str):
+        """Sets the url of this Service.
+
+        Link to this object  # noqa: E501
+
+        :param url: The url of this Service.
+        :type url: str
+        """
+
+        self._url = url

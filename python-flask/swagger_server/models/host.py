@@ -6,6 +6,7 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from swagger_server.models.base_model_ import Model
+from swagger_server.models.service import Service  # noqa: F401,E501
 from swagger_server import util
 
 
@@ -14,45 +15,60 @@ class Host(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, name: str=None, channel: str=None, msg_id: int=0, state: str='UP', output: str='', timestamp: str=None):  # noqa: E501
+    def __init__(self, name: str=None, msg_id: int=0, state: str='UP', output: str='', services: Dict[str, Service]=None, timestamp: str=None, sla: str='bronze', picky: str=None, url: str=None):  # noqa: E501
         """Host - a model defined in Swagger
 
         :param name: The name of this Host.  # noqa: E501
         :type name: str
-        :param channel: The channel of this Host.  # noqa: E501
-        :type channel: str
         :param msg_id: The msg_id of this Host.  # noqa: E501
         :type msg_id: int
         :param state: The state of this Host.  # noqa: E501
         :type state: str
         :param output: The output of this Host.  # noqa: E501
         :type output: str
+        :param services: The services of this Host.  # noqa: E501
+        :type services: Dict[str, Service]
         :param timestamp: The timestamp of this Host.  # noqa: E501
         :type timestamp: str
+        :param sla: The sla of this Host.  # noqa: E501
+        :type sla: str
+        :param picky: The picky of this Host.  # noqa: E501
+        :type picky: str
+        :param url: The url of this Host.  # noqa: E501
+        :type url: str
         """
         self.swagger_types = {
             'name': str,
-            'channel': str,
             'msg_id': int,
             'state': str,
             'output': str,
-            'timestamp': str
+            'services': Dict[str, Service],
+            'timestamp': str,
+            'sla': str,
+            'picky': str,
+            'url': str
         }
 
         self.attribute_map = {
             'name': 'name',
-            'channel': 'channel',
             'msg_id': 'msg_id',
             'state': 'state',
             'output': 'output',
-            'timestamp': 'timestamp'
+            'services': 'services',
+            'timestamp': 'timestamp',
+            'sla': 'sla',
+            'picky': 'picky',
+            'url': 'url'
         }
         self._name = name
-        self._channel = channel
         self._msg_id = msg_id
         self._state = state
         self._output = output
-        self._timestamp = timestamp or datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ"))
+        self._services = services
+        self._timestamp = timestamp
+        self._sla = sla
+        self._picky = picky
+        self._url = url
 
     @classmethod
     def from_dict(cls, dikt) -> 'Host':
@@ -69,7 +85,7 @@ class Host(Model):
     def name(self) -> str:
         """Gets the name of this Host.
 
-        Name of host to create  # noqa: E501
+        Name of host  # noqa: E501
 
         :return: The name of this Host.
         :rtype: str
@@ -80,36 +96,13 @@ class Host(Model):
     def name(self, name: str):
         """Sets the name of this Host.
 
-        Name of host to create  # noqa: E501
+        Name of host  # noqa: E501
 
         :param name: The name of this Host.
         :type name: str
         """
 
         self._name = name
-
-    @property
-    def channel(self) -> str:
-        """Gets the channel of this Host.
-
-        Name of the channel to notify  # noqa: E501
-
-        :return: The channel of this Host.
-        :rtype: str
-        """
-        return self._channel
-
-    @channel.setter
-    def channel(self, channel: str):
-        """Sets the channel of this Host.
-
-        Name of the channel to notify  # noqa: E501
-
-        :param channel: The channel of this Host.
-        :type channel: str
-        """
-
-        self._channel = channel
 
     @property
     def msg_id(self) -> int:
@@ -185,6 +178,27 @@ class Host(Model):
         self._output = output
 
     @property
+    def services(self) -> Dict[str, Service]:
+        """Gets the services of this Host.
+
+
+        :return: The services of this Host.
+        :rtype: Dict[str, Service]
+        """
+        return self._services
+
+    @services.setter
+    def services(self, services: Dict[str, Service]):
+        """Sets the services of this Host.
+
+
+        :param services: The services of this Host.
+        :type services: Dict[str, Service]
+        """
+
+        self._services = services
+
+    @property
     def timestamp(self) -> str:
         """Gets the timestamp of this Host.
 
@@ -196,7 +210,7 @@ class Host(Model):
         return self._timestamp
 
     @timestamp.setter
-    def timestamp(self, timestamp: str=None):
+    def timestamp(self, timestamp: str):
         """Sets the timestamp of this Host.
 
         Last update  # noqa: E501
@@ -205,35 +219,77 @@ class Host(Model):
         :type timestamp: str
         """
 
-        self._timestamp = timestamp or datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ"))
+        self._timestamp = timestamp
 
     @property
-    def all_good(self) -> bool:
-        """Tests for all states UP / OK
+    def sla(self) -> str:
+        """Gets the sla of this Host.
 
-        :rtype: bool
+
+        :return: The sla of this Host.
+        :rtype: str
         """
-        return self.state == 'UP'
+        return self._sla
+
+    @sla.setter
+    def sla(self, sla: str):
+        """Sets the sla of this Host.
+
+
+        :param sla: The sla of this Host.
+        :type sla: str
+        """
+        allowed_values = ["gold", "silver", "bronze"]  # noqa: E501
+        if sla not in allowed_values:
+            raise ValueError(
+                "Invalid value for `sla` ({0}), must be one of {1}"
+                .format(sla, allowed_values)
+            )
+
+        self._sla = sla
 
     @property
     def picky(self) -> str:
-        """Returns a formatted one-liner
-        that can be chatted in keybase
+        """Gets the picky of this Host.
 
+        Message neatly formatted for Keybase  # noqa: E501
+
+        :return: The picky of this Host.
         :rtype: str
         """
-        msg = ""
+        return self._picky
 
-        states = {
-            'UP': '🟩',
-            'DOWN': '🟥',
-        }
+    @picky.setter
+    def picky(self, picky: str):
+        """Sets the picky of this Host.
 
-        if self.state in states:
-            msg = f"{states[self.state]} {msg}"
+        Message neatly formatted for Keybase  # noqa: E501
 
-        msg = f"{msg} {self.timestamp} {self.name}"
-        if self.state == 'DOWN' and self.output is not None and self.output != "":
-            msg = msg + f"\n`{self.output}`"
+        :param picky: The picky of this Host.
+        :type picky: str
+        """
 
-        return msg
+        self._picky = picky
+
+    @property
+    def url(self) -> str:
+        """Gets the url of this Host.
+
+        Link to this object  # noqa: E501
+
+        :return: The url of this Host.
+        :rtype: str
+        """
+        return self._url
+
+    @url.setter
+    def url(self, url: str):
+        """Sets the url of this Host.
+
+        Link to this object  # noqa: E501
+
+        :param url: The url of this Host.
+        :type url: str
+        """
+
+        self._url = url
