@@ -7,7 +7,7 @@ import yaml
 import pykeybasebot.types.chat1 as chat1
 from pykeybasebot import Bot
 
-from swagger_server.data import CONFIG, HOSTS
+from swagger_server.data import CONFIG, DATA
 from swagger_server.models.host import Host
 
 
