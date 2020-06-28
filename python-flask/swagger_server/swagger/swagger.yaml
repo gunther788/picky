@@ -321,4 +321,3 @@ components:
         name: https
         state: OK
         output: some output of the service check
-
