@@ -15,7 +15,7 @@ def get_hosts(channel):  # noqa: E501
 
     :rtype: List[Host]
     """
-    return 'do some magic!'
+    return core.get_hosts(channel)
 
 
 def put_host(channel, host, body=None):  # noqa: E501
@@ -34,4 +34,4 @@ def put_host(channel, host, body=None):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Host.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    return core.put_host(channel, host, body)
