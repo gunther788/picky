@@ -1,6 +1,7 @@
 import connexion
 import six
 
+from swagger_server.models.channel import Channel  # noqa: E501
 from swagger_server.models.host import Host  # noqa: E501
 from swagger_server import util
 
