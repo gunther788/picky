@@ -8,6 +8,8 @@ DATA = {}
 
 
 EMOJI = {
+    # channels
+    'star': '⭐',
 
     # sla
     'gold': '🥇',

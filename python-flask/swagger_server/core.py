@@ -18,10 +18,12 @@ def get_timestamp():
 
 
 def get_channels():
+    app.logger.info(f"get_channels()")
     return [DATA[key] for key in sorted(DATA.keys())]
 
 
 def put_channel(channel, body={}):
+    app.logger.info(f"put_channel({channel}, {body})")
     if channel not in DATA:
         DATA[channel] = Channel.from_dict({
             'name': channel,
@@ -29,12 +31,13 @@ def put_channel(channel, body={}):
             'timestamp': get_timestamp(),
             'hosts': {},
         })
-        send(channel, ':Large Purple Square: ' + get_timestamp() + ' Welcome to the Machine!')
+        send(channel, f"{EMOJI['star']} {DATA[channel].timestamp} Welcome to the Machine!")
 
     return DATA[channel]
 
 
 def get_hosts(channel):
+    app.logger.info(f"get_hosts({channel})")
     if channel not in DATA:
         return make_response(f"Channel {channel} not found", 404)
 
@@ -43,13 +46,19 @@ def get_hosts(channel):
 
 
 def format_host(h):
+    app.logger.info(f"format_host({h})")
     msg = []
 
     if h.state in EMOJI:
         msg.append(EMOJI[h.state])
 
-    msg.append(h.timestamp)
+    # for now skip the sla's
+    # if h.sla in EMOJI:
+    #     msg.append(EMOJI[h.sla])
+
     msg.append(h.name)
+
+    msg.append(f"({h.timestamp})")
 
     if h.state != 'UP' and h.output is not None and h.output != "":
         msg.append(f"\n`{h.output}`")
@@ -57,26 +66,56 @@ def format_host(h):
     return ' '.join(msg)
 
 
-def put_host(channel, host, body={}):
+def put_host(channel, host, body=Host.from_dict({}), service_trigger=False):
+    app.logger.info(f"put_host({channel}, {host}, {body})")
     c = put_channel(channel)
     if host not in c.hosts:
-        h = Host.from_dict({
+        c.hosts[host] = Host.from_dict({
             'name': host,
             'url': f"{CONFIG['picky']['BASEURL']}/{channel}/{host}",
             'timestamp': get_timestamp(),
             'services': {},
         })
 
-    else:
-        h = c.hosts[host]
+    h = c.hosts[host]
+
+    if body.state:
+        h.state = body.state
+
+    if body.output:
+        h.output = body.output
+
+    if body.services:
+        h.services = body.services
+
+    if body.sla:
+        h.sla = body.sla
+
+    if not service_trigger:
+        if h.update < 6:
+            h.update += h.update
 
     h.timestamp = get_timestamp()
     h.picky = format_host(h)
-    send(channel, h.picky)
+    send_host(channel, host)
     return h
 
 
+def send_host(channel, host):
+    app.logger.info(f"send_host({channel}, {host})")
+    h = DATA[channel].hosts[host]
+    msg = [ h.picky ]
+
+    # no point telling us about failed services when the host is down
+    if h.state == "UP":
+        for service in h.services:
+            msg.append(h.services[service].picky)
+
+    h.msg_id = send(channel, '\n'.join(msg), h.msg_id)
+
+
 def get_services(channel, host):
+    app.logger.info(f"get_services({channel}, {host})")
     if channel not in DATA:
         return make_response(f"Channel {channel} not found", 404)
 
@@ -88,14 +127,16 @@ def get_services(channel, host):
 
 
 def format_service(s):
+    app.logger.info(f"format_service({s})")
     msg = []
     if s.state in EMOJI:
         msg.append(EMOJI[s.state])
 
-    if s.sla in EMOJI:
-        msg.append(EMOJI[s.sla])
+    # for now skip the sla's
+    # if s.sla in EMOJI:
+    #     msg.append(EMOJI[s.sla])
 
-    s.append(s.name)
+    msg.append(s.name)
 
     if s.state != 'OK' and s.output is not None and s.output != "":
         msg.append(f"\n`{s.output}`")
@@ -103,18 +144,29 @@ def format_service(s):
     return ' '.join(msg)
 
 
-def put_service(channel, host, service, body={}):
+def put_service(channel, host, service, body=Service.from_dict({})):
+    app.logger.info(f"put_service({channel}, {host}, {service}, {body})")
     h = put_host(channel, host)
-
     if service not in h.services:
-        s = Service.from_dict({
+        h.services[service] = Service.from_dict({
             'name': service,
             'url': f"{CONFIG['picky']['BASEURL']}/{channel}/{host}/{service}",
             'timestamp': get_timestamp(),
             'services': {},
         })
 
+    s = h.services[service]
+
+    if body.state:
+        s.state = body.state
+
+    if body.output:
+        s.output = body.output
+
+    if body.sla:
+        s.sla = body.sla
+
     s.timestamp = get_timestamp()
     s.picky = format_service(s)
-    send(channel, s.picky)
+    send_host(channel, host)
     return s
