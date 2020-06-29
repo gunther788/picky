@@ -213,10 +213,6 @@ components:
           msg_id: 0
           state: DOWN
           output: some output of the host check
-        - name: hostname.example.com
-          msg_id: 0
-          state: DOWN
-          output: some output of the host check
         name: name
         url: url
         timestamp: timestamp
@@ -247,6 +243,10 @@ components:
         timestamp:
           type: string
           description: Last update
+        updates:
+          type: integer
+          description: Update counter
+          default: 0
         sla:
           type: string
           default: bronze
@@ -254,6 +254,13 @@ components:
           - gold
           - silver
           - bronze
+        note_type:
+          type: string
+          default: Problem
+          enum:
+          - Problem
+          - Acknowledgement
+          - Recovery
         picky:
           type: string
           description: Message neatly formatted for Keybase
@@ -286,6 +293,10 @@ components:
         timestamp:
           type: string
           description: Last update
+        updates:
+          type: integer
+          description: Update counter
+          default: 0
         sla:
           type: string
           default: bronze
@@ -293,6 +304,13 @@ components:
           - gold
           - silver
           - bronze
+        note_type:
+          type: string
+          default: Problem
+          enum:
+          - Problem
+          - Acknowledgement
+          - Recovery
         picky:
           type: string
           description: Stub neatly formatted for Keybase

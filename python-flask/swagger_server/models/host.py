@@ -15,7 +15,7 @@ class Host(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, name: str=None, msg_id: int=0, state: str='UP', output: str='', services: Dict[str, Service]=None, timestamp: str=None, sla: str='bronze', picky: str=None, url: str=None):  # noqa: E501
+    def __init__(self, name: str=None, msg_id: int=0, state: str='UP', output: str='', services: Dict[str, Service]=None, timestamp: str=None, updates: int=0, sla: str='bronze', note_type: str='Problem', picky: str=None, url: str=None):  # noqa: E501
         """Host - a model defined in Swagger
 
         :param name: The name of this Host.  # noqa: E501
@@ -30,8 +30,12 @@ class Host(Model):
         :type services: Dict[str, Service]
         :param timestamp: The timestamp of this Host.  # noqa: E501
         :type timestamp: str
+        :param updates: The updates of this Host.  # noqa: E501
+        :type updates: int
         :param sla: The sla of this Host.  # noqa: E501
         :type sla: str
+        :param note_type: The note_type of this Host.  # noqa: E501
+        :type note_type: str
         :param picky: The picky of this Host.  # noqa: E501
         :type picky: str
         :param url: The url of this Host.  # noqa: E501
@@ -44,7 +48,9 @@ class Host(Model):
             'output': str,
             'services': Dict[str, Service],
             'timestamp': str,
+            'updates': int,
             'sla': str,
+            'note_type': str,
             'picky': str,
             'url': str
         }
@@ -56,7 +62,9 @@ class Host(Model):
             'output': 'output',
             'services': 'services',
             'timestamp': 'timestamp',
+            'updates': 'updates',
             'sla': 'sla',
+            'note_type': 'note_type',
             'picky': 'picky',
             'url': 'url'
         }
@@ -66,7 +74,9 @@ class Host(Model):
         self._output = output
         self._services = services
         self._timestamp = timestamp
+        self._updates = updates
         self._sla = sla
+        self._note_type = note_type
         self._picky = picky
         self._url = url
 
@@ -222,6 +232,29 @@ class Host(Model):
         self._timestamp = timestamp
 
     @property
+    def updates(self) -> int:
+        """Gets the updates of this Host.
+
+        Update counter  # noqa: E501
+
+        :return: The updates of this Host.
+        :rtype: int
+        """
+        return self._updates
+
+    @updates.setter
+    def updates(self, updates: int):
+        """Sets the updates of this Host.
+
+        Update counter  # noqa: E501
+
+        :param updates: The updates of this Host.
+        :type updates: int
+        """
+
+        self._updates = updates
+
+    @property
     def sla(self) -> str:
         """Gets the sla of this Host.
 
@@ -247,6 +280,33 @@ class Host(Model):
             )
 
         self._sla = sla
+
+    @property
+    def note_type(self) -> str:
+        """Gets the note_type of this Host.
+
+
+        :return: The note_type of this Host.
+        :rtype: str
+        """
+        return self._note_type
+
+    @note_type.setter
+    def note_type(self, note_type: str):
+        """Sets the note_type of this Host.
+
+
+        :param note_type: The note_type of this Host.
+        :type note_type: str
+        """
+        allowed_values = ["Problem", "Acknowledgement", "Recovery"]  # noqa: E501
+        if note_type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `note_type` ({0}), must be one of {1}"
+                .format(note_type, allowed_values)
+            )
+
+        self._note_type = note_type
 
     @property
     def picky(self) -> str:
