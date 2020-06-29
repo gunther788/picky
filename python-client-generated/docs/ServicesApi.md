@@ -4,18 +4,15 @@ All URIs are relative to *https://localhost/*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**services_create**](ServicesApi.md#services_create) | **POST** /services | Create a service and add it to the services list
-[**services_delete**](ServicesApi.md#services_delete) | **DELETE** /services/{host}/{name} | Delete a service from the services list
-[**services_read_all**](ServicesApi.md#services_read_all) | **GET** /services/{host} | Read all services from one host
-[**services_read_one**](ServicesApi.md#services_read_one) | **GET** /services/{host}/{name} | Read one service from the services list
-[**services_update**](ServicesApi.md#services_update) | **PUT** /services/{host}/{name} | Update a service in the services list
+[**get_services**](ServicesApi.md#get_services) | **GET** /{channel}/{host} | Get all services of a host
+[**put_service**](ServicesApi.md#put_service) | **PUT** /{channel}/{host}/{service} | Service notification
 
-# **services_create**
-> services_create(body)
+# **get_services**
+> list[Service] get_services(channel, host)
 
-Create a service and add it to the services list
+Get all services of a host
 
-Create a new service in the services list
+Get all services of a host
 
 ### Example
 ```python
@@ -27,121 +24,27 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.ServicesApi()
-body = swagger_client.Service() # Service | Service to create
+channel = 'channel_example' # str | Name of the channel
+host = 'host_example' # str | Name of the host
 
 try:
-    # Create a service and add it to the services list
-    api_instance.services_create(body)
-except ApiException as e:
-    print("Exception when calling ServicesApi->services_create: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**Service**](Service.md)| Service to create | 
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: Not defined
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **services_delete**
-> services_delete(host, name)
-
-Delete a service from the services list
-
-Delete a service
-
-### Example
-```python
-from __future__ import print_function
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
-
-# create an instance of the API class
-api_instance = swagger_client.ServicesApi()
-host = 'host_example' # str | Host of the service to delete from the list
-name = 'name_example' # str | Name of the service to delete the list
-
-try:
-    # Delete a service from the services list
-    api_instance.services_delete(host, name)
-except ApiException as e:
-    print("Exception when calling ServicesApi->services_delete: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **host** | **str**| Host of the service to delete from the list | 
- **name** | **str**| Name of the service to delete the list | 
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: Not defined
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **services_read_all**
-> Service services_read_all(host)
-
-Read all services from one host
-
-Read all services from one host
-
-### Example
-```python
-from __future__ import print_function
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
-
-# create an instance of the API class
-api_instance = swagger_client.ServicesApi()
-host = 'host_example' # str | Host of the service to get from the list
-
-try:
-    # Read all services from one host
-    api_response = api_instance.services_read_all(host)
+    # Get all services of a host
+    api_response = api_instance.get_services(channel, host)
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling ServicesApi->services_read_all: %s\n" % e)
+    print("Exception when calling ServicesApi->get_services: %s\n" % e)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **host** | **str**| Host of the service to get from the list | 
+ **channel** | **str**| Name of the channel | 
+ **host** | **str**| Name of the host | 
 
 ### Return type
 
-[**Service**](Service.md)
+[**list[Service]**](Service.md)
 
 ### Authorization
 
@@ -154,62 +57,12 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **services_read_one**
-> Service services_read_one(host, name)
+# **put_service**
+> put_service(channel, host, service, body=body)
 
-Read one service from the services list
+Service notification
 
-Read one service from the services list
-
-### Example
-```python
-from __future__ import print_function
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
-
-# create an instance of the API class
-api_instance = swagger_client.ServicesApi()
-host = 'host_example' # str | Host of the service to get from the list
-name = 'name_example' # str | Name of the service to get from the list
-
-try:
-    # Read one service from the services list
-    api_response = api_instance.services_read_one(host, name)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling ServicesApi->services_read_one: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **host** | **str**| Host of the service to get from the list | 
- **name** | **str**| Name of the service to get from the list | 
-
-### Return type
-
-[**Service**](Service.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **services_update**
-> services_update(host, name, body=body)
-
-Update a service in the services list
-
-Update a service in the services list
+Service notification
 
 ### Example
 ```python
@@ -221,23 +74,25 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.ServicesApi()
-host = 'host_example' # str | Host of the service to update in the list
-name = 'name_example' # str | Name of the service to update in the list
+channel = 'channel_example' # str | Name of the channel
+host = 'host_example' # str | Name of the host
+service = 'service_example' # str | Name of the service
 body = swagger_client.Service() # Service |  (optional)
 
 try:
-    # Update a service in the services list
-    api_instance.services_update(host, name, body=body)
+    # Service notification
+    api_instance.put_service(channel, host, service, body=body)
 except ApiException as e:
-    print("Exception when calling ServicesApi->services_update: %s\n" % e)
+    print("Exception when calling ServicesApi->put_service: %s\n" % e)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **host** | **str**| Host of the service to update in the list | 
- **name** | **str**| Name of the service to update in the list | 
+ **channel** | **str**| Name of the channel | 
+ **host** | **str**| Name of the host | 
+ **service** | **str**| Name of the service | 
  **body** | [**Service**](Service.md)|  | [optional] 
 
 ### Return type

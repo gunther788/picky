@@ -28,6 +28,6 @@ setup(
     entry_points={
         'console_scripts': ['swagger_server=swagger_server.__main__:main']},
     long_description="""\
-    A Bridge between Icinga2&#x27;s Notifications and Keybase
+    A Bridge between Icinga2 Notifications and Keybase
     """
 )

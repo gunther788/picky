@@ -1,38 +1,49 @@
 openapi: 3.0.0
 info:
   title: 'PICKY: Python ICinga2 to KeYbase'
-  description: A Bridge between Icinga2's Notifications and Keybase
-  version: 1.3.0
+  description: A Bridge between Icinga2 Notifications and Keybase
+  version: 1.4.1
 servers:
 - url: https://localhost/
 paths:
-  /hosts:
+  /:
+    get:
+      tags:
+      - Channels
+      summary: Get all channels
+      description: Get all channels
+      operationId: get_channels
+      responses:
+        "200":
+          description: Successfully got all channels
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/channel'
+                x-content-type: application/json
+      x-swagger-router-controller: swagger_server.controllers.channels_controller
+      x-openapi-router-controller: swagger_server.controllers.channels_controller
+  /{channel}:
     get:
       tags:
       - Hosts
-      summary: Read the entire hosts-channel list
-      description: Read the hosts-channel list
-      operationId: hosts_read_all
+      summary: Get all hosts in a channel
+      description: Get all hosts in a channel
+      operationId: get_hosts
       parameters:
-      - name: length
-        in: query
-        description: Number of hosts to get from hosts
-        required: false
-        style: form
-        explode: true
+      - name: channel
+        in: path
+        description: Name of the channel to get all the hosts
+        required: true
+        style: simple
+        explode: false
         schema:
-          type: integer
-      - name: offset
-        in: query
-        description: Offset from beginning of list where to start gathering hosts
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: integer
+          type: string
       responses:
         "200":
-          description: Successfully read hosts list operation
+          description: Successfully read host from channel
           content:
             application/json:
               schema:
@@ -42,68 +53,50 @@ paths:
                 x-content-type: application/json
       x-swagger-router-controller: swagger_server.controllers.hosts_controller
       x-openapi-router-controller: swagger_server.controllers.hosts_controller
-    post:
+    put:
       tags:
-      - Hosts
-      summary: Create a host and add it to the hosts-channel list
-      description: Create a new host in the hosts-channel list
-      operationId: hosts_create
+      - Channels
+      summary: Add a channel
+      description: Add a channel
+      operationId: put_channel
+      parameters:
+      - name: channel
+        in: path
+        description: Name of the channel
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
       requestBody:
-        description: Host to create
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/host'
-        required: true
-      responses:
-        "201":
-          description: Successfully created host in list
-      x-swagger-router-controller: swagger_server.controllers.hosts_controller
-      x-openapi-router-controller: swagger_server.controllers.hosts_controller
-  /hosts/{name}:
-    get:
-      tags:
-      - Hosts
-      summary: Read one host from the hosts list across all channels
-      description: Read one host from the hosts list across all channels
-      operationId: hosts_read_one_host
-      parameters:
-      - name: name
-        in: path
-        description: Name of the host to get from the list
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
+              $ref: '#/components/schemas/channel'
       responses:
         "200":
-          description: Successfully read host from hosts list operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/host'
-      x-swagger-router-controller: swagger_server.controllers.hosts_controller
-      x-openapi-router-controller: swagger_server.controllers.hosts_controller
-  /hosts/{name}/{channel}:
+          description: Successfully added a channel
+      x-swagger-router-controller: swagger_server.controllers.channels_controller
+      x-openapi-router-controller: swagger_server.controllers.channels_controller
+  /{channel}/{host}:
     get:
       tags:
-      - Hosts
-      summary: Read one entry from the hosts-channel list
-      description: Read one entry from the hosts-channel list
-      operationId: hosts_read_one_host_channel
+      - Services
+      summary: Get all services of a host
+      description: Get all services of a host
+      operationId: get_services
       parameters:
-      - name: name
-        in: path
-        description: Name of the host to get from the list
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
       - name: channel
         in: path
-        description: Channel being notified for this host
+        description: Name of the channel
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: host
+        in: path
+        description: Name of the host
         required: true
         style: simple
         explode: false
@@ -111,31 +104,34 @@ paths:
           type: string
       responses:
         "200":
-          description: Successfully read host from hosts list operation
+          description: Successfully read services from a host
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/host'
-      x-swagger-router-controller: swagger_server.controllers.hosts_controller
-      x-openapi-router-controller: swagger_server.controllers.hosts_controller
+                type: array
+                items:
+                  $ref: '#/components/schemas/service'
+                x-content-type: application/json
+      x-swagger-router-controller: swagger_server.controllers.services_controller
+      x-openapi-router-controller: swagger_server.controllers.services_controller
     put:
       tags:
       - Hosts
-      summary: Update a host in the hosts-channel list
-      description: Update a host in the hosts-channel list
-      operationId: hosts_update
+      summary: Host notification
+      description: Host notification
+      operationId: put_host
       parameters:
-      - name: name
+      - name: channel
         in: path
-        description: Name of the host to update in the list
+        description: Name of the channel
         required: true
         style: simple
         explode: false
         schema:
           type: string
-      - name: channel
+      - name: host
         in: path
-        description: Channel being notified for this host
+        description: Name of the host
         required: true
         style: simple
         explode: false
@@ -148,160 +144,36 @@ paths:
               $ref: '#/components/schemas/host'
       responses:
         "200":
-          description: Successfully updated host in hosts list
+          description: Successfully alerted a host
       x-swagger-router-controller: swagger_server.controllers.hosts_controller
       x-openapi-router-controller: swagger_server.controllers.hosts_controller
-    delete:
-      tags:
-      - Hosts
-      summary: Delete a host from the hosts-channel list
-      description: Delete a host
-      operationId: hosts_delete
-      parameters:
-      - name: name
-        in: path
-        description: Name of the host to delete from the list
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      - name: channel
-        in: path
-        description: Channel being notified for this host
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: Successfully deleted a host from hosts list
-      x-swagger-router-controller: swagger_server.controllers.hosts_controller
-      x-openapi-router-controller: swagger_server.controllers.hosts_controller
-    patch:
-      tags:
-      - Hosts
-      summary: Rebuild the services list of a hosts-channel entry
-      description: Rebuild the services list of a hosts-channel entry
-      operationId: hosts_patch
-      parameters:
-      - name: name
-        in: path
-        description: Name of the host to update in the list
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      - name: channel
-        in: path
-        description: Channel being notified for this host
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: Successfully updated a host in hosts list
-      x-swagger-router-controller: swagger_server.controllers.hosts_controller
-      x-openapi-router-controller: swagger_server.controllers.hosts_controller
-  /services:
-    post:
-      tags:
-      - Services
-      summary: Create a service and add it to the services list
-      description: Create a new service in the services list
-      operationId: services_create
-      requestBody:
-        description: Service to create
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/service'
-        required: true
-      responses:
-        "201":
-          description: Successfully created service in list
-      x-swagger-router-controller: swagger_server.controllers.services_controller
-      x-openapi-router-controller: swagger_server.controllers.services_controller
-  /services/{host}:
-    get:
-      tags:
-      - Services
-      summary: Read all services from one host
-      description: Read all services from one host
-      operationId: services_read_all
-      parameters:
-      - name: host
-        in: path
-        description: Host of the service to get from the list
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: Successfully read service from services list operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/service'
-      x-swagger-router-controller: swagger_server.controllers.services_controller
-      x-openapi-router-controller: swagger_server.controllers.services_controller
-  /services/{host}/{name}:
-    get:
-      tags:
-      - Services
-      summary: Read one service from the services list
-      description: Read one service from the services list
-      operationId: services_read_one
-      parameters:
-      - name: host
-        in: path
-        description: Host of the service to get from the list
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      - name: name
-        in: path
-        description: Name of the service to get from the list
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: Successfully read service from services list operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/service'
-      x-swagger-router-controller: swagger_server.controllers.services_controller
-      x-openapi-router-controller: swagger_server.controllers.services_controller
+  /{channel}/{host}/{service}:
     put:
       tags:
       - Services
-      summary: Update a service in the services list
-      description: Update a service in the services list
-      operationId: services_update
+      summary: Service notification
+      description: Service notification
+      operationId: put_service
       parameters:
-      - name: host
+      - name: channel
         in: path
-        description: Host of the service to update in the list
+        description: Name of the channel
         required: true
         style: simple
         explode: false
         schema:
           type: string
-      - name: name
+      - name: host
         in: path
-        description: Name of the service to update in the list
+        description: Name of the host
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: service
+        in: path
+        description: Name of the service
         required: true
         style: simple
         explode: false
@@ -314,48 +186,42 @@ paths:
               $ref: '#/components/schemas/service'
       responses:
         "200":
-          description: Successfully updated service in services list
-      x-swagger-router-controller: swagger_server.controllers.services_controller
-      x-openapi-router-controller: swagger_server.controllers.services_controller
-    delete:
-      tags:
-      - Services
-      summary: Delete a service from the services list
-      description: Delete a service
-      operationId: services_delete
-      parameters:
-      - name: host
-        in: path
-        description: Host of the service to delete from the list
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      - name: name
-        in: path
-        description: Name of the service to delete the list
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: Successfully deleted a service from services list
+          description: Successfully alerted a service
       x-swagger-router-controller: swagger_server.controllers.services_controller
       x-openapi-router-controller: swagger_server.controllers.services_controller
 components:
   schemas:
+    channel:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Keybase topic (channel) name
+        hosts:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/host'
+        timestamp:
+          type: string
+          description: Last update
+        url:
+          type: string
+          description: Link to this object
+      example:
+        hosts:
+        - name: hostname.example.com
+          msg_id: 0
+          state: DOWN
+          output: some output of the host check
+        name: name
+        url: url
+        timestamp: timestamp
     host:
       type: object
       properties:
         name:
           type: string
-          description: Name of host to create
-        channel:
-          type: string
-          description: Name of the channel to notify
+          description: Name of host
         msg_id:
           type: integer
           description: Message ID in the channel
@@ -370,23 +236,45 @@ components:
           type: string
           description: Output of host check command
           default: ""
+        services:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/service'
         timestamp:
           type: string
           description: Last update
-          default: now
+        updates:
+          type: integer
+          description: Update counter
+          default: 0
+        sla:
+          type: string
+          default: bronze
+          enum:
+          - gold
+          - silver
+          - bronze
+        note_type:
+          type: string
+          default: Problem
+          enum:
+          - Problem
+          - Acknowledgement
+          - Recovery
+        picky:
+          type: string
+          description: Message neatly formatted for Keybase
+        url:
+          type: string
+          description: Link to this object
       example:
         name: hostname.example.com
-        channel: webservers
         msg_id: 0
         state: DOWN
         output: some output of the host check
-        timestamp: now
     service:
       type: object
       properties:
-        host:
-          type: string
-          description: Host this service runs on
         name:
           type: string
           description: Short name of the service
@@ -405,11 +293,31 @@ components:
         timestamp:
           type: string
           description: Last update
-          default: ""
+        updates:
+          type: integer
+          description: Update counter
+          default: 0
+        sla:
+          type: string
+          default: bronze
+          enum:
+          - gold
+          - silver
+          - bronze
+        note_type:
+          type: string
+          default: Problem
+          enum:
+          - Problem
+          - Acknowledgement
+          - Recovery
+        picky:
+          type: string
+          description: Stub neatly formatted for Keybase
+        url:
+          type: string
+          description: Link to this object
       example:
-        host: hostname.example.com
         name: https
         state: OK
         output: some output of the service check
-        timestamp: now
-

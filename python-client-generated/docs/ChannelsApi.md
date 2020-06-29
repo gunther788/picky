@@ -1,18 +1,18 @@
-# swagger_client.HostsApi
+# swagger_client.ChannelsApi
 
 All URIs are relative to *https://localhost/*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_hosts**](HostsApi.md#get_hosts) | **GET** /{channel} | Get all hosts in a channel
-[**put_host**](HostsApi.md#put_host) | **PUT** /{channel}/{host} | Host notification
+[**get_channels**](ChannelsApi.md#get_channels) | **GET** / | Get all channels
+[**put_channel**](ChannelsApi.md#put_channel) | **PUT** /{channel} | Add a channel
 
-# **get_hosts**
-> list[Host] get_hosts(channel)
+# **get_channels**
+> list[Channel] get_channels()
 
-Get all hosts in a channel
+Get all channels
 
-Get all hosts in a channel
+Get all channels
 
 ### Example
 ```python
@@ -23,26 +23,22 @@ from swagger_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.HostsApi()
-channel = 'channel_example' # str | Name of the channel to get all the hosts
+api_instance = swagger_client.ChannelsApi()
 
 try:
-    # Get all hosts in a channel
-    api_response = api_instance.get_hosts(channel)
+    # Get all channels
+    api_response = api_instance.get_channels()
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling HostsApi->get_hosts: %s\n" % e)
+    print("Exception when calling ChannelsApi->get_channels: %s\n" % e)
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channel** | **str**| Name of the channel to get all the hosts | 
+This endpoint does not need any parameter.
 
 ### Return type
 
-[**list[Host]**](Host.md)
+[**list[Channel]**](Channel.md)
 
 ### Authorization
 
@@ -55,12 +51,12 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **put_host**
-> put_host(channel, host, body=body)
+# **put_channel**
+> put_channel(channel, body=body)
 
-Host notification
+Add a channel
 
-Host notification
+Add a channel
 
 ### Example
 ```python
@@ -71,16 +67,15 @@ from swagger_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.HostsApi()
+api_instance = swagger_client.ChannelsApi()
 channel = 'channel_example' # str | Name of the channel
-host = 'host_example' # str | Name of the host
-body = swagger_client.Host() # Host |  (optional)
+body = swagger_client.Channel() # Channel |  (optional)
 
 try:
-    # Host notification
-    api_instance.put_host(channel, host, body=body)
+    # Add a channel
+    api_instance.put_channel(channel, body=body)
 except ApiException as e:
-    print("Exception when calling HostsApi->put_host: %s\n" % e)
+    print("Exception when calling ChannelsApi->put_channel: %s\n" % e)
 ```
 
 ### Parameters
@@ -88,8 +83,7 @@ except ApiException as e:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **channel** | **str**| Name of the channel | 
- **host** | **str**| Name of the host | 
- **body** | [**Host**](Host.md)|  | [optional] 
+ **body** | [**Channel**](Channel.md)|  | [optional] 
 
 ### Return type
 

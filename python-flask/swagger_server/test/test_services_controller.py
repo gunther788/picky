@@ -12,61 +12,25 @@ from swagger_server.test import BaseTestCase
 class TestServicesController(BaseTestCase):
     """ServicesController integration test stubs"""
 
-    def test_services_create(self):
-        """Test case for services_create
+    def test_get_services(self):
+        """Test case for get_services
 
-        Create a service and add it to the services list
-        """
-        body = Service()
-        response = self.client.open(
-            '//services',
-            method='POST',
-            data=json.dumps(body),
-            content_type='application/json')
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
-    def test_services_delete(self):
-        """Test case for services_delete
-
-        Delete a service from the services list
+        Get all services of a host
         """
         response = self.client.open(
-            '//services/{host}/{name}'.format(host='host_example', name='name_example'),
-            method='DELETE')
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
-    def test_services_read_all(self):
-        """Test case for services_read_all
-
-        Read all services from one host
-        """
-        response = self.client.open(
-            '//services/{host}'.format(host='host_example'),
+            '//{channel}/{host}'.format(channel='channel_example', host='host_example'),
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_services_read_one(self):
-        """Test case for services_read_one
+    def test_put_service(self):
+        """Test case for put_service
 
-        Read one service from the services list
-        """
-        response = self.client.open(
-            '//services/{host}/{name}'.format(host='host_example', name='name_example'),
-            method='GET')
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
-    def test_services_update(self):
-        """Test case for services_update
-
-        Update a service in the services list
+        Service notification
         """
         body = Service()
         response = self.client.open(
-            '//services/{host}/{name}'.format(host='host_example', name='name_example'),
+            '//{channel}/{host}/{service}'.format(channel='channel_example', host='host_example', service='service_example'),
             method='PUT',
             data=json.dumps(body),
             content_type='application/json')

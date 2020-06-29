@@ -3,15 +3,13 @@
 import connexion
 
 from swagger_server import encoder
-from swagger_server.data import CONFIG
 
 
 def main():
     app = connexion.App(__name__, specification_dir='./swagger/')
-    app.app.config.update(CONFIG['flask'])
     app.app.json_encoder = encoder.JSONEncoder
     app.add_api('swagger.yaml', arguments={'title': 'PICKY: Python ICinga2 to KeYbase'}, pythonic_params=True)
-    app.run(port=8080)
+    app.run(port=5000)
 
 
 if __name__ == '__main__':
