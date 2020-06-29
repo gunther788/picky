@@ -25,4 +25,7 @@ EMOJI = {
     'WARNING': '🟡',
     'CRITICAL': '🔴',
     'UNKNOWN': '🟣',
+
+    # repeat messages
+    'bell': '🔔',
 }
