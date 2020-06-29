@@ -15,12 +15,12 @@ from __future__ import absolute_import
 import unittest
 
 import swagger_client
-from models.host import Host  # noqa: E501
+from models.channel import Channel  # noqa: E501
 from swagger_client.rest import ApiException
 
 
-class TestHost(unittest.TestCase):
-    """Host unit test stubs"""
+class TestChannel(unittest.TestCase):
+    """Channel unit test stubs"""
 
     def setUp(self):
         pass
@@ -28,10 +28,10 @@ class TestHost(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testHost(self):
-        """Test Host"""
+    def testChannel(self):
+        """Test Channel"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = swagger_client.models.host.Host()  # noqa: E501
+        # model = swagger_client.models.channel.Channel()  # noqa: E501
         pass
 
 

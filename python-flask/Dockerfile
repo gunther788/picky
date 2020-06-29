@@ -13,7 +13,7 @@ COPY . /usr/src/app
 COPY ./defaults /data
 VOLUME /data
 
-EXPOSE 8080
+EXPOSE 5000
 
 COPY entrypoint.sh /usr/bin/entrypoint.sh
 
