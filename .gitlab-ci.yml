@@ -18,7 +18,7 @@ before_script:
 build:
   stage: build
   tags:
-    - imac
+    - imac-shell
   script:
     - cd python-flask
     - docker build --pull -t $CONTAINER_TEST_IMAGE .
@@ -27,7 +27,7 @@ build:
 test:
   stage: test
   tags:
-    - imac
+    - imac-shell
   script:
     - docker pull $CONTAINER_TEST_IMAGE
     - echo CONTAINER_TEST_IMAGE    $CONTAINER_TEST_IMAGE
@@ -36,7 +36,7 @@ test:
 release:
   stage: release
   tags:
-    - imac
+    - imac-shell
   script:
     - docker pull $CONTAINER_TEST_IMAGE
     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
