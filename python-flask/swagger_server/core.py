@@ -136,7 +136,8 @@ def send_host(channel, host):
     msg = [ h.picky ]
 
     # no point telling us about failed services when the host is down
-    if h.state == "UP":
+    # and no point telling us about running services when everything is well
+    if not all_good(h) and h.state == "UP":
         for service in h.services:
             s = h.services[service]
             s.picky = format_service(s)
@@ -170,7 +171,7 @@ def format_service(s):
     msg.append(s.name)
 
     if s.updates > 0:
-        msg.append(f"{EMOJI['bell'] * h.updates}")
+        msg.append(f"{EMOJI['bell'] * s.updates}")
 
     if s.state != 'OK' and s.output is not None and s.output != "":
         msg.append(f"\n`{s.output}`")
