@@ -1,0 +1,45 @@
+image: docker:stable
+services:
+  - docker:dind
+
+stages:
+  - build
+  - test
+  - release
+
+variables:
+  DOCKER_DRIVER: overlay2
+  CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+
+before_script:
+    - echo $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin  $CI_REGISTRY
+
+build:
+  stage: build
+  tags:
+    - imac
+  script:
+    - cd python-flask
+    - docker build --pull -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
+
+test:
+  stage: test
+  tags:
+    - imac
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - echo CONTAINER_TEST_IMAGE    $CONTAINER_TEST_IMAGE
+    - echo CONTAINER_RELEASE_IMAGE $CONTAINER_RELEASE_IMAGE
+
+release:
+  stage: release
+  tags:
+    - imac
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+  only:
+    - master
