@@ -124,7 +124,7 @@ def put_host(channel, host, body=Host.from_dict({})):
         h.msg_id = 0
 
     elif h.updates < 6:
-        h.update += 1
+        h.updates += 1
 
     return h
 
