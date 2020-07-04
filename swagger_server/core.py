@@ -13,10 +13,18 @@ app = Flask(__name__)
 
 
 from datetime import datetime
-def get_datetimestamp():
-    return datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ"))
-def get_timestamp():
-    return datetime.utcnow().strftime(("%H:%M:%SZ"))
+
+def get_host_datetimestamp(before='UP', after='UP'):
+    return datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ")) + f" {before} {after}"
+
+def get_host_timestamp(before='UP', after='UP'):
+    return datetime.utcnow().strftime(("%H:%M:%SZ")) + f" {before} {after}"
+
+def get_service_datetimestamp(before='OK', after='OK'):
+    return datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ")) + f" {before} {after}"
+
+def get_service_timestamp(before='OK', after='OK'):
+    return datetime.utcnow().strftime(("%H:%M:%SZ")) + f" {before} {after}"
 
 
 def get_channels():
@@ -107,7 +115,7 @@ def init_host(channel, host, body=Host.from_dict({})):
         c.hosts[host] = Host.from_dict({
             'name': host,
             'url': f"{CONFIG['picky']['BASEURL']}/{channel}/{host}",
-            'timestamps': [ get_datetimestamp() ],
+            'timestamps': [ get_host_datetimestamp('UP', body.state) ],
             'services': {},
         })
     return c.hosts[host]
@@ -120,6 +128,9 @@ def put_host(channel, host, body=Host.from_dict({})):
     app.logger.info(f"put_host({channel}, {host}, {body})")
 
     h = init_host(channel, host, body)
+
+    # update timestamps and transitions
+    h.timestamps.append(get_host_timestamp(h.state, body.state))
 
     # if we have a state, save it
     if body.state:
@@ -140,9 +151,6 @@ def put_host(channel, host, body=Host.from_dict({})):
     # this will likely be "Problem" only - "Acknowledgement" isn't processed yet
     if body.note_type:
         h.note_type = body.note_type
-
-    # update timestamps
-    h.timestamps.append(get_timestamp())
 
     # notify Keybase channel and overwrite previous entry, if any
     send_host(channel, host)
@@ -224,12 +232,14 @@ def put_service(channel, host, service, body=Service.from_dict({})):
         h.services[service] = Service.from_dict({
             'name': service,
             'url': f"{CONFIG['picky']['BASEURL']}/{channel}/{host}/{service}",
-            'timestamps': [ get_datetimestamp() ],
+            'timestamps': [ get_service_datetimestamp('OK', body.state) ],
             'services': {},
         })
 
     s = h.services[service]
 
+    s.timestamps.append(get_service_timestamp(s.state, body.state))
+    
     if body.state:
         s.state = body.state
 
@@ -238,8 +248,6 @@ def put_service(channel, host, service, body=Service.from_dict({})):
 
     if body.sla:
         s.sla = body.sla
-
-    s.timestamps.append(get_timestamp())
 
     # remember that service alerts should also create host entries in the channel,
     # so we simply call send_host() and have it render the rest as needed
