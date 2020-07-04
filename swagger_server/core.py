@@ -14,18 +14,25 @@ app = Flask(__name__)
 
 from datetime import datetime
 
-def get_host_datetimestamp(before='UP', after='UP'):
-    return datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ")) + f" {before} {after}"
+def amend_host_datetimestamps(timestamps, before='UP', after='UP'):
+    if before == after:
+        return timestamps
+    return timestamps + [ datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ")) + EMOJI[f"{before}-{after}"] ]
 
-def get_host_timestamp(before='UP', after='UP'):
-    return datetime.utcnow().strftime(("%H:%M:%SZ")) + f" {before} {after}"
+def amend_host_timestamps(timestamps, before='UP', after='UP'):
+    if before == after:
+        return timestamps
+    return timestamps + [ datetime.utcnow().strftime(("%H:%M:%SZ")) + EMOJI[f"{before}-{after}"] ]
 
-def get_service_datetimestamp(before='OK', after='OK'):
-    return datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ")) + f" {before} {after}"
+def amend_service_datetimestamps(timestamps, before='OK', after='OK'):
+    if before == after:
+        return timestamps
+    return timestamps + [ datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ")) + EMOJI[f"{before}-{after}"] ]
 
-def get_service_timestamp(before='OK', after='OK'):
-    return datetime.utcnow().strftime(("%H:%M:%SZ")) + f" {before} {after}"
-
+def amend_service_timestamps(timestamps, before='OK', after='OK'):
+    if before == after:
+        return timestamps
+    return timestamps + [ datetime.utcnow().strftime(("%H:%M:%SZ")) + EMOJI[f"{before}-{after}"] ]
 
 def get_channels():
     """
@@ -94,7 +101,7 @@ def format_host(h):
 
     msg.append(h.name)
 
-    msg.append(f"({', '.join(h.timestamps)})")
+    msg.append(f"({' '.join(h.timestamps)})")
 
     msg.append(f"\n{CONFIG['picky']['HOSTURL']}={h.name}")
 
@@ -115,7 +122,7 @@ def init_host(channel, host, body=Host.from_dict({})):
         c.hosts[host] = Host.from_dict({
             'name': host,
             'url': f"{CONFIG['picky']['BASEURL']}/{channel}/{host}",
-            'timestamps': [ get_host_datetimestamp('UP', body.state) ],
+            'timestamps': amend_host_datetimestamps([], 'UP', body.state),
             'services': {},
         })
     return c.hosts[host]
@@ -130,7 +137,7 @@ def put_host(channel, host, body=Host.from_dict({})):
     h = init_host(channel, host, body)
 
     # update timestamps and transitions
-    h.timestamps.append(get_host_timestamp(h.state, body.state))
+    h.timestamps = amend_host_timestamps(h.timestamps, h.state, body.state)
 
     # if we have a state, save it
     if body.state:
@@ -212,12 +219,30 @@ def format_service(s):
 
     msg.append(s.name)
 
-    msg.append(f"({', '.join(s.timestamps)})")
+    msg.append(f"({' '.join(s.timestamps)})")
 
     if s.state != 'OK' and s.output is not None and s.output != "":
         msg.append(f"\n`{s.output}`")
 
     return ' '.join(msg)
+
+
+def init_service(channel, host, service, body=Host.from_dict({})):
+    """
+    Make sure the service object exists
+    """
+    app.logger.info(f"init_service({channel}, {host}, {service}, {body})")
+    h = init_host(channel, host)
+    
+    if service not in h.services:
+        h.services[service] = Service.from_dict({
+            'name': service,
+            'url': f"{CONFIG['picky']['BASEURL']}/{channel}/{host}/{service}",
+            'timestamps': amend_service_datetimestamps([], 'OK', body.state),
+            'services': {},
+        })
+
+    return h.services[service]
 
 
 def put_service(channel, host, service, body=Service.from_dict({})):
@@ -226,20 +251,10 @@ def put_service(channel, host, service, body=Service.from_dict({})):
     if it doesn't exist yet.
     """
     app.logger.info(f"put_service({channel}, {host}, {service}, {body})")
-    h = init_host(channel, host)
-    
-    if service not in h.services:
-        h.services[service] = Service.from_dict({
-            'name': service,
-            'url': f"{CONFIG['picky']['BASEURL']}/{channel}/{host}/{service}",
-            'timestamps': [ get_service_datetimestamp('OK', body.state) ],
-            'services': {},
-        })
+    s = init_service(channel, host, service, body)
 
-    s = h.services[service]
-
-    s.timestamps.append(get_service_timestamp(s.state, body.state))
-    
+    s.timestamps = amend_service_timestamps(s.timestamps, s.state, body.state)
+        
     if body.state:
         s.state = body.state
 
