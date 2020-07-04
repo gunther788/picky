@@ -20,7 +20,6 @@ build:
   tags:
     - imac-shell
   script:
-    - cd python-flask
     - docker build --pull -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
 

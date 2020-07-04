@@ -26,6 +26,16 @@ EMOJI = {
     'CRITICAL': '🔴',
     'UNKNOWN': '🟣',
 
+    # state transitions
+    'OK-WARNING': ':down-yellow-triangle:',
+    'UP-DOWN': ':down-red-triangle:',
+    'OK-CRITICAL': ':down-red-triangle:',
+    'WARNING-CRITICAL': ':down-red-triangle:',
+    'CRITICAL-WARNING': ':up-yellow-triangle:',
+    'DOWN-UP': ':up-green-triangle:',
+    'WARNING-OK': ':up-green-triangle:',
+    'CRITICAL-OK': ':up-green-triangle:',
+    
     # repeat messages
     'bell': '🔔',
 }

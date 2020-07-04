@@ -15,34 +15,29 @@ class Channel(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, name: str=None, hosts: Dict[str, Host]=None, timestamp: str=None, url: str=None):  # noqa: E501
+    def __init__(self, name: str=None, hosts: Dict[str, Host]=None, url: str=None):  # noqa: E501
         """Channel - a model defined in Swagger
 
         :param name: The name of this Channel.  # noqa: E501
         :type name: str
         :param hosts: The hosts of this Channel.  # noqa: E501
         :type hosts: Dict[str, Host]
-        :param timestamp: The timestamp of this Channel.  # noqa: E501
-        :type timestamp: str
         :param url: The url of this Channel.  # noqa: E501
         :type url: str
         """
         self.swagger_types = {
             'name': str,
             'hosts': Dict[str, Host],
-            'timestamp': str,
             'url': str
         }
 
         self.attribute_map = {
             'name': 'name',
             'hosts': 'hosts',
-            'timestamp': 'timestamp',
             'url': 'url'
         }
         self._name = name
         self._hosts = hosts
-        self._timestamp = timestamp
         self._url = url
 
     @classmethod
@@ -99,29 +94,6 @@ class Channel(Model):
         """
 
         self._hosts = hosts
-
-    @property
-    def timestamp(self) -> str:
-        """Gets the timestamp of this Channel.
-
-        Last update  # noqa: E501
-
-        :return: The timestamp of this Channel.
-        :rtype: str
-        """
-        return self._timestamp
-
-    @timestamp.setter
-    def timestamp(self, timestamp: str):
-        """Sets the timestamp of this Channel.
-
-        Last update  # noqa: E501
-
-        :param timestamp: The timestamp of this Channel.
-        :type timestamp: str
-        """
-
-        self._timestamp = timestamp
 
     @property
     def url(self) -> str:
