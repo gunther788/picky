@@ -14,25 +14,37 @@ app = Flask(__name__)
 
 from datetime import datetime
 
-def amend_host_datetimestamps(timestamps, before='UP', after='UP'):
-    if before == after:
-        return timestamps
-    return timestamps + [ datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ")) + EMOJI[f"{before}-{after}"] ]
 
-def amend_host_timestamps(timestamps, before='UP', after='UP'):
-    if before == after:
+def limit_timestamps(timestamps):
+    if len(timestamps) < 5:
         return timestamps
-    return timestamps + [ datetime.utcnow().strftime(("%H:%M:%SZ")) + EMOJI[f"{before}-{after}"] ]
 
-def amend_service_datetimestamps(timestamps, before='OK', after='OK'):
-    if before == after:
-        return timestamps
-    return timestamps + [ datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ")) + EMOJI[f"{before}-{after}"] ]
+    return [ timestamps[0], '...' ] + timestamps[3:5]
 
-def amend_service_timestamps(timestamps, before='OK', after='OK'):
+
+def amend_host_timestamps(timestamps=[], before='UP', after='UP'):
+    if timestamps == []:
+        t = "%Y-%m-%d %H:%M:%SZ"
+    else:
+        t = "%H:%M:%SZ"
+
     if before == after:
         return timestamps
-    return timestamps + [ datetime.utcnow().strftime(("%H:%M:%SZ")) + EMOJI[f"{before}-{after}"] ]
+
+    return limit_timestamps(timestamps + [ datetime.utcnow().strftime(t) + EMOJI[f"{before}-{after}"] ])
+
+
+def amend_service_timestamps(timestamps=[], before='OK', after='OK'):
+    if timestamps == []:
+        t = "%Y-%m-%d %H:%M:%SZ"
+    else:
+        t = "%H:%M:%SZ"
+
+    if before == after:
+        return timestamps
+
+    return limit_timestamps(timestamps + [ datetime.utcnow().strftime(t) + EMOJI[f"{before}-{after}"] ])
+
 
 def get_channels():
     """
@@ -122,7 +134,7 @@ def init_host(channel, host, body=Host.from_dict({})):
         c.hosts[host] = Host.from_dict({
             'name': host,
             'url': f"{CONFIG['picky']['BASEURL']}/{channel}/{host}",
-            'timestamps': amend_host_datetimestamps([], 'UP', body.state),
+            'timestamps': [],
             'services': {},
         })
     return c.hosts[host]
@@ -165,6 +177,7 @@ def put_host(channel, host, body=Host.from_dict({})):
     # if all is well, the next message should be renderered as a new alert
     if all_good(h):
         h.msg_id = 0
+        h.timestamps = []
 
     return h
 
@@ -238,7 +251,7 @@ def init_service(channel, host, service, body=Host.from_dict({})):
         h.services[service] = Service.from_dict({
             'name': service,
             'url': f"{CONFIG['picky']['BASEURL']}/{channel}/{host}/{service}",
-            'timestamps': amend_service_datetimestamps([], 'OK', body.state),
+            'timestamps': [],
             'services': {},
         })
 
