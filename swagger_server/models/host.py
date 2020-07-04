@@ -15,7 +15,7 @@ class Host(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, name: str=None, msg_id: int=0, state: str='UP', output: str='', services: Dict[str, Service]=None, timestamp: str=None, updates: int=0, sla: str='bronze', note_type: str='Problem', picky: str=None, url: str=None):  # noqa: E501
+    def __init__(self, name: str=None, msg_id: int=0, state: str='UP', output: str='', services: Dict[str, Service]=None, timestamps: List[str]=None, sla: str='bronze', note_type: str='Problem', picky: str=None, url: str=None):  # noqa: E501
         """Host - a model defined in Swagger
 
         :param name: The name of this Host.  # noqa: E501
@@ -28,10 +28,8 @@ class Host(Model):
         :type output: str
         :param services: The services of this Host.  # noqa: E501
         :type services: Dict[str, Service]
-        :param timestamp: The timestamp of this Host.  # noqa: E501
-        :type timestamp: str
-        :param updates: The updates of this Host.  # noqa: E501
-        :type updates: int
+        :param timestamps: The timestamps of this Host.  # noqa: E501
+        :type timestamps: List[str]
         :param sla: The sla of this Host.  # noqa: E501
         :type sla: str
         :param note_type: The note_type of this Host.  # noqa: E501
@@ -47,8 +45,7 @@ class Host(Model):
             'state': str,
             'output': str,
             'services': Dict[str, Service],
-            'timestamp': str,
-            'updates': int,
+            'timestamps': List[str],
             'sla': str,
             'note_type': str,
             'picky': str,
@@ -61,8 +58,7 @@ class Host(Model):
             'state': 'state',
             'output': 'output',
             'services': 'services',
-            'timestamp': 'timestamp',
-            'updates': 'updates',
+            'timestamps': 'timestamps',
             'sla': 'sla',
             'note_type': 'note_type',
             'picky': 'picky',
@@ -73,8 +69,7 @@ class Host(Model):
         self._state = state
         self._output = output
         self._services = services
-        self._timestamp = timestamp
-        self._updates = updates
+        self._timestamps = timestamps
         self._sla = sla
         self._note_type = note_type
         self._picky = picky
@@ -209,50 +204,27 @@ class Host(Model):
         self._services = services
 
     @property
-    def timestamp(self) -> str:
-        """Gets the timestamp of this Host.
+    def timestamps(self) -> List[str]:
+        """Gets the timestamps of this Host.
 
-        Last update  # noqa: E501
+        Updates  # noqa: E501
 
-        :return: The timestamp of this Host.
-        :rtype: str
+        :return: The timestamps of this Host.
+        :rtype: List[str]
         """
-        return self._timestamp
+        return self._timestamps
 
-    @timestamp.setter
-    def timestamp(self, timestamp: str):
-        """Sets the timestamp of this Host.
+    @timestamps.setter
+    def timestamps(self, timestamps: List[str]):
+        """Sets the timestamps of this Host.
 
-        Last update  # noqa: E501
+        Updates  # noqa: E501
 
-        :param timestamp: The timestamp of this Host.
-        :type timestamp: str
-        """
-
-        self._timestamp = timestamp
-
-    @property
-    def updates(self) -> int:
-        """Gets the updates of this Host.
-
-        Update counter  # noqa: E501
-
-        :return: The updates of this Host.
-        :rtype: int
-        """
-        return self._updates
-
-    @updates.setter
-    def updates(self, updates: int):
-        """Sets the updates of this Host.
-
-        Update counter  # noqa: E501
-
-        :param updates: The updates of this Host.
-        :type updates: int
+        :param timestamps: The timestamps of this Host.
+        :type timestamps: List[str]
         """
 
-        self._updates = updates
+        self._timestamps = timestamps
 
     @property
     def sla(self) -> str:
