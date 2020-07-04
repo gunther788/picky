@@ -16,10 +16,10 @@ from datetime import datetime
 
 
 def limit_timestamps(timestamps):
-    if len(timestamps) < 5:
+    if len(timestamps) < 6:
         return timestamps
 
-    return [ timestamps[0], '...' ] + timestamps[3:5]
+    return [ timestamps[0], '...' ] + timestamps[-3:]
 
 
 def amend_host_timestamps(timestamps=[], before='UP', after='UP'):
@@ -27,23 +27,15 @@ def amend_host_timestamps(timestamps=[], before='UP', after='UP'):
         t = "%Y-%m-%d %H:%M:%SZ"
     else:
         t = "%H:%M:%SZ"
-
     if before == after:
         return timestamps
-
     return limit_timestamps(timestamps + [ datetime.utcnow().strftime(t) + EMOJI[f"{before}-{after}"] ])
 
 
 def amend_service_timestamps(timestamps=[], before='OK', after='OK'):
-    if timestamps == []:
-        t = "%Y-%m-%d %H:%M:%SZ"
-    else:
-        t = "%H:%M:%SZ"
-
     if before == after:
         return timestamps
-
-    return limit_timestamps(timestamps + [ datetime.utcnow().strftime(t) + EMOJI[f"{before}-{after}"] ])
+    return limit_timestamps(timestamps + [ datetime.utcnow().strftime("%H:%M:%SZ") + EMOJI[f"{before}-{after}"] ])
 
 
 def get_channels():
@@ -254,6 +246,9 @@ def init_service(channel, host, service, body=Host.from_dict({})):
             'timestamps': [],
             'services': {},
         })
+
+        if h.timestamps == []:
+            h.timestamps = [ datetime.utcnow().strftime("%Y-%m-%d %H:%M:%SZ") ]
 
     return h.services[service]
 
