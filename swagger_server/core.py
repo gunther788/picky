@@ -13,8 +13,10 @@ app = Flask(__name__)
 
 
 from datetime import datetime
-def get_timestamp():
+def get_datetimestamp():
     return datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%SZ"))
+def get_timestamp():
+    return datetime.utcnow().strftime(("%H:%M:%SZ"))
 
 
 def get_channels():
@@ -35,10 +37,9 @@ def put_channel(channel, body={}):
         DATA[channel] = Channel.from_dict({
             'name': channel,
             'url': f"{CONFIG['picky']['BASEURL']}/{channel}",
-            'timestamp': get_timestamp(),
             'hosts': {},
         })
-        send(channel, f"{EMOJI['star']} {DATA[channel].timestamp} Welcome to the Machine!")
+        send(channel, f"{EMOJI['star'] * 3} Welcome to the Machine!")
 
     return DATA[channel]
 
@@ -85,11 +86,7 @@ def format_host(h):
 
     msg.append(h.name)
 
-    if h.updates > 0:
-        msg.append(f"({h.timestamp} {EMOJI['bell'] * h.updates})")
-
-    else:
-        msg.append(f"({h.timestamp})")
+    msg.append(f"({', '.join(h.timestamps)})")
 
     msg.append(f"\n{CONFIG['picky']['HOSTURL']}={h.name}")
 
@@ -110,7 +107,7 @@ def init_host(channel, host, body=Host.from_dict({})):
         c.hosts[host] = Host.from_dict({
             'name': host,
             'url': f"{CONFIG['picky']['BASEURL']}/{channel}/{host}",
-            'timestamp': get_timestamp(),
+            'timestamps': [ get_datetimestamp() ],
             'services': {},
         })
     return c.hosts[host]
@@ -124,11 +121,9 @@ def put_host(channel, host, body=Host.from_dict({})):
 
     h = init_host(channel, host, body)
 
-    # if we have a state, save it, and if it's all good, then reset the bell counter
+    # if we have a state, save it
     if body.state:
         h.state = body.state
-        if all_good(h):
-            h.updates = 0
 
     # if there's output, save it (but only render it if state != OK)
     if body.output:
@@ -146,8 +141,8 @@ def put_host(channel, host, body=Host.from_dict({})):
     if body.note_type:
         h.note_type = body.note_type
 
-    # update timestamp
-    h.timestamp = get_timestamp()
+    # update timestamps
+    h.timestamps.append(get_timestamp())
 
     # notify Keybase channel and overwrite previous entry, if any
     send_host(channel, host)
@@ -155,10 +150,6 @@ def put_host(channel, host, body=Host.from_dict({})):
     # if all is well, the next message should be renderered as a new alert
     if all_good(h):
         h.msg_id = 0
-
-    # up to 6 bells (6h at this time)
-    elif h.updates < 6:
-        h.updates += 1
 
     return h
 
@@ -213,8 +204,7 @@ def format_service(s):
 
     msg.append(s.name)
 
-    if s.updates > 0:
-        msg.append(f"{EMOJI['bell'] * s.updates}")
+    msg.append(f"({', '.join(s.timestamps)})")
 
     if s.state != 'OK' and s.output is not None and s.output != "":
         msg.append(f"\n`{s.output}`")
@@ -234,17 +224,14 @@ def put_service(channel, host, service, body=Service.from_dict({})):
         h.services[service] = Service.from_dict({
             'name': service,
             'url': f"{CONFIG['picky']['BASEURL']}/{channel}/{host}/{service}",
-            'timestamp': get_timestamp(),
+            'timestamps': [ get_datetimestamp() ],
             'services': {},
         })
 
     s = h.services[service]
 
-    # reset bell counter if all is well
     if body.state:
         s.state = body.state
-        if s.state == "OK":
-            s.updates = 0
 
     if body.output:
         s.output = body.output
@@ -252,14 +239,10 @@ def put_service(channel, host, service, body=Service.from_dict({})):
     if body.sla:
         s.sla = body.sla
 
-    s.timestamp = get_timestamp()
+    s.timestamps.append(get_timestamp())
 
     # remember that service alerts should also create host entries in the channel,
     # so we simply call send_host() and have it render the rest as needed
     send_host(channel, host)
-
-    # up to 6h of bell icons
-    if s.state != "OK" and s.updates < 6:
-        s.updates += 1
 
     return s
