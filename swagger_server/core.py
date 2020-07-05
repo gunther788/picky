@@ -69,7 +69,7 @@ def put_channel(channel, body={}):
             'hosts': {},
         })
         ts = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%SZ")
-        send(channel, f"{EMOJI['star'] * 3} Alerts begin at *{ts}* {EMOJI['star'] * 3}")
+        send(channel, f"\n\n\n{EMOJI['star'] * 5}\nAlerts begin at *{ts}*\n{EMOJI['star'] * 5}\n")
 
     return DATA[channel]
 
