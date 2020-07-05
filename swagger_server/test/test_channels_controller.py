@@ -37,6 +37,17 @@ class TestChannelsController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
+    def test_reset_channels(self):
+        """Test case for reset_channels
+
+        Flush data and start notifications anew
+        """
+        response = self.client.open(
+            '//reset',
+            method='GET')
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
 
 if __name__ == '__main__':
     import unittest
