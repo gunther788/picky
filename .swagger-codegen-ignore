@@ -8,16 +8,6 @@
 # You can make changes and tell Swagger Codgen to ignore just this file by uncommenting the following line:
 #ApiClient.cs
 
-Dockerfile
-README.md
-requirements.txt
-swagger_server/__main__.py
-swagger_server/controllers/channels_controller.py
-swagger_server/controllers/hosts_controller.py
-swagger_server/controllers/services_controller.py
-swagger_server/core.py
-swagger_server/util.py
-
 # You can match any string of characters against a directory, file or extension with a single asterisk (*):
 #foo/*/qux
 # The above matches foo/bar/qux and foo/baz/qux, but not foo/bar/baz/qux

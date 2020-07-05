@@ -3,7 +3,6 @@ import six
 
 from swagger_server.models.channel import Channel  # noqa: E501
 from swagger_server import util
-from swagger_server import core
 
 
 def get_channels():  # noqa: E501
@@ -14,7 +13,7 @@ def get_channels():  # noqa: E501
 
     :rtype: List[Channel]
     """
-    return core.get_channels()
+    return 'do some magic!'
 
 
 def put_channel(channel, body=None):  # noqa: E501
@@ -31,4 +30,15 @@ def put_channel(channel, body=None):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Channel.from_dict(connexion.request.get_json())  # noqa: E501
-    return core.put_channel(channel, body)
+    return 'do some magic!'
+
+
+def reset_channels():  # noqa: E501
+    """Flush data and start notifications anew
+
+    Flush data and start notifications anew # noqa: E501
+
+
+    :rtype: List[Channel]
+    """
+    return 'do some magic!'
