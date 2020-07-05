@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: 'PICKY: Python ICinga2 to KeYbase'
   description: A Bridge between Icinga2 Notifications and Keybase
-  version: 1.4.1
+  version: 1.4.2
 servers:
 - url: https://localhost/
 paths:
@@ -201,9 +201,6 @@ components:
           type: object
           additionalProperties:
             $ref: '#/components/schemas/host'
-        timestamp:
-          type: string
-          description: Last update
         url:
           type: string
           description: Link to this object
@@ -215,7 +212,6 @@ components:
           output: some output of the host check
         name: name
         url: url
-        timestamp: timestamp
     host:
       type: object
       properties:
@@ -240,13 +236,11 @@ components:
           type: object
           additionalProperties:
             $ref: '#/components/schemas/service'
-        timestamp:
-          type: string
-          description: Last update
-        updates:
-          type: integer
-          description: Update counter
-          default: 0
+        timestamps:
+          type: array
+          description: Updates
+          items:
+            type: string
         sla:
           type: string
           default: bronze
@@ -290,13 +284,11 @@ components:
           type: string
           description: Output of service check command
           default: ""
-        timestamp:
-          type: string
-          description: Last update
-        updates:
-          type: integer
-          description: Update counter
-          default: 0
+        timestamps:
+          type: array
+          description: Updates
+          items:
+            type: string
         sla:
           type: string
           default: bronze
@@ -321,3 +313,4 @@ components:
         name: https
         state: OK
         output: some output of the service check
+

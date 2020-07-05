@@ -14,7 +14,7 @@ class Service(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, name: str=None, state: str='OK', output: str='', timestamp: str=None, updates: int=0, sla: str='bronze', note_type: str='Problem', picky: str=None, url: str=None):  # noqa: E501
+    def __init__(self, name: str=None, state: str='OK', output: str='', timestamps: List[str]=None, sla: str='bronze', note_type: str='Problem', picky: str=None, url: str=None):  # noqa: E501
         """Service - a model defined in Swagger
 
         :param name: The name of this Service.  # noqa: E501
@@ -23,10 +23,8 @@ class Service(Model):
         :type state: str
         :param output: The output of this Service.  # noqa: E501
         :type output: str
-        :param timestamp: The timestamp of this Service.  # noqa: E501
-        :type timestamp: str
-        :param updates: The updates of this Service.  # noqa: E501
-        :type updates: int
+        :param timestamps: The timestamps of this Service.  # noqa: E501
+        :type timestamps: List[str]
         :param sla: The sla of this Service.  # noqa: E501
         :type sla: str
         :param note_type: The note_type of this Service.  # noqa: E501
@@ -40,8 +38,7 @@ class Service(Model):
             'name': str,
             'state': str,
             'output': str,
-            'timestamp': str,
-            'updates': int,
+            'timestamps': List[str],
             'sla': str,
             'note_type': str,
             'picky': str,
@@ -52,8 +49,7 @@ class Service(Model):
             'name': 'name',
             'state': 'state',
             'output': 'output',
-            'timestamp': 'timestamp',
-            'updates': 'updates',
+            'timestamps': 'timestamps',
             'sla': 'sla',
             'note_type': 'note_type',
             'picky': 'picky',
@@ -62,8 +58,7 @@ class Service(Model):
         self._name = name
         self._state = state
         self._output = output
-        self._timestamp = timestamp
-        self._updates = updates
+        self._timestamps = timestamps
         self._sla = sla
         self._note_type = note_type
         self._picky = picky
@@ -154,50 +149,27 @@ class Service(Model):
         self._output = output
 
     @property
-    def timestamp(self) -> str:
-        """Gets the timestamp of this Service.
+    def timestamps(self) -> List[str]:
+        """Gets the timestamps of this Service.
 
-        Last update  # noqa: E501
+        Updates  # noqa: E501
 
-        :return: The timestamp of this Service.
-        :rtype: str
+        :return: The timestamps of this Service.
+        :rtype: List[str]
         """
-        return self._timestamp
+        return self._timestamps
 
-    @timestamp.setter
-    def timestamp(self, timestamp: str):
-        """Sets the timestamp of this Service.
+    @timestamps.setter
+    def timestamps(self, timestamps: List[str]):
+        """Sets the timestamps of this Service.
 
-        Last update  # noqa: E501
+        Updates  # noqa: E501
 
-        :param timestamp: The timestamp of this Service.
-        :type timestamp: str
-        """
-
-        self._timestamp = timestamp
-
-    @property
-    def updates(self) -> int:
-        """Gets the updates of this Service.
-
-        Update counter  # noqa: E501
-
-        :return: The updates of this Service.
-        :rtype: int
-        """
-        return self._updates
-
-    @updates.setter
-    def updates(self, updates: int):
-        """Sets the updates of this Service.
-
-        Update counter  # noqa: E501
-
-        :param updates: The updates of this Service.
-        :type updates: int
+        :param timestamps: The timestamps of this Service.
+        :type timestamps: List[str]
         """
 
-        self._updates = updates
+        self._timestamps = timestamps
 
     @property
     def sla(self) -> str:
