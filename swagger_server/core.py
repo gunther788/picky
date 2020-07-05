@@ -46,6 +46,16 @@ def get_channels():
     return [DATA[key] for key in sorted(DATA.keys())]
 
 
+def reset_channels():
+    """
+    Reset all Channel objects.
+    """
+    app.logger.info(f"reset_channels()")
+    for key in list(DATA.keys()):
+        del DATA[key]
+    return []
+
+
 def put_channel(channel, body={}):
     """
     Request a new channel to be created in Keybase, if required, by simply
@@ -58,7 +68,8 @@ def put_channel(channel, body={}):
             'url': f"{CONFIG['picky']['BASEURL']}/{channel}",
             'hosts': {},
         })
-        send(channel, f"{EMOJI['star'] * 3} Welcome to the Machine!")
+        ts = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%SZ")
+        send(channel, f"{EMOJI['star'] * 3} Alerts begin at *{ts}* {EMOJI['star'] * 3}")
 
     return DATA[channel]
 

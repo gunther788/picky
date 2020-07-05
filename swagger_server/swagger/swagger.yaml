@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: 'PICKY: Python ICinga2 to KeYbase'
   description: A Bridge between Icinga2 Notifications and Keybase
-  version: 1.4.2
+  version: 1.4.3
 servers:
 - url: https://localhost/
 paths:
@@ -24,6 +24,25 @@ paths:
                   $ref: '#/components/schemas/channel'
                 x-content-type: application/json
       x-swagger-router-controller: swagger_server.controllers.channels_controller
+      x-openapi-router-controller: swagger_server.controllers.channels_controller
+  /reset:
+    get:
+      tags:
+      - Channels
+      summary: Flush data and start notifications anew
+      description: Flush data and start notifications anew
+      operationId: reset_channels
+      responses:
+        "200":
+          description: Dropped all channels
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/channel'
+                x-content-type: application/json
+      x-swagger-router-controller: swagger_server.controllers.channles_controller
       x-openapi-router-controller: swagger_server.controllers.channels_controller
   /{channel}:
     get:
